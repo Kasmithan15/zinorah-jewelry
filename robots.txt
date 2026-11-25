@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kasmithan15.github.io/zinorah-jewelry/sitemap.xml
