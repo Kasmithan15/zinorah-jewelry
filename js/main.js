@@ -14,16 +14,38 @@ document.documentElement.classList.add("js");
 const waUrl = (text) =>
   `https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
 
-/* ---- Photos: load data-img; keep the line-art fallback if a photo is missing ---- */
-document.querySelectorAll("[data-img]").forEach((el) => {
-  const src = el.dataset.img;
-  const img = new Image();
-  img.onload = () => {
+/* ---- Photos: lazy-load data-img, AVIF first with JPG fallback;
+        the line-art stays if a photo is missing ---- */
+const loadPhoto = (el) => {
+  const jpg = el.dataset.img;
+  const avif = jpg.replace(/\.jpe?g$/i, ".avif");
+  const show = (src) => {
     el.style.backgroundImage = `url("${src}")`;
     el.classList.add("has-photo");
   };
-  img.src = src;
-});
+  const img = new Image();
+  img.onload = () => show(img.src === new URL(avif, document.baseURI).href ? avif : jpg);
+  img.onerror = () => {
+    if (img.dataset.fallback) return;
+    img.dataset.fallback = "1";
+    img.src = jpg; // browser can't read AVIF (or file missing): use the JPG
+  };
+  img.src = avif !== jpg ? avif : jpg;
+};
+const photos = document.querySelectorAll("[data-img]");
+if ("IntersectionObserver" in window) {
+  const photoObserver = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      photoObserver.unobserve(e.target);
+      loadPhoto(e.target);
+    }),
+    { rootMargin: "600px 0px" } // start loading a little before it scrolls into view
+  );
+  photos.forEach((el) => (el.dataset.eager !== undefined ? loadPhoto(el) : photoObserver.observe(el)));
+} else {
+  photos.forEach(loadPhoto);
+}
 
 /* ---- Header: shrink on scroll ---- */
 const header = document.getElementById("header");
@@ -38,40 +60,79 @@ const setMenu = (open) => {
   toggle.setAttribute("aria-expanded", String(open));
   toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   mobileNav.classList.toggle("is-open", open);
+  header.classList.toggle("menu-open", open);
 };
 toggle.addEventListener("click", () => setMenu(toggle.getAttribute("aria-expanded") !== "true"));
 mobileNav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
-/* ---- Scroll reveal (with stagger for siblings) ---- */
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
+/* ---- Scroll reveal (with stagger for siblings) ----
+   threshold 0: the diamond-clip cards start with zero visible area, so any
+   higher threshold would never fire and the cards would stay hidden. */
+const reveal = (el) => {
+  if (el.classList.contains("is-visible")) return;
+  const siblings = [...el.parentElement.children].filter((c) => c.classList.contains("reveal"));
+  el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 5) * 90}ms`;
+  el.classList.add("is-visible");
+};
+const inViewport = (el) => {
+  const r = el.getBoundingClientRect();
+  return r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
+};
+let startReveals;
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const siblings = [...el.parentElement.children].filter((c) => c.classList.contains("reveal"));
-      el.style.transitionDelay = `${Math.min(siblings.indexOf(el), 5) * 90}ms`;
-      el.classList.add("is-visible");
-      revealObserver.unobserve(el);
+      reveal(entry.target);
+      revealObserver.unobserve(entry.target);
+    }),
+    { threshold: 0, rootMargin: "0px 0px -40px 0px" }
+  );
+  /* Safety net: anything still hidden 2.5s after it is on screen is shown anyway */
+  const pending = new Set();
+  const safetyCheck = () => {
+    pending.forEach((el) => {
+      if (el.classList.contains("is-visible")) return pending.delete(el);
+      if (!el.dataset.seen && inViewport(el)) {
+        el.dataset.seen = "1";
+        setTimeout(() => { reveal(el); pending.delete(el); }, 2500);
+      }
     });
-  },
-  { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-);
-const startReveals = () => document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+  };
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { safetyCheck(); ticking = false; });
+  }, { passive: true });
+  startReveals = () => {
+    document.querySelectorAll(".reveal").forEach((el) => { pending.add(el); revealObserver.observe(el); });
+    safetyCheck();
+  };
+} else {
+  startReveals = () => document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+}
 
 /* ---- Diamond intro: draws a diamond, then the site opens through it ---- */
 const root = document.documentElement;
 const intro = document.getElementById("intro");
 if (intro && root.classList.contains("intro-on")) {
+  try { sessionStorage.setItem("zinIntro", "1"); } catch (e) {} // skip it for the rest of this visit
+  let autoOpen;
   const openIntro = () => {
     if (intro.classList.contains("is-opening")) return;
+    clearTimeout(autoOpen);
+    document.removeEventListener("keydown", onKey);
     intro.classList.add("is-opening");
     setTimeout(startReveals, 300); // hero appears as the diamond opens
     setTimeout(() => { root.classList.remove("intro-on"); intro.remove(); }, 1450);
   };
+  const onKey = (e) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Escape") { e.preventDefault(); openIntro(); }
+  };
   intro.addEventListener("click", openIntro);
-  intro.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIntro(); }
-  });
+  document.addEventListener("keydown", onKey);
+  autoOpen = setTimeout(openIntro, 3500);
   intro.focus({ preventScroll: true });
 } else {
   intro?.remove();

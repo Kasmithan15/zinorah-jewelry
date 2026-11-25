@@ -41,24 +41,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=8" />
+  <link rel="preload" as="image" href="images/hero.avif" type="image/avif" fetchpriority="high" />
+  <link rel="stylesheet" href="css/style.css?v=10" />
   <script>
-    /* Diamond welcome page: shown first; the site opens when it is clicked */
-    document.documentElement.classList.add("js", "intro-on");
+    /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
+    (function (d) { d.classList.add("js");
+      try { if (!sessionStorage.getItem("zinIntro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("intro-on"); } catch (e) { d.classList.add("intro-on"); }
+    })(document.documentElement);
   </script>
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to content</a>
 
   <!-- ============ DIAMOND INTRO (opens into the site) ============ -->
-  <div class="intro" id="intro" role="button" tabindex="0" aria-label="Enter the Zinorah Jewelry website">
+  <div class="intro" id="intro" role="button" tabindex="0" aria-label="ZINORAH Jewelry · Trincomalee: enter the website">
     <div class="intro__inner">
       <div class="intro__stone">
-        <img src="images/diamond.jpg" alt="" width="900" height="900" fetchpriority="high" />
+        <picture>
+          <source srcset="images/diamond.avif" type="image/avif" />
+          <img src="images/diamond.jpg" alt="" width="900" height="900" fetchpriority="high" decoding="async" />
+        </picture>
         <span class="spark spark--1"></span><span class="spark spark--2"></span><span class="spark spark--3"></span><span class="spark spark--4"></span>
       </div>
       <p class="intro__word">ZINORAH</p>
       <p class="intro__sub">Jewelry · Trincomalee</p>
+      <p class="intro__hint"><span class="t-tap">Tap to enter</span><span class="t-click">Click to enter</span></p>
     </div>
   </div>
 
@@ -153,7 +160,7 @@
         <a href="#bridal">Bridal</a>
       </nav>
 
-      <a href="#top" class="logo" aria-label="Zinorah Jewelry — home">
+      <a href="#top" class="logo" aria-label="ZINORAH Jewelry · Trincomalee, home">
         <svg class="logo__mark"><use href="#i-diamond"/></svg>
         <span class="logo__word">ZINORAH</span>
         <span class="logo__sub">Jewelry · Trincomalee</span>
@@ -197,12 +204,12 @@
         </div>
 
         <div class="hero__visual reveal">
-          <div class="frame frame--main" data-img="images/hero.jpg">
+          <div class="frame frame--main" data-img="images/hero.jpg" data-eager>
             <svg class="arch__art"><use href="#i-necklace"/></svg>
             <span class="frame__c frame__c--tl"></span><span class="frame__c frame__c--tr"></span>
             <span class="frame__c frame__c--bl"></span><span class="frame__c frame__c--br"></span>
           </div>
-          <div class="frame frame--inset" data-img="images/hero-2.jpg">
+          <div class="frame frame--inset" data-img="images/hero-2.jpg" data-eager>
             <svg class="arch__art"><use href="#i-bangle"/></svg>
           </div>
           <div class="hero__badge">
@@ -358,7 +365,7 @@
 
     <!-- ============ ABOUT ============ -->
     <!-- Add the shop's real story here (year founded, founder, what makes Zinorah special). -->
-    <section class="section heritage" id="about">
+    <section class="section heritage has-ornament" id="about">
       <div class="container heritage__grid">
         <div class="heritage__visual reveal">
           <div class="arch arch--story" data-img="images/about.jpg">
@@ -406,7 +413,7 @@
     </section>
 
     <!-- ============ INSTAGRAM ============ -->
-    <section class="section" id="instagram">
+    <section class="section has-ornament" id="instagram">
       <div class="container">
         <header class="section__head section__head--center reveal">
           <p class="eyebrow">Follow Our Latest</p>
@@ -475,23 +482,23 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section visit" id="visit">
+    <section class="section visit has-ornament" id="visit">
       <div class="container visit__grid">
         <div class="visit__info reveal">
           <p class="eyebrow">Contact</p>
           <h2 class="section__title">We'd love to<br /><em>hear from you</em></h2>
           <div class="visit__cols">
             <div>
-              <h4>Location</h4>
+              <h3 class="label-h">Location</h3>
               <!-- Add the full shop address here if customers can visit -->
               <p>Trincomalee, Sri Lanka</p>
             </div>
             <div>
-              <h4>Phone &amp; WhatsApp</h4>
+              <h3 class="label-h">Phone &amp; WhatsApp</h3>
               <p><a href="tel:+94767667028">+94 76 766 7028</a></p>
             </div>
             <div>
-              <h4>Instagram</h4>
+              <h3 class="label-h">Instagram</h3>
               <p>
                 <a href="https://www.instagram.com/zinorah_jewelry_trinco/" target="_blank" rel="noopener">@zinorah_jewelry_trinco</a><br />
                 <a href="https://www.instagram.com/zinorah_clothing_trinco/" target="_blank" rel="noopener">@zinorah_clothing_trinco</a>
@@ -525,20 +532,20 @@
         <p>Gold, diamond, bridal and everyday jewelry from Trincomalee, Sri Lanka.</p>
       </div>
       <div>
-        <h4>Collections</h4>
+        <h3 class="label-h">Collections</h3>
         <a href="#collections">Gold</a>
         <a href="#collections">Diamond</a>
         <a href="#bridal">Bridal</a>
         <a href="#collections">Daily Wear</a>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h3 class="label-h">Contact</h3>
         <a href="tel:+94767667028">+94 76 766 7028</a>
         <a href="https://wa.me/94767667028" class="wa-link" target="_blank" rel="noopener">WhatsApp</a>
         <a href="#appointment">Custom Orders</a>
       </div>
       <div>
-        <h4>Follow</h4>
+        <h3 class="label-h">Follow</h3>
         <a href="https://www.instagram.com/zinorah_jewelry_trinco/" target="_blank" rel="noopener">Instagram · Jewelry</a>
         <a href="https://www.instagram.com/zinorah_clothing_trinco/" target="_blank" rel="noopener">Instagram · Clothing</a>
       </div>
@@ -551,9 +558,10 @@
 
   <!-- Floating WhatsApp button -->
   <a class="wa-float wa-link" href="https://wa.me/94767667028" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <svg><use href="#i-whatsapp"/></svg>
+    <svg aria-hidden="true"><use href="#i-whatsapp"/></svg>
+    <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/main.js?v=8" defer></script>
+  <script src="js/main.js?v=10" defer></script>
 </body>
 </html>

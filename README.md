@@ -47,6 +47,8 @@ The site currently uses **free stock photos from Unsplash** (Unsplash License: f
 
 Credits (Unsplash photo IDs): welcome-page diamond `rlizLUbqEt8` (aura diamonds) · hero `KxHcyNOIO_M` (iKshana Productions) · hero small `LQdSOAw13KE` (Hemant Latawa) · gold `itriu-lCKzs` (Akhilesh Sharma) · diamond `EsjkVKMdN_I` (Peter Muniz) · bridal tile `lwjBhbslaF4` (Hush Naidoo Jade Photography) · daily wear `Vdl0I34YfA4` (Happy Face Emoji) · about `bwPPPYWqrLs` (Zayed Ahmed Zadu) · bridal banner `gYCdjq-2830` (Rejaul Karim) · necklace `x5LH4df5cCk` (Zayed Ahmed Zadu) · solitaire `IXLS59CTgDE` (THLT LCX) · hoops `ZP7HXfjRVcY` (Ian Talmacs) · ring `xc4qcoFEjL8`. View any at `https://unsplash.com/photos/<ID>`.
 
+**Important: every photo has two files**, `name.jpg` and a smaller `name.avif` that modern browsers load first. When you replace a photo, **replace or delete the matching `.avif` too**, otherwise visitors keep seeing the old picture. (Deleting the `.avif` is fine: the site then uses the `.jpg`.) To make a new `.avif` on a Mac: `sips -s format avif -s formatOptions 60 photo.jpg --out photo.avif` (use a photo whose width and height are even numbers).
+
 To replace a photo, put the new one in `images/` with the same name with these names (if a photo is missing, a gold line drawing shows instead):
 
 | File | Where | Suggested size |
