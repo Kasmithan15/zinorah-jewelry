@@ -1,12 +1,12 @@
 /* =========================================================
-   ZINORAH JEWELRY — Site script
+   ZINORAH · Jewelry & Clothing — Site script
    ========================================================= */
 
 /* ---- SHOP SETTINGS: edit these ---- */
 const SHOP = {
   // WhatsApp number in international format, digits only (94 = Sri Lanka)
   whatsapp: "94767667028",
-  name: "Zinorah Jewelry",
+  name: "Zinorah",
 };
 
 document.documentElement.classList.add("js");
@@ -162,7 +162,7 @@ const applyFilter = (cat) => {
     f.setAttribute("aria-selected", String(on));
   });
   products.forEach((p) => {
-    const show = cat === "all" || p.dataset.category === cat;
+    const show = cat === "all" || p.dataset.category.split(" ").includes(cat);
     p.classList.toggle("is-hidden", !show);
     if (show) p.classList.add("is-visible");
   });
@@ -171,6 +171,11 @@ filters.forEach((f) => f.addEventListener("click", () => applyFilter(f.dataset.f
 // Collection tiles jump to the matching filter
 document.querySelectorAll("[data-jump]").forEach((a) =>
   a.addEventListener("click", () => applyFilter(a.dataset.jump))
+);
+
+/* ---- "Plan your bridal look" etc. pre-select the department in the form ---- */
+document.querySelectorAll("a[data-dept]").forEach((a) =>
+  a.addEventListener("click", () => setDept(a.dataset.dept))
 );
 
 /* ---- Enquire buttons → WhatsApp with product name ---- */
@@ -194,6 +199,29 @@ const status = document.getElementById("formStatus");
 const dateInput = document.getElementById("f-date");
 dateInput.min = new Date().toISOString().split("T")[0];
 
+/* Department choice: "Interested in" only lists that department's options */
+const interest = document.getElementById("f-interest");
+const deptGroup = document.getElementById("f-dept");
+const allGroups = [...interest.querySelectorAll("optgroup")].map((g) => g.cloneNode(true));
+const showInterests = (dept) => {
+  const keep = interest.value;
+  interest.querySelectorAll("optgroup").forEach((g) => g.remove());
+  allGroups
+    .filter((g) => !dept || g.dataset.dept === dept)
+    .forEach((g) => interest.append(g.cloneNode(true)));
+  interest.value = [...interest.options].some((o) => o.value === keep && !o.disabled) ? keep : "";
+};
+function setDept(dept) {
+  const radio = form.querySelector(`input[name="department"][value="${dept}"]`);
+  if (!radio) return;
+  radio.checked = true;
+  deptGroup.classList.remove("is-invalid");
+  showInterests(dept);
+}
+form.querySelectorAll('input[name="department"]').forEach((r) =>
+  r.addEventListener("change", () => { deptGroup.classList.remove("is-invalid"); showInterests(r.value); })
+);
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   let ok = true;
@@ -202,6 +230,9 @@ form.addEventListener("submit", (e) => {
     input.closest(".field").classList.toggle("is-invalid", !valid);
     if (!valid) ok = false;
   });
+  const deptOk = !!form.querySelector('input[name="department"]:checked');
+  deptGroup.classList.toggle("is-invalid", !deptOk);
+  if (!deptOk) ok = false;
   if (!ok) {
     status.textContent = "Please fill in the highlighted fields.";
     return;
@@ -211,16 +242,17 @@ form.addEventListener("submit", (e) => {
     ? new Date(d.date + "T00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "";
   const msg =
-    `Hello ${SHOP.name}, I'd like to enquire about your jewelry.\n\n` +
-    `Name: ${d.name}\nPhone: ${d.phone}\nInterested in: ${d.interest}` +
+    `Hello ${SHOP.name}, I'd like to enquire about your ${d.department === "Clothing" ? "clothing" : d.department === "Jewelry" ? "jewelry" : "jewelry and clothing (bridal look)"}.\n\n` +
+    `Name: ${d.name}\nPhone: ${d.phone}\nDepartment: ${d.department}\nInterested in: ${d.interest}` +
     (prettyDate ? `\nNeeded by: ${prettyDate}` : "") +
     (d.message ? `\nDetails: ${d.message}` : "");
   window.open(waUrl(msg), "_blank", "noopener");
   status.textContent = "Thank you! Please press send in WhatsApp and we'll reply soon.";
   form.reset();
+  showInterests("");
 });
 form.querySelectorAll("input, select").forEach((el) =>
-  el.addEventListener("input", () => el.closest(".field").classList.remove("is-invalid"))
+  el.addEventListener("input", () => el.closest(".field")?.classList.remove("is-invalid"))
 );
 
 /* ---- Footer year ---- */

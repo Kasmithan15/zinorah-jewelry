@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zinorah Jewelry — Gold, Diamond & Bridal Jewelry in Trincomalee</title>
-  <meta name="description" content="Zinorah Jewelry, Trincomalee — gold, diamond, bridal and everyday jewelry. Browse our pieces and order or enquire directly on WhatsApp." />
+  <title>ZINORAH · Jewelry &amp; Clothing in Trincomalee: Gold, Diamond, Sarees &amp; Bridal Wear</title>
+  <meta name="description" content="ZINORAH, Trincomalee: one house for jewelry and clothing. Gold, diamond and bridal jewelry, plus sarees, lehengas, kurtis and bridal wear. Enquire directly on WhatsApp." />
   <meta name="theme-color" content="#0f3b2e" />
 
   <!-- Open Graph (shown when the link is shared on WhatsApp / Facebook / Instagram) -->
-  <meta property="og:title" content="Zinorah Jewelry · Trincomalee" />
-  <meta property="og:description" content="Gold, diamond, bridal & everyday jewelry. Enquire on WhatsApp." />
+  <meta property="og:title" content="ZINORAH · Jewelry · Clothing · Trincomalee" />
+  <meta property="og:description" content="Gold, diamond &amp; bridal jewelry, sarees, lehengas &amp; bridal wear. Enquire on WhatsApp." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://kasmithan15.github.io/zinorah-jewelry/" />
   <meta property="og:image" content="https://kasmithan15.github.io/zinorah-jewelry/images/og-cover.png" />
@@ -22,8 +22,9 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "JewelryStore",
-    "name": "Zinorah Jewelry",
+    "@type": ["JewelryStore", "ClothingStore"],
+    "name": "ZINORAH Jewelry & Clothing",
+    "description": "Jewelry and clothing in Trincomalee: gold, diamond and bridal jewelry, sarees, lehengas, kurtis and bridal wear.",
     "url": "https://kasmithan15.github.io/zinorah-jewelry/",
     "image": "https://kasmithan15.github.io/zinorah-jewelry/images/og-cover.png",
     "telephone": "+94767667028",
@@ -41,8 +42,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="preload" as="image" href="images/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=10" />
+  <!-- first hero photo loads first (the clothing one starts straight after) -->
+  <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
+  <link rel="stylesheet" href="css/style.css?v=11" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -54,17 +56,17 @@
   <a class="skip-link" href="#top">Skip to content</a>
 
   <!-- ============ DIAMOND INTRO (opens into the site) ============ -->
-  <div class="intro" id="intro" role="button" tabindex="0" aria-label="ZINORAH Jewelry · Trincomalee: enter the website">
+  <div class="intro" id="intro" role="button" tabindex="0">
     <div class="intro__inner">
       <div class="intro__stone">
         <picture>
-          <source srcset="images/diamond.avif" type="image/avif" />
-          <img src="images/diamond.jpg" alt="" width="900" height="900" fetchpriority="high" decoding="async" />
+          <source srcset="images/jewelry/diamond.avif" type="image/avif" />
+          <img src="images/jewelry/diamond.jpg" alt="" width="720" height="720" fetchpriority="high" decoding="async" />
         </picture>
         <span class="spark spark--1"></span><span class="spark spark--2"></span><span class="spark spark--3"></span><span class="spark spark--4"></span>
       </div>
       <p class="intro__word">ZINORAH</p>
-      <p class="intro__sub">Jewelry · Trincomalee</p>
+      <p class="intro__sub">Jewelry · Clothing</p>
       <p class="intro__hint"><span class="t-tap">Tap to enter</span><span class="t-click">Click to enter</span></p>
     </div>
   </div>
@@ -72,12 +74,13 @@
   <!-- ============ DIAMOND MENU (side navigation, desktop) ============ -->
   <nav class="gem-nav" aria-label="Page sections">
     <a href="#top" data-label="Home"></a>
-    <a href="#collections" data-label="Collections"></a>
-    <a href="#signature" data-label="Pieces"></a>
-    <a href="#about" data-label="About"></a>
+    <a href="#jewelry" data-label="Jewelry"></a>
+    <a href="#clothing" data-label="Clothing"></a>
+    <a href="#new-arrivals" data-label="New Arrivals"></a>
     <a href="#bridal" data-label="Bridal"></a>
+    <a href="#about" data-label="About"></a>
     <a href="#appointment" data-label="Enquire"></a>
-    <a href="#visit" data-label="Visit"></a>
+    <a href="#visit" data-label="Contact"></a>
   </nav>
 
   <!-- ============ SVG SPRITE (line-art used until real photos are added) ============ -->
@@ -125,6 +128,15 @@
           <path d="M50 50 42 60l8 14 8-14z"/>
         </g>
       </symbol>
+      <symbol id="i-saree" viewBox="0 0 100 100">
+        <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M50 12a5 5 0 1 1 5 5c-3 0-5 2-5 4v3"/>
+          <path d="M50 24 22 38h56z"/>
+          <path d="M34 38c-2 14-6 34-12 50h56c-6-16-10-36-12-50"/>
+          <path d="M42 38c4 10 14 18 26 22 M38 52c10 8 22 12 34 12" opacity=".55"/>
+          <path d="M24 82h52" opacity=".55"/>
+        </g>
+      </symbol>
       <symbol id="i-whatsapp" viewBox="0 0 24 24">
         <path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.700-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.800c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.700.7 2.3.8 3.2.6.5-.1 1.5-.6 1.700-1.2.2-.6.2-1.100.2-1.200-.1-.1-.2-.2-.5-.3z"/>
       </symbol>
@@ -141,6 +153,7 @@
   <div class="announce">
     <div class="announce__track">
       <span>Gold &amp; Diamond Jewelry</span><span class="dot">✦</span>
+      <span>Sarees · Lehengas · Bridal Wear</span><span class="dot">✦</span>
       <span>Bridal &amp; Custom Orders</span><span class="dot">✦</span>
       <span>Order on WhatsApp · +94 76 766 7028</span><span class="dot">✦</span>
       <span>Trincomalee, Sri Lanka</span>
@@ -155,15 +168,16 @@
       </button>
 
       <nav class="nav nav--left" aria-label="Primary">
-        <a href="#collections">Collections</a>
-        <a href="#signature">Pieces</a>
+        <a href="#jewelry">Jewelry</a>
+        <a href="#clothing">Clothing</a>
         <a href="#bridal">Bridal</a>
+        <a href="#new-arrivals">New Arrivals</a>
       </nav>
 
-      <a href="#top" class="logo" aria-label="ZINORAH Jewelry · Trincomalee, home">
+      <a href="#top" class="logo" aria-label="ZINORAH · Jewelry · Clothing · Trincomalee, home">
         <svg class="logo__mark"><use href="#i-diamond"/></svg>
         <span class="logo__word">ZINORAH</span>
-        <span class="logo__sub">Jewelry · Trincomalee</span>
+        <span class="logo__sub">Jewelry · Clothing<span class="logo__place"> · Trincomalee</span></span>
       </a>
 
       <nav class="nav nav--right" aria-label="Secondary">
@@ -174,73 +188,72 @@
     </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
-      <a href="#collections">Collections</a>
-      <a href="#signature">Pieces</a>
+      <a href="#jewelry">Jewelry</a>
+      <a href="#clothing">Clothing</a>
       <a href="#bridal">Bridal</a>
+      <a href="#new-arrivals">New Arrivals</a>
       <a href="#about">About</a>
       <a href="#visit">Contact</a>
       <a href="#appointment" class="btn btn--gold">Enquire Now</a>
+      <p class="mobile-nav__foot">Jewelry · Clothing · Trincomalee</p>
     </nav>
   </header>
 
   <main id="top">
 
-    <!-- ============ HERO ============ -->
+    <!-- ============ HERO: two worlds, one Zinorah ============ -->
     <section class="hero">
-      <div class="container hero__grid">
-        <div class="hero__copy">
-          <p class="eyebrow reveal">Zinorah · Trincomalee</p>
-          <h1 class="hero__title reveal">Jewelry made<br />for your <em>moments</em></h1>
-          <p class="hero__lead reveal">Gold, diamond, bridal and everyday pieces, chosen with care. Find the one that's yours, or create something made just for you.</p>
-          <div class="hero__cta reveal">
-            <a href="#collections" class="btn btn--gold">Explore Collections</a>
-            <a href="#appointment" class="link-arrow">Enquire on WhatsApp <svg><use href="#i-arrow"/></svg></a>
-          </div>
-          <dl class="hero__stats reveal">
-            <div><dt>Gold</dt><dd>&amp; Diamond</dd></div>
-            <div><dt>Bridal</dt><dd>&amp; Custom</dd></div>
-            <div><dt>Daily</dt><dd>Wear pieces</dd></div>
-          </dl>
-        </div>
-
-        <div class="hero__visual reveal">
-          <div class="frame frame--main" data-img="images/hero.jpg" data-eager>
-            <svg class="arch__art"><use href="#i-necklace"/></svg>
-            <span class="frame__c frame__c--tl"></span><span class="frame__c frame__c--tr"></span>
-            <span class="frame__c frame__c--bl"></span><span class="frame__c frame__c--br"></span>
-          </div>
-          <div class="frame frame--inset" data-img="images/hero-2.jpg" data-eager>
-            <svg class="arch__art"><use href="#i-bangle"/></svg>
-          </div>
-          <div class="hero__badge">
-            <span class="hero__badge-k">22K</span>
-            <span>Gold<br />Collection</span>
-          </div>
-        </div>
+      <div class="container hero__head">
+        <p class="eyebrow eyebrow--center reveal">Jewelry · Clothing · Trincomalee</p>
+        <h1 class="hero__title reveal">Two worlds, one <em>Zinorah</em></h1>
+        <p class="hero__lead reveal">Fine jewelry and beautiful clothing under one roof, for weddings, festivals and every day in between.</p>
       </div>
-      <a href="#collections" class="scroll-cue" aria-label="Scroll to collections"><span></span></a>
+
+      <div class="container split">
+        <a href="#jewelry" class="split__panel reveal" data-img="images/jewelry/hero.jpg" data-eager>
+          <svg class="split__art"><use href="#i-necklace"/></svg>
+          <div class="split__body">
+            <span class="split__num">01 · Department</span>
+            <h2 class="split__title">Jewelry</h2>
+            <p>Gold, diamond, bridal and everyday pieces, chosen with care. Find the one that's yours, or create something made just for you.</p>
+            <span class="btn btn--gold">Explore Jewelry</span>
+          </div>
+        </a>
+        <a href="#clothing" class="split__panel reveal" data-img="images/clothing/hero.jpg" data-eager>
+          <svg class="split__art"><use href="#i-saree"/></svg>
+          <div class="split__body">
+            <span class="split__num">02 · Department</span>
+            <h2 class="split__title">Clothing</h2>
+            <p>Silk sarees, bridal wear, lehengas and kurtis, from everyday cotton to wedding silk, for you and the whole family.</p>
+            <span class="btn btn--gold">Explore Clothing</span>
+          </div>
+        </a>
+      </div>
     </section>
 
     <!-- ============ TRUST STRIP ============ -->
     <section class="trust" aria-label="Why Zinorah">
       <div class="container trust__grid">
         <div class="trust__item"><strong>Quality Gold</strong><span>22K &amp; 18K pieces</span></div>
+        <div class="trust__item"><strong>Silk &amp; Bridal Wear</strong><span>Sarees · Lehengas</span></div>
         <div class="trust__item"><strong>Custom Designs</strong><span>Made to your idea</span></div>
-        <div class="trust__item"><strong>Bridal Sets</strong><span>For your big day</span></div>
         <div class="trust__item"><strong>Easy Ordering</strong><span>Chat on WhatsApp</span></div>
       </div>
     </section>
 
-    <!-- ============ COLLECTIONS ============ -->
-    <section class="section section--navy" id="collections">
+    <!-- ============ DEPARTMENT 01 · JEWELRY ============ -->
+    <section class="section section--navy" id="jewelry">
       <div class="container">
-        <header class="section__head reveal">
-          <p class="eyebrow">Our Collections</p>
-          <h2 class="section__title">Find the piece that<br /><em>speaks to you</em></h2>
+        <header class="section__head section__head--row reveal">
+          <div>
+            <p class="eyebrow">Department 01 · Jewelry</p>
+            <h2 class="section__title">Jewelry made for<br />your <em>moments</em></h2>
+          </div>
+          <p class="section__intro">Gold, diamond, bridal and everyday pieces. Find the piece that speaks to you, or let us make one just for you.</p>
         </header>
 
         <div class="collections">
-          <a href="#signature" data-jump="gold" class="collection collection--tall reveal" data-img="images/col-gold.jpg">
+          <a href="#new-arrivals" data-jump="jewelry" class="collection collection--tall reveal" data-img="images/jewelry/col-gold.jpg">
             <svg class="collection__art"><use href="#i-necklace"/></svg>
             <div class="collection__body">
               <span class="collection__count">Necklaces · Chains · Bangles</span>
@@ -248,7 +261,7 @@
               <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
             </div>
           </a>
-          <a href="#signature" data-jump="diamond" class="collection reveal" data-img="images/col-diamond.jpg">
+          <a href="#new-arrivals" data-jump="jewelry" class="collection reveal" data-img="images/jewelry/col-diamond.jpg">
             <svg class="collection__art"><use href="#i-ring"/></svg>
             <div class="collection__body">
               <span class="collection__count">Rings · Studs · Pendants</span>
@@ -256,15 +269,15 @@
               <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
             </div>
           </a>
-          <a href="#bridal" class="collection reveal" data-img="images/col-bridal.jpg">
+          <a href="#custom" class="collection reveal" data-img="images/jewelry/col-bridal.jpg">
             <svg class="collection__art"><use href="#i-bangle"/></svg>
             <div class="collection__body">
               <span class="collection__count">Made to order</span>
-              <h3>Bridal</h3>
+              <h3>Bridal Jewelry</h3>
               <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
             </div>
           </a>
-          <a href="#signature" data-jump="everyday" class="collection collection--wide reveal" data-img="images/col-everyday.jpg">
+          <a href="#new-arrivals" data-jump="jewelry" class="collection collection--wide reveal" data-img="images/jewelry/col-everyday.jpg">
             <svg class="collection__art"><use href="#i-earring"/></svg>
             <div class="collection__body">
               <span class="collection__count">Lightweight · Everyday</span>
@@ -276,27 +289,92 @@
       </div>
     </section>
 
-    <!-- ============ PIECES ============ -->
-    <section class="section section--tint" id="signature">
+    <!-- ============ DEPARTMENT 02 · CLOTHING ============ -->
+    <!-- TODO (clothing): the 5 photos below are free Unsplash placeholders. Replace with Zinorah's own photos
+         in images/clothing/ (same file names), and edit the names / descriptions to match what the shop sells. -->
+    <section class="section section--tint dept--clothing has-ornament" id="clothing">
       <div class="container">
         <header class="section__head section__head--row reveal">
           <div>
-            <p class="eyebrow">Featured Pieces</p>
+            <p class="eyebrow">Department 02 · Clothing</p>
+            <h2 class="section__title">Dressed for every<br /><em>occasion</em></h2>
+          </div>
+          <p class="section__intro">Silk sarees, bridal wear, lehengas, kurtis and festive outfits for the whole family, from everyday cotton to wedding silk.</p>
+        </header>
+
+        <div class="collections collections--five">
+          <!-- TODO: photo images/clothing/col-sarees.jpg -->
+          <a href="#new-arrivals" data-jump="clothing" class="collection collection--tall reveal" data-img="images/clothing/col-sarees.jpg">
+            <svg class="collection__art"><use href="#i-saree"/></svg>
+            <div class="collection__body">
+              <span class="collection__count">Silk · Cotton · Festive</span>
+              <h3>Sarees</h3>
+              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+          <!-- TODO: photo images/clothing/col-bridal-wear.jpg -->
+          <a href="#bridal" class="collection reveal" data-img="images/clothing/col-bridal-wear.jpg">
+            <svg class="collection__art"><use href="#i-saree"/></svg>
+            <div class="collection__body">
+              <span class="collection__count">Bridal sarees · Lehengas</span>
+              <h3>Bridal Wear</h3>
+              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+          <!-- TODO: photo images/clothing/col-lehenga.jpg -->
+          <a href="#new-arrivals" data-jump="clothing" class="collection reveal" data-img="images/clothing/col-lehenga.jpg">
+            <svg class="collection__art"><use href="#i-saree"/></svg>
+            <div class="collection__body">
+              <span class="collection__count">Lehengas · Gowns · Sets</span>
+              <h3>Lehengas &amp; Party Wear</h3>
+              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+          <!-- TODO: photo images/clothing/col-kurtis.jpg -->
+          <a href="#new-arrivals" data-jump="clothing" class="collection reveal" data-img="images/clothing/col-kurtis.jpg">
+            <svg class="collection__art"><use href="#i-saree"/></svg>
+            <div class="collection__body">
+              <span class="collection__count">Kurtis · Salwar · Tops</span>
+              <h3>Kurtis &amp; Everyday Wear</h3>
+              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+          <!-- TODO: photo images/clothing/col-kids.jpg -->
+          <a href="#new-arrivals" data-jump="clothing" class="collection reveal" data-img="images/clothing/col-kids.jpg">
+            <svg class="collection__art"><use href="#i-saree"/></svg>
+            <div class="collection__body">
+              <span class="collection__count">Festive sets · Family</span>
+              <h3>Kids &amp; Family</h3>
+              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURED PIECES / NEW ARRIVALS ============ -->
+    <section class="section has-ornament" id="new-arrivals">
+      <div class="container">
+        <header class="section__head section__head--row reveal">
+          <div>
+            <p class="eyebrow">New Arrivals · Featured Pieces</p>
             <h2 class="section__title">Crafted to be <em>treasured</em></h2>
           </div>
           <div class="filters" role="tablist" aria-label="Filter pieces">
             <button class="filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>
-            <button class="filter" data-filter="gold" role="tab" aria-selected="false">Gold</button>
-            <button class="filter" data-filter="diamond" role="tab" aria-selected="false">Diamond</button>
-            <button class="filter" data-filter="everyday" role="tab" aria-selected="false">Daily Wear</button>
+            <button class="filter" data-filter="jewelry" role="tab" aria-selected="false">Jewelry</button>
+            <button class="filter" data-filter="clothing" role="tab" aria-selected="false">Clothing</button>
+            <button class="filter" data-filter="bridal" role="tab" aria-selected="false">Bridal</button>
+            <button class="filter" data-filter="new" role="tab" aria-selected="false">New</button>
           </div>
         </header>
 
         <!-- PRODUCTS: photos are free stock images (Unsplash) as placeholders. Replace with Zinorah's own product photos.
-             Change data-category (gold / diamond / everyday), data-img, name, details and price. -->
+             data-category = space-separated list of: jewelry / clothing / bridal / new  (controls the filter tabs).
+             Change data-img, aria-label, name, details, and data-item on the Enquire button (sent in the WhatsApp message). -->
         <div class="products" id="products">
-          <article class="product reveal" data-category="gold">
-            <div class="product__media" data-img="images/p-necklace.jpg">
+          <article class="product reveal" data-category="jewelry new">
+            <div class="product__media" data-img="images/jewelry/p-necklace.jpg" role="img" aria-label="Filigree gold necklace set">
               <svg class="product__art"><use href="#i-diamond"/></svg>
               <span class="tag">New</span>
             </div>
@@ -306,8 +384,20 @@
               <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Filigree Necklace Set">Enquire</button></div>
             </div>
           </article>
-          <article class="product reveal" data-category="diamond">
-            <div class="product__media" data-img="images/p-solitaire.jpg">
+          <!-- TODO (clothing product): photo, name and details -->
+          <article class="product reveal" data-category="clothing new">
+            <div class="product__media" data-img="images/clothing/p-silk-saree.jpg" role="img" aria-label="Woman wearing a multicolour silk saree">
+              <svg class="product__art"><use href="#i-saree"/></svg>
+              <span class="tag tag--clothing">New</span>
+            </div>
+            <div class="product__info">
+              <h3>Kanchipuram Silk Saree</h3>
+              <p>Kanchipuram Silk · Saree</p>
+              <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Kanchipuram Silk Saree">Enquire</button></div>
+            </div>
+          </article>
+          <article class="product reveal" data-category="jewelry">
+            <div class="product__media" data-img="images/jewelry/p-solitaire.jpg" role="img" aria-label="Solitaire diamond engagement ring">
               <svg class="product__art"><use href="#i-diamond"/></svg>
             </div>
             <div class="product__info">
@@ -316,8 +406,20 @@
               <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Solitaire Engagement Ring">Enquire</button></div>
             </div>
           </article>
-          <article class="product reveal" data-category="everyday">
-            <div class="product__media" data-img="images/p-hoops.jpg">
+          <!-- TODO (clothing product): photo, name and details -->
+          <article class="product reveal" data-category="clothing bridal">
+            <div class="product__media" data-img="images/clothing/p-bridal-lehenga.jpg" role="img" aria-label="Bride in an embroidered maroon bridal lehenga">
+              <svg class="product__art"><use href="#i-saree"/></svg>
+              <span class="tag tag--clothing">Bridal</span>
+            </div>
+            <div class="product__info">
+              <h3>Embroidered Bridal Lehenga</h3>
+              <p>Velvet &amp; Zari · Bridal lehenga</p>
+              <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Embroidered Bridal Lehenga">Enquire</button></div>
+            </div>
+          </article>
+          <article class="product reveal" data-category="jewelry">
+            <div class="product__media" data-img="images/jewelry/p-hoops.jpg" role="img" aria-label="Classic gold hoop earrings">
               <svg class="product__art"><use href="#i-diamond"/></svg>
             </div>
             <div class="product__info">
@@ -326,8 +428,20 @@
               <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Classic Gold Hoops">Enquire</button></div>
             </div>
           </article>
-          <article class="product reveal" data-category="gold">
-            <div class="product__media" data-img="images/p-bangles.jpg">
+          <!-- TODO (clothing product): photo, name and details -->
+          <article class="product reveal" data-category="clothing new">
+            <div class="product__media" data-img="images/clothing/p-party-lehenga.jpg" role="img" aria-label="Woman in a white and red lehenga">
+              <svg class="product__art"><use href="#i-saree"/></svg>
+              <span class="tag tag--clothing">New</span>
+            </div>
+            <div class="product__info">
+              <h3>Ivory &amp; Red Lehenga</h3>
+              <p>Silk · Party wear lehenga</p>
+              <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Ivory &amp; Red Lehenga">Enquire</button></div>
+            </div>
+          </article>
+          <article class="product reveal" data-category="jewelry bridal">
+            <div class="product__media" data-img="images/jewelry/p-bangles.jpg" role="img" aria-label="Gold bangles set with ruby stones">
               <svg class="product__art"><use href="#i-diamond"/></svg>
               <span class="tag">Bridal</span>
             </div>
@@ -337,8 +451,19 @@
               <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Ruby Stone Bangles">Enquire</button></div>
             </div>
           </article>
-          <article class="product reveal" data-category="everyday">
-            <div class="product__media" data-img="images/p-ring.jpg">
+          <!-- TODO (clothing product): photo, name and details -->
+          <article class="product reveal" data-category="clothing">
+            <div class="product__media" data-img="images/clothing/p-festive-saree.jpg" role="img" aria-label="Orange festive sarees on display">
+              <svg class="product__art"><use href="#i-saree"/></svg>
+            </div>
+            <div class="product__info">
+              <h3>Festive Silk Saree</h3>
+              <p>Art Silk · Festive saree</p>
+              <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Festive Silk Saree">Enquire</button></div>
+            </div>
+          </article>
+          <article class="product reveal" data-category="jewelry">
+            <div class="product__media" data-img="images/jewelry/p-ring.jpg" role="img" aria-label="Minimal gold ring">
               <svg class="product__art"><use href="#i-diamond"/></svg>
             </div>
             <div class="product__info">
@@ -347,8 +472,19 @@
               <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Minimal Gold Ring">Enquire</button></div>
             </div>
           </article>
-          <article class="product reveal" data-category="diamond">
-            <div class="product__media" data-img="images/p-emerald-ring.jpg">
+          <!-- TODO (clothing product): photo, name and details -->
+          <article class="product reveal" data-category="clothing">
+            <div class="product__media" data-img="images/clothing/p-kurti-set.jpg" role="img" aria-label="Woman in a floral kurti set with dupatta">
+              <svg class="product__art"><use href="#i-saree"/></svg>
+            </div>
+            <div class="product__info">
+              <h3>Floral Kurti Set</h3>
+              <p>Cotton · Kurti, pants &amp; dupatta</p>
+              <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Floral Kurti Set">Enquire</button></div>
+            </div>
+          </article>
+          <article class="product reveal" data-category="jewelry">
+            <div class="product__media" data-img="images/jewelry/p-emerald-ring.jpg" role="img" aria-label="Emerald-cut diamond ring">
               <svg class="product__art"><use href="#i-diamond"/></svg>
             </div>
             <div class="product__info">
@@ -357,24 +493,71 @@
               <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Emerald-Cut Diamond Ring">Enquire</button></div>
             </div>
           </article>
+          <!-- TODO (clothing product): photo, name and details -->
+          <article class="product reveal" data-category="clothing new">
+            <div class="product__media" data-img="images/clothing/p-chikankari-kurti.jpg" role="img" aria-label="Woman in a white embroidered kurti">
+              <svg class="product__art"><use href="#i-saree"/></svg>
+              <span class="tag tag--clothing">New</span>
+            </div>
+            <div class="product__info">
+              <h3>Chikankari Kurti</h3>
+              <p>Cotton · Everyday kurti</p>
+              <div class="product__foot"><span class="price">Price on request</span><button class="enquire" data-item="Chikankari Kurti">Enquire</button></div>
+            </div>
+          </article>
         </div>
 
-        <p class="note reveal">Prices depend on the day's gold rate, weight and design. Message us on WhatsApp for current prices and availability.</p>
+        <p class="note reveal">Jewelry prices depend on the day's gold rate, weight and design; clothing prices on fabric, work and size. Message us on WhatsApp for current prices and availability.</p>
+      </div>
+    </section>
+
+    <!-- ============ SIGNATURE: COMPLETE THE BRIDAL LOOK ============ -->
+    <!-- TODO (clothing): replace images/clothing/bridal-look.jpg with a Zinorah bridal saree/lehenga photo -->
+    <section class="section section--dark look" id="bridal">
+      <div class="container look__grid">
+        <div class="look__pair reveal">
+          <figure class="look__fig">
+            <div class="look__img" data-img="images/clothing/bridal-look.jpg" role="img" aria-label="Bride in a maroon and gold bridal lehenga">
+              <svg class="look__art"><use href="#i-saree"/></svg>
+            </div>
+            <figcaption>Clothing · Bridal lehenga</figcaption>
+          </figure>
+          <span class="look__join" aria-hidden="true"></span>
+          <figure class="look__fig look__fig--offset">
+            <div class="look__img" data-img="images/jewelry/col-bridal.jpg" role="img" aria-label="Gold bridal jewelry set">
+              <svg class="look__art"><use href="#i-necklace"/></svg>
+            </div>
+            <figcaption>Jewelry · Bridal set</figcaption>
+          </figure>
+        </div>
+
+        <div class="look__copy reveal">
+          <p class="eyebrow eyebrow--light">Signature · Bridal</p>
+          <h2 class="section__title section__title--light">Complete the<br /><em>bridal look</em></h2>
+          <p>Choose your bridal saree or lehenga and the jewelry to match it, together in one place. Our clothing and jewelry departments work side by side, so colour, zari and gold come together beautifully on your day.</p>
+          <ul class="ticks">
+            <li>Match your saree or lehenga to a jewelry set</li>
+            <li>Share your idea or a reference photo</li>
+            <li>Get help choosing design, fabric &amp; weight</li>
+            <li>Stay updated on WhatsApp until it's ready</li>
+          </ul>
+          <a href="#appointment" class="btn btn--gold" data-dept="Both: bridal look">Plan your bridal look</a>
+        </div>
       </div>
     </section>
 
     <!-- ============ ABOUT ============ -->
-    <!-- Add the shop's real story here (year founded, founder, what makes Zinorah special). -->
-    <section class="section heritage has-ornament" id="about">
+    <!-- TODO: add the shop's real story here (year founded, founder, what makes Zinorah special). -->
+    <section class="section heritage" id="about">
       <div class="container heritage__grid">
         <div class="heritage__visual reveal">
-          <div class="arch arch--story" data-img="images/about.jpg">
+          <div class="arch arch--story" data-img="images/jewelry/about.jpg">
             <svg class="arch__art"><use href="#i-ring"/></svg>
           </div>
           <div class="heritage__stamp">
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <defs><path id="circ" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs>
-              <text><textPath href="#circ">ZINORAH · TRINCOMALEE · ZINORAH · TRINCOMALEE ·</textPath></text>
+              <text><textPath href="#circ">ZINORAH · JEWELRY · CLOTHING · TRINCOMALEE ·</textPath></text>
             </svg>
             <svg class="heritage__stamp-mark"><use href="#i-diamond"/></svg>
           </div>
@@ -382,9 +565,9 @@
 
         <div class="heritage__copy">
           <p class="eyebrow reveal">About Zinorah</p>
-          <h2 class="section__title reveal">Jewelry with<br /><em>meaning</em></h2>
-          <p class="reveal">Zinorah is a jewelry house in Trincomalee, offering gold, diamond and bridal pieces for life's most meaningful moments, and for every day in between.</p>
-          <p class="reveal">Whether you're choosing a gift, planning your wedding or bringing your own design to life, we'll help you find <em>a piece you'll treasure.</em></p>
+          <h2 class="section__title reveal">Jewelry &amp; clothing<br />with <em>meaning</em></h2>
+          <p class="reveal">Zinorah is a Trincomalee house for jewelry and clothing: gold, diamond and bridal pieces alongside silk sarees, lehengas and everyday wear, for weddings, festivals and every day in between.</p>
+          <p class="reveal">Whether you're choosing a gift, dressing for a celebration, planning your wedding or bringing your own design to life, we'll help you find <em>a piece you'll treasure.</em></p>
 
           <ol class="process reveal">
             <li><span>01</span><div><strong>Choose</strong>Browse or share your idea</div></li>
@@ -395,11 +578,11 @@
       </div>
     </section>
 
-    <!-- ============ BRIDAL / CUSTOM ============ -->
-    <section class="bridal" id="bridal" data-img="images/bridal.jpg">
+    <!-- ============ BRIDAL & CUSTOM JEWELRY ============ -->
+    <section class="bridal" id="custom" data-img="images/jewelry/bridal.jpg">
       <div class="container bridal__inner">
         <div class="bridal__card reveal">
-          <p class="eyebrow eyebrow--light">Bridal &amp; Custom</p>
+          <p class="eyebrow eyebrow--light">Bridal &amp; Custom Jewelry</p>
           <h2 class="section__title section__title--light">Your wedding,<br /><em>your heirloom</em></h2>
           <p>From necklaces and bangles to complete bridal sets, tell us what you're dreaming of and we'll help bring it to life, matched to your style, budget and occasion.</p>
           <ul class="ticks">
@@ -407,27 +590,31 @@
             <li>Get help choosing design &amp; weight</li>
             <li>Stay updated on WhatsApp until it's ready</li>
           </ul>
-          <a href="#appointment" class="btn btn--gold">Plan Your Bridal Set</a>
+          <a href="#appointment" class="btn btn--gold" data-dept="Jewelry">Plan Your Bridal Set</a>
         </div>
       </div>
     </section>
 
     <!-- ============ INSTAGRAM ============ -->
-    <section class="section has-ornament" id="instagram">
+    <section class="section" id="instagram">
       <div class="container">
         <header class="section__head section__head--center reveal">
           <p class="eyebrow">Follow Our Latest</p>
           <h2 class="section__title">See new arrivals<br /><em>on Instagram</em></h2>
-          <p class="insta__lead">New designs, behind-the-scenes and customer favourites, posted first on Instagram.</p>
-          <div class="insta__links">
-            <a class="btn btn--gold" href="https://www.instagram.com/zinorah_jewelry_trinco/" target="_blank" rel="noopener">
-              <svg class="btn__icon"><use href="#i-instagram"/></svg> @zinorah_jewelry_trinco
-            </a>
-            <a class="btn btn--outline" href="https://www.instagram.com/zinorah_clothing_trinco/" target="_blank" rel="noopener">
-              <svg class="btn__icon"><use href="#i-instagram"/></svg> Zinorah Clothing
-            </a>
-          </div>
+          <p class="insta__lead">New designs, behind-the-scenes and customer favourites, posted first on Instagram. Follow both departments.</p>
         </header>
+        <div class="insta">
+          <a class="insta-tile reveal" href="https://www.instagram.com/zinorah_jewelry_trinco/" target="_blank" rel="noopener" data-img="images/jewelry/hero-2.jpg">
+            <span class="insta-tile__dept">Jewelry</span>
+            <span class="insta-tile__handle"><svg aria-hidden="true"><use href="#i-instagram"/></svg>@zinorah_jewelry_trinco</span>
+            <span class="link-arrow">Follow <svg><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="insta-tile reveal" href="https://www.instagram.com/zinorah_clothing_trinco/" target="_blank" rel="noopener" data-img="images/clothing/insta.jpg">
+            <span class="insta-tile__dept">Clothing</span>
+            <span class="insta-tile__handle"><svg aria-hidden="true"><use href="#i-instagram"/></svg>@zinorah_clothing_trinco</span>
+            <span class="link-arrow">Follow <svg><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -437,7 +624,7 @@
         <div class="appt__copy reveal">
           <p class="eyebrow eyebrow--light">Enquire / Order</p>
           <h2 class="section__title section__title--light">Let's find your<br /><em>perfect piece</em></h2>
-          <p>Fill in a few details and we'll continue on WhatsApp: prices, photos, custom orders or a visit to see pieces in person.</p>
+          <p>Fill in a few details and we'll continue on WhatsApp: prices, photos, custom orders, stitching and measurements, or a visit to see pieces in person.</p>
           <a class="whatsapp" id="waDirect" href="https://wa.me/94767667028" target="_blank" rel="noopener">
             <svg><use href="#i-whatsapp"/></svg> +94 76 766 7028
           </a>
@@ -452,6 +639,14 @@
             <input id="f-phone" name="phone" type="tel" placeholder=" " required autocomplete="tel" pattern="[0-9+\s\-]{9,15}" />
             <label for="f-phone">Phone number</label>
           </div>
+          <fieldset class="field field--choice" id="f-dept">
+            <legend>Department</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="department" value="Jewelry" required /><span>Jewelry</span></label>
+              <label class="choice"><input type="radio" name="department" value="Clothing" /><span>Clothing</span></label>
+              <label class="choice"><input type="radio" name="department" value="Both: bridal look" /><span>Both: bridal look</span></label>
+            </div>
+          </fieldset>
           <div class="field-row">
             <div class="field">
               <input id="f-date" name="date" type="date" placeholder=" " />
@@ -460,12 +655,29 @@
             <div class="field">
               <select id="f-interest" name="interest" required>
                 <option value="" disabled selected hidden></option>
-                <option>Bridal jewelry</option>
-                <option>Gold jewelry</option>
-                <option>Diamond jewelry</option>
-                <option>Daily wear</option>
-                <option>Custom design</option>
-                <option>Gift</option>
+                <optgroup label="Jewelry" data-dept="Jewelry">
+                  <option>Bridal jewelry</option>
+                  <option>Gold jewelry</option>
+                  <option>Diamond jewelry</option>
+                  <option>Daily wear</option>
+                  <option>Custom design</option>
+                  <option>Gift</option>
+                </optgroup>
+                <optgroup label="Clothing" data-dept="Clothing">
+                  <option>Saree</option>
+                  <option>Bridal wear</option>
+                  <option>Lehenga</option>
+                  <option>Kurti</option>
+                  <option>Kids &amp; family wear</option>
+                  <option>Custom stitching</option>
+                  <option>Size / measurements</option>
+                </optgroup>
+                <optgroup label="Bridal look" data-dept="Both: bridal look">
+                  <option>Complete bridal look (saree + jewelry)</option>
+                  <option>Complete bridal look (lehenga + jewelry)</option>
+                  <option>Bridal jewelry to match my outfit</option>
+                  <option>Bridal outfit to match my jewelry</option>
+                </optgroup>
               </select>
               <label for="f-interest">Interested in</label>
             </div>
@@ -490,8 +702,17 @@
           <div class="visit__cols">
             <div>
               <h3 class="label-h">Location</h3>
-              <!-- Add the full shop address here if customers can visit -->
+              <!-- TODO: add the full shop address here if customers can visit -->
               <p>Trincomalee, Sri Lanka</p>
+            </div>
+            <div>
+              <h3 class="label-h">Departments</h3>
+              <p>Jewelry · Clothing</p>
+            </div>
+            <div>
+              <h3 class="label-h">Opening hours</h3>
+              <!-- TODO: opening hours, e.g. "Mon – Sat · 9.30am – 7.30pm · Sunday closed" -->
+              <p>Opening hours coming soon. Message us anytime on WhatsApp.</p>
             </div>
             <div>
               <h3 class="label-h">Phone &amp; WhatsApp</h3>
@@ -508,7 +729,7 @@
           <a class="link-arrow wa-link" href="https://wa.me/94767667028" target="_blank" rel="noopener">Message us on WhatsApp <svg><use href="#i-arrow"/></svg></a>
         </div>
         <div class="visit__map reveal">
-          <!-- For the exact shop pin: Google Maps → search your shop → Share → Copy link → paste it in href below -->
+          <!-- TODO: for the exact shop pin: Google Maps → search your shop → Share → Copy link → paste it in href below -->
           <a class="map-card" href="https://www.google.com/maps/search/?api=1&query=Trincomalee,+Sri+Lanka" target="_blank" rel="noopener">
             <svg class="map-card__pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
             <span class="map-card__place">Trincomalee</span>
@@ -527,22 +748,33 @@
         <a href="#top" class="logo logo--footer">
           <svg class="logo__mark"><use href="#i-diamond"/></svg>
           <span class="logo__word">ZINORAH</span>
-          <span class="logo__sub">Jewelry · Trincomalee</span>
+          <span class="logo__sub">Jewelry · Clothing · Trincomalee</span>
         </a>
-        <p>Gold, diamond, bridal and everyday jewelry from Trincomalee, Sri Lanka.</p>
+        <p>Gold, diamond, bridal and everyday jewelry, with silk sarees, lehengas, kurtis and bridal wear, from Trincomalee, Sri Lanka.</p>
+        <!-- TODO: opening hours -->
+        <p class="footer__hours">Opening hours coming soon</p>
       </div>
       <div>
-        <h3 class="label-h">Collections</h3>
-        <a href="#collections">Gold</a>
-        <a href="#collections">Diamond</a>
-        <a href="#bridal">Bridal</a>
-        <a href="#collections">Daily Wear</a>
+        <h3 class="label-h">Jewelry</h3>
+        <a href="#jewelry">Gold</a>
+        <a href="#jewelry">Diamond</a>
+        <a href="#custom">Bridal</a>
+        <a href="#jewelry">Daily Wear</a>
+      </div>
+      <div>
+        <h3 class="label-h">Clothing</h3>
+        <a href="#clothing">Sarees</a>
+        <a href="#bridal">Bridal Wear</a>
+        <a href="#clothing">Lehengas</a>
+        <a href="#clothing">Kurtis</a>
+        <a href="#clothing">Kids &amp; Family</a>
       </div>
       <div>
         <h3 class="label-h">Contact</h3>
         <a href="tel:+94767667028">+94 76 766 7028</a>
         <a href="https://wa.me/94767667028" class="wa-link" target="_blank" rel="noopener">WhatsApp</a>
         <a href="#appointment">Custom Orders</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Trincomalee,+Sri+Lanka" target="_blank" rel="noopener">Google Maps</a>
       </div>
       <div>
         <h3 class="label-h">Follow</h3>
@@ -551,7 +783,7 @@
       </div>
     </div>
     <div class="container footer__base">
-      <span>© <span id="year">2026</span> Zinorah Jewelry. All rights reserved.</span>
+      <span>© <span id="year">2026</span> ZINORAH · Jewelry &amp; Clothing. All rights reserved.</span>
       <span>Trincomalee, Sri Lanka</span>
     </div>
   </footer>
@@ -562,6 +794,6 @@
     <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/main.js?v=10" defer></script>
+  <script src="js/main.js?v=11" defer></script>
 </body>
 </html>
