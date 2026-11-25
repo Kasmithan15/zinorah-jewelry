@@ -45,7 +45,7 @@ In `index.html`, find the `<!-- SAMPLE PRODUCTS -->` comment. Each product is on
 ### Photos
 The site currently uses **free stock photos from Unsplash** (Unsplash License: free for commercial use, no attribution required). They are placeholders showing the *style*: **replace the product photos with Zinorah's own pieces** so customers see what they can actually buy.
 
-Credits (Unsplash photo IDs): hero `KxHcyNOIO_M` (iKshana Productions) · hero small `LQdSOAw13KE` (Hemant Latawa) · gold `itriu-lCKzs` (Akhilesh Sharma) · diamond `EsjkVKMdN_I` (Peter Muniz) · bridal tile `lwjBhbslaF4` (Hush Naidoo Jade Photography) · daily wear `Vdl0I34YfA4` (Happy Face Emoji) · about `bwPPPYWqrLs` (Zayed Ahmed Zadu) · bridal banner `gYCdjq-2830` (Rejaul Karim) · necklace `x5LH4df5cCk` (Zayed Ahmed Zadu) · solitaire `IXLS59CTgDE` (THLT LCX) · hoops `ZP7HXfjRVcY` (Ian Talmacs) · ring `xc4qcoFEjL8`. View any at `https://unsplash.com/photos/<ID>`.
+Credits (Unsplash photo IDs): welcome-page diamond `rlizLUbqEt8` (aura diamonds) · hero `KxHcyNOIO_M` (iKshana Productions) · hero small `LQdSOAw13KE` (Hemant Latawa) · gold `itriu-lCKzs` (Akhilesh Sharma) · diamond `EsjkVKMdN_I` (Peter Muniz) · bridal tile `lwjBhbslaF4` (Hush Naidoo Jade Photography) · daily wear `Vdl0I34YfA4` (Happy Face Emoji) · about `bwPPPYWqrLs` (Zayed Ahmed Zadu) · bridal banner `gYCdjq-2830` (Rejaul Karim) · necklace `x5LH4df5cCk` (Zayed Ahmed Zadu) · solitaire `IXLS59CTgDE` (THLT LCX) · hoops `ZP7HXfjRVcY` (Ian Talmacs) · ring `xc4qcoFEjL8`. View any at `https://unsplash.com/photos/<ID>`.
 
 To replace a photo, put the new one in `images/` with the same name with these names (if a photo is missing, a gold line drawing shows instead):
 
