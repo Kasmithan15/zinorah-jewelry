@@ -62,15 +62,17 @@ const startReveals = () => document.querySelectorAll(".reveal").forEach((el) => 
 const root = document.documentElement;
 const intro = document.getElementById("intro");
 if (intro && root.classList.contains("intro-on")) {
-  try { sessionStorage.setItem("zinIntro", "1"); } catch (e) {}
   const openIntro = () => {
     if (intro.classList.contains("is-opening")) return;
     intro.classList.add("is-opening");
     setTimeout(startReveals, 300); // hero appears as the diamond opens
     setTimeout(() => { root.classList.remove("intro-on"); intro.remove(); }, 1450);
   };
-  setTimeout(openIntro, 2300);
-  intro.addEventListener("click", openIntro); // tap to skip
+  intro.addEventListener("click", openIntro);
+  intro.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIntro(); }
+  });
+  intro.focus({ preventScroll: true });
 } else {
   intro?.remove();
   startReveals();
