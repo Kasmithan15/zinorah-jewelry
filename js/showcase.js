@@ -270,7 +270,7 @@
       optionLabel: cfg.optionLabel,
       art: cfg.art,
       eyebrow: (p) => (cfg.genders ? (p.gender === "men" ? "Men" : "Women") + " · " : cfg.dept + " · ") + ((DATA.categories[cfg.genders ? p.gender : "all"] || []).find((c) => c.id === p.category) || {}).label,
-      guideFor: (p) => { const g = DATA.sizeGuide; if (!g || !p || !(p.sizes || []).some((v) => !/custom|free/i.test(v))) return null; return g[p.gender] || g[p.category] || null; },
+      guideFor: (p) => { const g = DATA.sizeGuide; if (!g || !p || !(p.sizes || []).some((v) => !/custom|free/i.test(v))) return null; return g[p.gender] || g[p.category] || g[{ ring: "rings", bangle: "bangles" }[p.art]] || null; },
       guideNote: DATA.sizeGuide && DATA.sizeGuide.note,
     };
     const openDetail = (p, fig) => Detail.open(p, fig, ctx, () => items[active] && items[active].querySelector(".orbit__frame"));
