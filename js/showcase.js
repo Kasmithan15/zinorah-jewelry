@@ -87,7 +87,7 @@
 
     const updateWa = () => {
       if (!current) return;
-      const bits = [choice.size && "size " + choice.size, choice.colour && ctx.optionLabel.toLowerCase() + " " + choice.colour].filter(Boolean).join(", ");
+      const bits = [choice.size && (/custom/i.test(choice.size) ? "custom size, please help me with the measurement" : "size " + choice.size), choice.colour && ctx.optionLabel.toLowerCase() + " " + choice.colour].filter(Boolean).join(", ");
       $("#pdWa").href = `https://wa.me/${WA}?text=${encodeURIComponent(`Hello Zinorah, I'm interested in the "${current.name}"${bits ? " (" + bits + ")" : ""}. Could you share price and availability?`)}`;
     };
 
@@ -272,7 +272,10 @@
       optionLabel: cfg.optionLabel,
       art: cfg.art,
       eyebrow: (p) => (cfg.genders ? (p.gender === "both" ? "Women & Men" : p.gender === "men" ? "Men" : "Women") + " · " : cfg.dept + " · ") + ((DATA.categories[cfg.genders ? sideOf(p) : "all"] || []).find((c) => c.id === p.category) || {}).label,
-      guideFor: (p) => { const g = DATA.sizeGuide; if (!g || !p || !(p.sizes || []).some((v) => !/custom|free/i.test(v))) return null; return g[p.gender] || g[p.category] || g[{ ring: "rings", bangle: "bangles" }[p.art]] || null; },
+      guideFor: (p) => { const g = DATA.sizeGuide; if (!g || !p || !(p.sizes || []).some((v) => !/custom|free/i.test(v))) return null; const sz = (p.sizes || []).filter((v) => !/custom|free/i.test(v));
+        // which chart fits these sizes: lengths in inches → chains, 2.2–2.8 → bangles, whole numbers → rings
+        const bySizes = sz.every((v) => / in$/.test(v)) ? "chains" : sz.every((v) => /^\d\.\d$/.test(v)) ? "bangles" : sz.every((v) => /^\d+$/.test(v)) ? "rings" : "";
+        return g[p.gender] || g[p.category] || g[bySizes] || g[{ ring: "rings", bangle: "bangles" }[p.art]] || null; },
       guideNote: DATA.sizeGuide && DATA.sizeGuide.note,
     };
     const openDetail = (p, fig) => Detail.open(p, fig, ctx, () => items[active] && items[active].querySelector(".orbit__frame"));

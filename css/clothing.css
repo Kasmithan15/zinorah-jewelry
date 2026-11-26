@@ -468,3 +468,6 @@
 .cshow--jewel .orbit__new { background: #0F3B2E; color: #D6B88A; }
 .cshow--jewel .cs-art { color: #B08D57; }
 .cshow--jewel .cs-art__note { color: #7F5F2C; }
+
+/* jewelry details: chosen size in emerald + gold, like the rest of the jewelry section */
+.pdetail[data-dept="Jewelry"] .size.is-on { background: #0F3B2E; border-color: #0F3B2E; color: #D6B88A; }

@@ -46,6 +46,7 @@ window.ZIN_JEWELRY = {
   // Shown in the "Size guide" pop-up. TODO: replace with the shop's own chart.
   sizeGuide: {
     rings: { unit: "Ring sizes", head: ["Size", "Inside diameter (mm)"], rows: [["6", "16.5"], ["7", "17.3"], ["8", "18.1"], ["9", "18.9"], ["10", "19.8"], ["11", "20.6"], ["12", "21.4"]] },
+    chains: { unit: "Necklace & chain lengths", head: ["Length", "Where it sits"], rows: [["16 in", "Base of the neck (choker)"], ["18 in", "On the collarbone"], ["20 in", "Just below the collarbone"], ["22 in", "Above the neckline"], ["24 in", "At the neckline"]] },
     bangles: { unit: "Bangle sizes", head: ["Size", "Inside diameter (inches)"], rows: [["2.2", "2.13"], ["2.4", "2.25"], ["2.6", "2.38"], ["2.8", "2.50"]] },
     note: "Not sure? Choose \"Custom size\" and we will measure you in the shop or help you on WhatsApp.",
   },
@@ -74,7 +75,7 @@ window.ZIN_JEWELRY = {
       images: ["images/jewelry/v-pearl-polki-rani-haar.jpg"], art: "necklace",
       alts: ["Five-strand pearl necklace with a large polki and emerald pendant on a green velvet bust, with matching polki and emerald drop earrings"],
       colours: [],
-      sizes: ["16 in", "18 in", "Custom length"], isNew: true,
+      sizes: ["16 in", "18 in", "Custom size"], isNew: true,
     },
     {
       id: "emerald-halo-necklace", gender: "women", category: "necklaces",
@@ -82,7 +83,7 @@ window.ZIN_JEWELRY = {
       images: ["images/jewelry/s-emerald-halo-necklace.jpg"], art: "necklace",
       alts: ["White gold necklace with emerald drops and a square emerald pendant in a diamond halo, with matching earrings, in an open green velvet box"],
       colours: [],
-      sizes: ["16 in", "18 in", "Custom length"], isNew: true,
+      sizes: ["16 in", "18 in", "Custom size"], isNew: true,
     },
     {
       id: "amethyst-leaf-set", gender: "women", category: "necklaces",
@@ -90,7 +91,7 @@ window.ZIN_JEWELRY = {
       images: ["images/jewelry/v-amethyst-leaf-set.jpg"], art: "necklace",
       alts: ["Diamond leaf necklace with a large oval amethyst in a diamond halo on a green velvet bust, with matching amethyst drop earrings"],
       colours: [],
-      sizes: ["16 in", "18 in", "Custom length"], isNew: true,
+      sizes: ["16 in", "18 in", "Custom size"], isNew: true,
     },
     {
       id: "aquamarine-chandeliers", gender: "women", category: "earrings",
@@ -138,7 +139,7 @@ window.ZIN_JEWELRY = {
       images: ["images/jewelry/v-cuban-chain-onyx-ring.jpg"], art: "pendant",
       alts: ["Heavy textured gold Cuban link chain on a green velvet bust, with a gold black onyx signet ring beside it"],
       colours: [],
-      sizes: ["20 in", "22 in", "24 in", "Custom length"], isNew: true,
+      sizes: ["20 in", "22 in", "24 in", "Custom size"], isNew: true,
     },
     {
       id: "hexagon-diamond-ring", gender: "men", category: "rings",
