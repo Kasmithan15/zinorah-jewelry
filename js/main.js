@@ -114,31 +114,60 @@ if ("IntersectionObserver" in window) {
   startReveals = () => document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
 }
 
-/* ---- Diamond intro: draws a diamond, then the site opens through it ---- */
+/* ---- Welcome page (the crest): opens into the site. It is its own step in the browser history,
+   so the Back button from the Home page returns to it, and Forward / a click enters the site again. ---- */
 const root = document.documentElement;
-const intro = document.getElementById("intro");
-if (intro && root.classList.contains("intro-on")) {
-  try { sessionStorage.setItem("zinIntro", "1"); } catch (e) {} // skip it for the rest of this visit
-  let autoOpen;
-  const openIntro = () => {
-    if (intro.classList.contains("is-arming")) return;
-    clearTimeout(autoOpen);
-    document.removeEventListener("keydown", onKey);
-    intro.classList.add("is-arming"); // place the 0-size hole, then grow it next frame
-    requestAnimationFrame(() => requestAnimationFrame(() => intro.classList.add("is-opening")));
-    setTimeout(startReveals, 300); // hero appears as the diamond opens
-    setTimeout(() => { root.classList.remove("intro-on"); intro.remove(); }, 1450);
-  };
-  const onKey = (e) => {
-    if (e.key === "Enter" || e.key === " " || e.key === "Escape") { e.preventDefault(); openIntro(); }
-  };
-  intro.addEventListener("click", openIntro);
-  document.addEventListener("keydown", onKey);
-  autoOpen = setTimeout(openIntro, 3500);
-  intro.focus({ preventScroll: true });
-} else {
-  intro?.remove();
-  startReveals();
+const introTpl = document.getElementById("intro")?.cloneNode(true);
+let introEl = null, autoOpen = 0, onIntroKey = null, revealed = false;
+const revealOnce = () => { if (!revealed) { revealed = true; startReveals(); } };
+const closeIntro = (push) => {
+  const el = introEl;
+  if (!el || el.classList.contains("is-arming")) return;
+  clearTimeout(autoOpen);
+  document.removeEventListener("keydown", onIntroKey);
+  if (push) history.pushState({ zin: "site" }, "", location.href);
+  el.classList.add("is-arming"); // place the 0-size hole, then grow it next frame
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-opening")));
+  setTimeout(revealOnce, 300); // the page appears as the welcome page opens
+  setTimeout(() => { el.remove(); if (introEl === el) { introEl = null; root.classList.remove("intro-on"); } }, 1450);
+};
+const wireIntro = (el, auto) => {
+  introEl = el;
+  onIntroKey = (e) => { if (e.key === "Enter" || e.key === " " || e.key === "Escape") { e.preventDefault(); closeIntro(true); } };
+  el.addEventListener("click", () => closeIntro(true));
+  document.addEventListener("keydown", onIntroKey);
+  if (auto) autoOpen = setTimeout(() => closeIntro(true), 3500);
+  el.focus({ preventScroll: true });
+};
+const showIntro = () => {
+  if (!introTpl || introEl) return;
+  const el = introTpl.cloneNode(true); // a fresh copy so the crest draws itself again
+  document.body.prepend(el);
+  root.classList.add("intro-on");
+  wireIntro(el, false);
+};
+window.addEventListener("popstate", (e) => {
+  const step = e.state && e.state.zin;
+  if (step === "welcome") showIntro();
+  else if (introEl) closeIntro(false);
+});
+{
+  const intro = document.getElementById("intro");
+  const step = history.state && history.state.zin;
+  if (intro && root.classList.contains("intro-on") && step !== "site") {
+    try { sessionStorage.setItem("zinIntro", "1"); } catch (e) {} // shows by itself once per visit
+    history.replaceState({ zin: "welcome" }, "", location.href);
+    wireIntro(intro, true);
+  } else {
+    intro?.remove();
+    root.classList.remove("intro-on");
+    revealOnce();
+    // the welcome page still sits one step back, so Back from here can return to it
+    if (introTpl && step !== "site") {
+      history.replaceState({ zin: "welcome" }, "", location.href);
+      history.pushState({ zin: "site" }, "", location.href);
+    }
+  }
 }
 
 /* ---- Product filters ---- */
