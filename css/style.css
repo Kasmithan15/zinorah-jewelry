@@ -1437,7 +1437,7 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 .about-photo img { display: block; width: 100%; height: auto; }
 
 /* Instagram clothing card: portrait photo, keep the face and blouse in view */
-.insta-tile--clothing.has-photo::before { background-position: 50% 0%; }
+.insta-tile--clothing.has-photo::before { background-position: 60% 42%; }
 
 /* header never animates its size or colours (no jumping while scrolling) */
 .header, .header__inner, .logo__mark { transition: none; }
