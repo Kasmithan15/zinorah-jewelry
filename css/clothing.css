@@ -471,3 +471,59 @@
 
 /* jewelry details: chosen size in emerald + gold, like the rest of the jewelry section */
 .pdetail[data-dept="Jewelry"] .size.is-on { background: #0F3B2E; border-color: #0F3B2E; color: #D6B88A; }
+
+/* =========================================================
+   Clothing showcase ("Dressed for every occasion"): sand + emerald + gold
+   Colours come from the :root tokens in style.css. All text passes AA on --sand.
+   ========================================================= */
+#clothing {
+  background: radial-gradient(ellipse 50% 60% at 50% 55%, var(--cream) 0%, transparent 70%), var(--sand);
+}
+#clothing .cshow { --acc: var(--jewel-deep); --body: var(--muted); }
+#clothing .cshow__title { color: var(--ink); }
+#clothing .cshow__title em { color: var(--jewel-deep); }
+#clothing .orbit::before { display: none; } /* the cream glow comes from the section */
+#clothing .orbit__word { color: color-mix(in srgb, var(--gold) 16%, transparent); }
+
+/* product text */
+#clothing .orbit__name { color: var(--ink); }
+#clothing .orbit__details { color: var(--muted); }
+#clothing .orbit__price { color: var(--jewel-deep); }
+#clothing .orbit__open { color: var(--jewel-deep); background-image: linear-gradient(var(--gold), var(--gold)); }
+#clothing .orbit__open:hover { color: var(--ink); }
+#clothing .orbit__count, #clothing .orbit__count .js-orbit-now { color: var(--muted); }
+
+/* Women / Men */
+#clothing .gender { background: transparent; border: 1px solid var(--gold); }
+#clothing .gender__thumb { background: var(--emerald-800); }
+#clothing .gender__btn { color: var(--muted); }
+#clothing .gender__btn:hover { color: var(--ink); }
+#clothing .gender__btn[aria-checked="true"], #clothing .gender__btn[aria-checked="true"]:hover { color: var(--gold-soft); }
+
+/* ☰ ALL menu and prev / next */
+#clothing .catmenu__btn, #clothing .orbit__btn { background: transparent; border: 1px solid var(--gold); color: var(--emerald-800); }
+#clothing .catmenu__icon i { background: var(--emerald-800); }
+#clothing .catmenu__btn:hover, #clothing .catmenu__btn[aria-expanded="true"], #clothing .orbit__btn:hover {
+  background: var(--emerald-800); border-color: var(--emerald-800); color: var(--cream);
+}
+#clothing .catmenu__btn:hover .catmenu__icon i, #clothing .catmenu__btn[aria-expanded="true"] .catmenu__icon i { background: var(--cream); }
+#clothing .catmenu .cats { background: var(--cream); border-color: var(--card-frame); box-shadow: 0 24px 50px -24px rgba(8, 38, 29, .3); }
+#clothing .catmenu .cats__btn { color: var(--muted); }
+#clothing .catmenu .cats__btn[aria-pressed="true"] { color: var(--ink); }
+#clothing .catmenu .cats__btn[aria-pressed="true"]::before { background: var(--emerald-800); border-color: var(--emerald-800); }
+#clothing .catmenu .cats__btn:hover, #clothing .catmenu .cats__btn:focus-visible { background: var(--sand); color: var(--ink); }
+
+/* keyboard focus */
+#clothing :focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 2px; }
+#clothing .orbit__stage:focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: -6px; } /* inside, so the edge isn't clipped */
+
+/* cards */
+#clothing .orbit__frame { box-shadow: 0 30px 60px rgba(8, 38, 29, .22); }
+#clothing .orbit__frame::after { inset: 12px; border: 1px solid var(--card-frame); border-radius: 6px; }
+#clothing .orbit__shadow { background: radial-gradient(closest-side, rgba(8, 38, 29, .24), transparent); }
+#clothing .orbit__new { background: var(--emerald-800); color: var(--gold-soft); }
+#clothing .cs-art { color: var(--gold); }
+#clothing .cs-art__note { color: var(--jewel-deep); }
+
+/* chosen size in the details panel: emerald, never a wine background */
+.size.is-on { background: var(--emerald-800); border-color: var(--emerald-800); color: var(--gold-soft); }

@@ -28,6 +28,9 @@
   --sand-body:   #6B5A4E;   /* body text on sand (4.8:1) */
   --sand-label:  #7B5C2B;   /* small labels on sand (4.5:1; requested #7F5F2C is 4.3:1, darkened a touch for AA) */
   --sand-line:   rgba(176, 141, 87, .35);   /* gold hairlines: header, dividers */
+  --sand:        #EFE6D6;   /* clothing showcase background (text on it: ink 11.9:1, muted 4.6:1, jewel-deep 4.7:1) */
+  --card-frame:  rgba(176, 141, 87, .5);    /* thin gold frame inside showcase cards */
+  --wine:        #7A2430;   /* tiny accents only (e.g. a SALE tag). Never a background */
   --cloth-soft:  #E7C9A0;   /* warm gold text on maroon (6.8:1) */
   --cloth-tint:  #F1DFDC;   /* clothing tags, card backgrounds */
 
