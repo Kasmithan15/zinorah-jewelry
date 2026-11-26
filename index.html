@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=16" />
+  <link rel="stylesheet" href="css/style.css?v=17" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -153,6 +153,15 @@
       <symbol id="i-heart" viewBox="0 0 24 24">
         <path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></g>
+      </symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10" stroke-linecap="round"/></g>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24">
         <path d="M4 12h15m-5-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
       </symbol>
@@ -190,13 +199,18 @@
         <span class="logo__sub">Jewelry · Clothing<span class="logo__place"> · Trincomalee</span></span>
       </a>
 
-      <nav class="nav nav--right" aria-label="Secondary">
-        <a href="#about">About</a>
-        <a href="#visit">Contact</a>
-        <a href="account.html" class="nav-account" aria-label="My account / sign in"><svg aria-hidden="true"><use href="#i-user"/></svg></a>
-        <a href="#appointment" class="btn btn--outline btn--sm">Enquire Now</a>
-      </nav>
-      <a href="account.html" class="nav-account header__account" aria-label="My account / sign in"><svg aria-hidden="true"><use href="#i-user"/></svg></a>
+      <div class="header__right">
+        <nav class="nav nav--right" aria-label="Secondary">
+          <a href="#about">About</a>
+          <a href="#visit">Contact</a>
+        </nav>
+        <div class="header__icons">
+          <button type="button" class="hicon hicon--search" id="searchOpen" aria-label="Search" aria-expanded="false" aria-controls="searchPanel"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
+          <a href="account.html" class="hicon hicon--wish" aria-label="Wishlist"><svg aria-hidden="true"><use href="#i-heart"/></svg><span class="hicon__count" data-count="wish" hidden>0</span></a>
+          <button type="button" class="hicon hicon--bag" id="bagOpen" aria-label="Enquiry bag, 0 pieces" aria-expanded="false" aria-controls="bagPanel"><svg aria-hidden="true"><use href="#i-bag"/></svg><span class="hicon__count" data-count="bag" hidden>0</span></button>
+          <a href="account.html" class="hicon hicon--account nav-account" aria-label="My account / sign in"><svg aria-hidden="true"><use href="#i-user"/></svg></a>
+        </div>
+      </div>
     </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
@@ -207,10 +221,53 @@
       <a href="#about">About</a>
       <a href="#visit">Contact</a>
       <a href="account.html">My Account</a>
+      <a href="account.html">Wishlist</a>
       <a href="#appointment" class="btn btn--gold">Enquire Now</a>
       <p class="mobile-nav__foot">Jewelry · Clothing · Trincomalee</p>
     </nav>
   </header>
+
+  <!-- ============ SEARCH ============ -->
+  <div class="search" id="searchPanel" role="dialog" aria-modal="true" aria-label="Search the collection" hidden>
+    <div class="search__backdrop" data-close></div>
+    <div class="search__box">
+      <div class="container">
+        <form class="search__form" role="search" onsubmit="return false">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <input type="search" id="searchInput" placeholder="Search sarees, necklaces, bridal…" aria-label="Search sarees, necklaces, bridal and more" autocomplete="off" />
+          <button type="button" class="search__close" data-close aria-label="Close search"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+        </form>
+        <div class="search__popular">
+          <span>Popular</span>
+          <button type="button" data-q="Saree">Saree</button>
+          <button type="button" data-q="Bridal">Bridal</button>
+          <button type="button" data-q="Gold">Gold</button>
+          <button type="button" data-q="Lehenga">Lehenga</button>
+          <button type="button" data-q="Ring">Ring</button>
+          <button type="button" data-q="Kurti">Kurti</button>
+        </div>
+        <ul class="search__results" id="searchResults"></ul>
+        <p class="search__status" id="searchStatus" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ENQUIRY BAG (no online payment: the list goes to WhatsApp) ============ -->
+  <div class="bag" id="bagPanel" hidden>
+    <div class="bag__backdrop" data-close></div>
+    <aside class="bag__panel" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
+      <header class="bag__head">
+        <h2 id="bagTitle">Your enquiry bag</h2>
+        <button type="button" class="search__close" data-close aria-label="Close enquiry bag"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      </header>
+      <p class="bag__intro">Add the pieces you love, then send them to us on WhatsApp in one message. We'll reply with prices and availability.</p>
+      <ul class="bag__list" id="bagList"></ul>
+      <footer class="bag__foot">
+        <button type="button" class="btn btn--gold btn--block" id="bagSend">Send enquiry on WhatsApp</button>
+        <button type="button" class="text-btn" id="bagClear">Clear bag</button>
+      </footer>
+    </aside>
+  </div>
 
   <main id="top">
 
@@ -818,6 +875,6 @@
   <script src="js/db.js?v=16" defer></script>
   <script src="js/firebase-config.js?v=16" defer></script>
   <script type="module" src="js/backend.js?v=16"></script>
-  <script src="js/main.js?v=16" defer></script>
+  <script src="js/main.js?v=17" defer></script>
 </body>
 </html>

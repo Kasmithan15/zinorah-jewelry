@@ -279,7 +279,19 @@ const wishButtons = [...document.querySelectorAll(".product")].map((p) => {
   p.append(b); // on the card (not inside the photo, which screen readers treat as one image)
   return b;
 });
-const markWishes = (list) => wishButtons.forEach((b) => b.setAttribute("aria-pressed", String((list || []).includes(b.dataset.item))));
+const setCount = (key, n, label) => {
+  const badge = document.querySelector(`[data-count="${key}"]`);
+  if (!badge) return;
+  const before = badge.textContent;
+  badge.textContent = n; badge.hidden = !n;
+  if (String(n) !== before && n) { badge.classList.remove("is-bump"); void badge.offsetWidth; badge.classList.add("is-bump"); }
+  if (label) badge.parentElement.setAttribute("aria-label", label);
+};
+const markWishes = (list) => {
+  wishButtons.forEach((b) => b.setAttribute("aria-pressed", String((list || []).includes(b.dataset.item))));
+  const n = (list || []).length;
+  setCount("wish", n, n ? `Wishlist, ${n} piece${n > 1 ? "s" : ""}` : "Wishlist");
+};
 wishButtons.forEach((b) => b.addEventListener("click", async () => {
   if (!window.DB) return;
   try {
@@ -310,6 +322,167 @@ const syncAccount = async () => {
 };
 syncAccount();
 window.addEventListener("db-ready", syncAccount); // Firebase connected
+
+/* ---- Panels (search, bag): open/close, Esc, keep keyboard focus inside ---- */
+const openPanel = (panel, opener, focusEl) => {
+  panel.hidden = false;
+  document.body.classList.add("is-locked");
+  opener?.setAttribute("aria-expanded", "true");
+  panel._opener = opener;
+  (focusEl || panel.querySelector("button, input, a"))?.focus();
+};
+const closePanel = (panel) => {
+  if (panel.hidden) return;
+  panel.hidden = true;
+  document.body.classList.remove("is-locked");
+  panel._opener?.setAttribute("aria-expanded", "false");
+  panel._opener?.focus();
+};
+document.querySelectorAll(".search, .bag").forEach((panel) => {
+  panel.querySelectorAll("[data-close]").forEach((x) => x.addEventListener("click", () => closePanel(panel)));
+  panel.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { e.stopPropagation(); return closePanel(panel); }
+    if (e.key !== "Tab") return;
+    const f = [...panel.querySelectorAll("a[href], button:not([disabled]), input")].filter((x) => x.offsetParent);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  });
+});
+
+/* ---- Product data (used by search and the bag) ---- */
+const pieces = [...document.querySelectorAll(".product")].map((p) => ({
+  el: p,
+  name: p.querySelector("h3").textContent.trim(),
+  detail: p.querySelector(".product__info p").textContent.trim(),
+  img: p.querySelector(".product__media").dataset.img,
+  cloth: p.dataset.category.includes("clothing"),
+  tags: p.dataset.category,
+}));
+const collections = [...document.querySelectorAll(".collection")].map((c) => ({
+  el: c,
+  name: c.querySelector("h3").textContent.trim(),
+  detail: c.querySelector(".collection__count").textContent.trim(),
+  img: c.dataset.img,
+  cloth: !!c.closest("#clothing"),
+}));
+const thumb = (item) => {
+  const t = document.createElement("span");
+  t.className = "search__thumb" + (item.cloth ? " search__thumb--cloth" : "");
+  if (item.img) t.style.backgroundImage = `url("${item.img}")`;
+  return t;
+};
+const label = (item, extra) => {
+  const t = document.createElement("span"); t.className = "search__txt";
+  const s = document.createElement("strong"); s.textContent = item.name;
+  const d = document.createElement("small"); d.textContent = extra || item.detail;
+  t.append(s, d); return t;
+};
+
+/* ---- Search ---- */
+const searchPanel = document.getElementById("searchPanel");
+const searchOpen = document.getElementById("searchOpen");
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+const searchStatus = document.getElementById("searchStatus");
+const findPiece = (item) => {
+  closePanel(searchPanel);
+  if (item.el.classList.contains("product")) {
+    applyFilter("all");
+    item.el.classList.add("is-visible");
+    item.el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+    item.el.classList.remove("is-found"); void item.el.offsetWidth; item.el.classList.add("is-found");
+    item.el.querySelector(".enquire").focus({ preventScroll: true });
+  } else {
+    item.el.click();
+  }
+};
+const runSearch = () => {
+  const words = searchInput.value.toLowerCase().split(/\s+/).filter(Boolean);
+  searchResults.replaceChildren();
+  if (!words.length) { searchStatus.textContent = ""; return; }
+  const hit = (it, extra = "") => words.every((w) => (it.name + " " + it.detail + " " + extra).toLowerCase().includes(w.replace(/s$/, "")));
+  const found = [
+    ...pieces.filter((p) => hit(p, p.tags)).map((p) => ({ item: p, sub: p.detail })),
+    ...collections.filter((c) => hit(c, c.cloth ? "clothing collection" : "jewelry jewellery collection")).map((c) => ({ item: c, sub: "Collection · " + c.detail })),
+  ].slice(0, 12);
+  found.forEach(({ item, sub }) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = item.el.classList.contains("product") ? "#new-arrivals" : item.el.getAttribute("href");
+    a.append(thumb(item), label(item, sub));
+    a.addEventListener("click", (e) => { e.preventDefault(); findPiece(item); });
+    li.append(a); searchResults.append(li);
+  });
+  searchStatus.textContent = found.length
+    ? `${found.length} result${found.length > 1 ? "s" : ""}`
+    : "Nothing found. Try another word, or ask us on WhatsApp: we may have it in the shop.";
+};
+searchInput.addEventListener("input", runSearch);
+searchPanel.querySelectorAll("[data-q]").forEach((b) => b.addEventListener("click", () => { searchInput.value = b.dataset.q; runSearch(); searchInput.focus(); }));
+searchOpen.addEventListener("click", () => { setMenu(false); openPanel(searchPanel, searchOpen, searchInput); });
+
+/* ---- Enquiry bag (saved in this browser; sent as one WhatsApp message) ---- */
+const bagPanel = document.getElementById("bagPanel");
+const bagOpen = document.getElementById("bagOpen");
+const bagList = document.getElementById("bagList");
+const readBag = () => { try { return JSON.parse(localStorage.getItem("zin-bag")) || []; } catch (e) { return []; } };
+const writeBag = (b) => { try { localStorage.setItem("zin-bag", JSON.stringify(b)); } catch (e) {} };
+let bag = readBag().filter((n) => pieces.some((p) => p.name === n));
+
+const bagButtons = pieces.map((p) => {
+  const foot = p.el.querySelector(".product__foot");
+  const enquire = foot.querySelector(".enquire");
+  const actions = document.createElement("div"); actions.className = "product__actions";
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "bag-add"; b.dataset.item = p.name;
+  b.innerHTML = '<svg aria-hidden="true"><use href="#i-bag"/></svg>';
+  enquire.replaceWith(actions); actions.append(enquire, b);
+  b.addEventListener("click", () => {
+    const has = bag.includes(p.name);
+    bag = has ? bag.filter((n) => n !== p.name) : [...bag, p.name];
+    renderBag();
+    toast(has ? `Removed "${p.name}" from your enquiry bag.` : `Added "${p.name}" to your enquiry bag.`, has ? null : { href: "#", text: "View bag" });
+    const link = document.querySelector(".toast a");
+    link?.addEventListener("click", (e) => { e.preventDefault(); openPanel(bagPanel, bagOpen); }, { once: true });
+  });
+  return b;
+});
+const renderBag = () => {
+  writeBag(bag);
+  const n = bag.length;
+  setCount("bag", n, `Enquiry bag, ${n} piece${n === 1 ? "" : "s"}`);
+  bagButtons.forEach((b) => {
+    const on = bag.includes(b.dataset.item);
+    b.setAttribute("aria-pressed", String(on));
+    b.setAttribute("aria-label", on ? `Remove ${b.dataset.item} from enquiry bag` : `Add ${b.dataset.item} to enquiry bag`);
+  });
+  document.getElementById("bagSend").disabled = !n;
+  document.getElementById("bagClear").hidden = !n;
+  if (!n) {
+    const li = document.createElement("li"); li.className = "bag__empty";
+    li.textContent = "Your bag is empty. Tap the bag button on any piece to add it.";
+    return bagList.replaceChildren(li);
+  }
+  bagList.replaceChildren(...bag.map((name) => {
+    const p = pieces.find((x) => x.name === name);
+    const li = document.createElement("li"); li.className = "bag__item";
+    const rm = document.createElement("button");
+    rm.type = "button"; rm.className = "bag__remove"; rm.setAttribute("aria-label", `Remove ${name}`);
+    rm.innerHTML = '<svg aria-hidden="true"><use href="#i-close"/></svg>';
+    rm.addEventListener("click", () => { bag = bag.filter((x) => x !== name); renderBag(); (bagList.querySelector("button") || document.getElementById("bagPanel").querySelector("[data-close]")).focus(); });
+    li.append(thumb(p), label(p), rm);
+    return li;
+  }));
+};
+document.getElementById("bagSend").addEventListener("click", () => {
+  if (!bag.length) return;
+  const lines = bag.map((name, i) => { const p = pieces.find((x) => x.name === name); return `${i + 1}. ${name} (${p ? p.detail : ""})`; });
+  window.open(waUrl(`Hello ${SHOP.name}, I'd like to enquire about these pieces:\n\n${lines.join("\n")}\n\nCould you share prices and availability?`), "_blank", "noopener");
+});
+document.getElementById("bagClear").addEventListener("click", () => { bag = []; renderBag(); bagPanel.querySelector("[data-close]").focus(); });
+bagOpen.addEventListener("click", () => { setMenu(false); openPanel(bagPanel, bagOpen); });
+renderBag();
 
 /* ---- Footer year ---- */
 document.getElementById("year").textContent = new Date().getFullYear();
