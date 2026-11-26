@@ -77,7 +77,7 @@ window.ZIN_CLOTHING = {
       name: "Kerala Kasavu Saree", details: "Cotton tissue · Gold kasavu border, green blouse", price: null,
       images: ["images/clothing/v-kerala-kasavu-saree.jpg"], cutout: false,
       alts: ["Woman in an off-white Kerala kasavu saree with a gold and green border and a green silk blouse, with jasmine in her hair"],
-      colours: [{ name: "Ivory & gold", hex: "#EFE3C2" }, { name: "Ivory & green", hex: "#5F8F5A" }, { name: "Ivory & maroon", hex: "#7A3040" }, { name: "Ivory & blue", hex: "#3D5A8A" }],
+      colours: [{ name: "Ivory with green", hex: "#1F6B3A", image: "images/clothing/v-kerala-kasavu-saree.jpg" }, { name: "Ivory with maroon", hex: "#6E2232", image: "images/clothing/v-kerala-kasavu-saree-maroon.jpg", preview: true }, { name: "Ivory with blue", hex: "#2B3F8F", image: "images/clothing/v-kerala-kasavu-saree-blue.jpg", preview: true }, { name: "Ivory with purple", hex: "#5B3A7A", image: "images/clothing/v-kerala-kasavu-saree-purple.jpg", preview: true }],
       sizes: ["Free size", "Custom stitching"], isNew: true,
     },
     { // new photo (2026-11-27)
@@ -85,7 +85,7 @@ window.ZIN_CLOTHING = {
       name: "Asymmetric Embroidered Kurti Set", details: "Cotton · Floral embroidery, wide-leg pants", price: null,
       images: ["images/clothing/v-asymmetric-kurti-set.jpg"], cutout: false,
       alts: ["Woman in an ivory asymmetric strappy kurti with small floral embroidery and tassels, worn over grey-blue wide-leg pants"],
-      colours: [{ name: "Ivory", hex: "#EFE8DA" }, { name: "Powder blue", hex: "#A9B8C6" }, { name: "Blush pink", hex: "#E3BFB7" }, { name: "Sage", hex: "#A7B49A" }],
+      colours: [{ name: "Ivory", hex: "#EFE8DA", image: "images/clothing/v-asymmetric-kurti-set.jpg" }, { name: "Powder blue", hex: "#A9B8C6", image: "images/clothing/v-asymmetric-kurti-set-powder-blue.jpg", preview: true }, { name: "Blush pink", hex: "#E3BFB7", image: "images/clothing/v-asymmetric-kurti-set-blush-pink.jpg", preview: true }, { name: "Sage", hex: "#A7B49A", image: "images/clothing/v-asymmetric-kurti-set-sage.jpg", preview: true }],
       sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
     },
     { // new photo (2026-11-27)
@@ -93,7 +93,7 @@ window.ZIN_CLOTHING = {
       name: "Block-Print Short Kurti", details: "Cotton · Printed, tassel tie neck", price: null,
       images: ["images/clothing/v-block-print-kurti.jpg"], cutout: false,
       alts: ["Woman in a short pink and white block-print kurti with a maroon tassel tie neck, worn with white leggings"],
-      colours: [{ name: "Rose", hex: "#C98F8F" }, { name: "Indigo", hex: "#3A4E7A" }, { name: "Mustard", hex: "#C9962E" }, { name: "Sage", hex: "#A7B49A" }],
+      colours: [{ name: "Rose", hex: "#C98F8F", image: "images/clothing/v-block-print-kurti.jpg" }, { name: "Indigo", hex: "#3A4E7A", image: "images/clothing/v-block-print-kurti-indigo.jpg", preview: true }, { name: "Mustard", hex: "#C9962E", image: "images/clothing/v-block-print-kurti-mustard.jpg", preview: true }, { name: "Sage", hex: "#7E9070", image: "images/clothing/v-block-print-kurti-sage.jpg", preview: true }],
       sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
     },
     { // new photo (2026-11-27)
@@ -101,7 +101,7 @@ window.ZIN_CLOTHING = {
       name: "Kasavu Family Collection", details: "Kasavu sarees, set mundu & kids wear · Gold border", price: null,
       images: ["images/clothing/v-kasavu-family.jpg"], cutout: false,
       alts: ["Collection of cream kasavu sarees, a set mundu and veshti with gold borders, and a girl and boy in matching cream and gold outfits"],
-      colours: [{ name: "Ivory & gold", hex: "#EFE3C2" }, { name: "Ivory & green", hex: "#5F8F5A" }, { name: "Ivory & maroon", hex: "#7A3040" }, { name: "Ivory & blue", hex: "#3D5A8A" }],
+      colours: [{ name: "Ivory & gold", hex: "#D4AF6A", image: "images/clothing/v-kasavu-family.jpg" }, { name: "Ivory & green", hex: "#3E7A45", image: "images/clothing/v-kasavu-family-green.jpg", preview: true }, { name: "Ivory & maroon", hex: "#7A3040", image: "images/clothing/v-kasavu-family-maroon.jpg", preview: true }, { name: "Ivory & blue", hex: "#3D5A8A", image: "images/clothing/v-kasavu-family-blue.jpg", preview: true }],
       sizes: [], isNew: true,
     },
 
@@ -111,7 +111,7 @@ window.ZIN_CLOTHING = {
       name: "Ivory Sherwani", details: "Raw silk · Gold embroidered collar and cuffs, churidar included", price: null,
       images: ["images/clothing/v-ivory-sherwani.jpg"], cutout: false,
       alts: ["Man in an ivory sherwani with gold embroidery on the collar and cuffs, matching churidar and gold mojari shoes"],
-      colours: [{ name: "Ivory", hex: "#EFE6D0" }, { name: "Maroon", hex: "#6E2232" }, { name: "Navy", hex: "#1F2A44" }, { name: "Emerald", hex: "#12553A" }],
+      colours: [{ name: "Ivory", hex: "#EFE6D0", image: "images/clothing/v-ivory-sherwani.jpg" }, { name: "Maroon", hex: "#6E2232", image: "images/clothing/v-ivory-sherwani-maroon.jpg", preview: true }, { name: "Navy", hex: "#1F2A44", image: "images/clothing/v-ivory-sherwani-navy.jpg", preview: true }, { name: "Emerald", hex: "#12553A", image: "images/clothing/v-ivory-sherwani-emerald.jpg", preview: true }],
       sizes: ["S", "M", "L", "XL", "XXL", "Custom stitching"], isNew: true,
     },
   ],

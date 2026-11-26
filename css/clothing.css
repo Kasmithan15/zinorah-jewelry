@@ -237,8 +237,8 @@
   /* photo keeps the 4:5 shape of the product shots (nothing cropped); text is centred against it */
   .pdetail__gallery { align-self: center; }
   /* the photo box is exactly one photo wide (no next photo peeking in); capped so it fits the screen height */
-  .pdetail__slides { width: min(100%, calc((88vh - 36px) * .8)); margin-inline: auto; }
-  .pdetail__thumbs { width: min(100%, calc((88vh - 36px) * .8)); margin-inline: auto; }
+  /* photo + thumbnail row always fit inside the panel (88vh − 36px padding − 80px thumbnails), same size for every piece */
+  .pdetail__slides, .pdetail__thumbs { width: min(100%, calc((88vh - 116px) * .8)); margin-inline: auto; }
   .pdetail__slide { aspect-ratio: 4 / 5; height: auto; max-height: none; }
   .pdetail__body { padding: 48px 44px; overflow-y: auto; align-content: center; }
   .pdetail__actions { grid-template-columns: 1fr 1fr; }
