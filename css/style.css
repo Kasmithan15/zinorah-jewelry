@@ -22,7 +22,12 @@
   --jewel-tint:  #E9DCC0;   /* jewelry tags, card backgrounds */
 
   /* ---- Clothing accent (clothing areas only, never main buttons) ---- */
-  --cloth:       #6E2232;   /* clothing section background, tags */
+  --cloth:       #E8DCC6;   /* clothing section backgrounds: champagne sand (was maroon #6E2232) */
+  --cloth-deep:  #6E2232;   /* maroon accent: tags, wishlist heart, shades over photos (not backgrounds) */
+  --sand-ink:    #3A2A22;   /* headings on sand (10.1:1) */
+  --sand-body:   #6B5A4E;   /* body text on sand (4.8:1) */
+  --sand-label:  #7B5C2B;   /* small labels on sand (4.5:1; requested #7F5F2C is 4.3:1, darkened a touch for AA) */
+  --sand-line:   rgba(176, 141, 87, .35);   /* gold hairlines: header, dividers */
   --cloth-soft:  #E7C9A0;   /* warm gold text on maroon (6.8:1) */
   --cloth-tint:  #F1DFDC;   /* clothing tags, card backgrounds */
 
@@ -47,7 +52,7 @@
   --cloth-body:  color-mix(in srgb, var(--cream) 80%, transparent);  /* body text on maroon (6.8:1) */
   --ink-tab:     color-mix(in srgb, var(--ink) 75%, transparent);    /* inactive tabs/filters on cream (5.8:1) */
   --shadow:      color-mix(in srgb, var(--emerald-900) 55%, transparent);
-  --cloth-900:   color-mix(in srgb, var(--cloth) 45%, var(--ink));   /* deep maroon for photo shades */
+  --cloth-900:   color-mix(in srgb, var(--cloth-deep) 45%, var(--ink));   /* deep maroon for photo shades */
   --error-text:  var(--err-dark);  /* error messages on dark (AA) */
   --tag-jewel:   color-mix(in srgb, var(--jewel-deep) 80%, var(--ink)); /* jewel-deep a touch darker so 10px tags pass AA on jewel-tint */
   --mint-glow:   color-mix(in srgb, var(--cream) 22%, transparent);
@@ -344,8 +349,8 @@ p { margin: 0 0 1.1em; }
 }
 .split__panel:nth-child(2)::after { /* clothing panel: maroon shade */
   background: linear-gradient(to top,
-    color-mix(in srgb, var(--cloth) 88%, transparent) 0%,
-    color-mix(in srgb, var(--cloth) 50%, transparent) 34%,
+    color-mix(in srgb, var(--cloth-deep) 88%, transparent) 0%,
+    color-mix(in srgb, var(--cloth-deep) 50%, transparent) 34%,
     transparent 66%);
 }
 .split__panel > .split__body { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 3.4vw, 48px); display: grid; justify-items: start; gap: 6px; text-shadow: 0 2px 14px var(--shadow); }
@@ -450,22 +455,21 @@ p { margin: 0 0 1.1em; }
 .collections--five { grid-template-columns: 1.15fr 1fr 1fr; grid-template-rows: 320px 320px; }
 /* clothing department: maroon silk with warm gold text */
 .dept--clothing {
-  position: relative; isolation: isolate; color: color-mix(in srgb, var(--cream) 84%, transparent);
+  position: relative; isolation: isolate; color: var(--sand-body);
   background:
-    radial-gradient(70% 55% at 85% 0%, color-mix(in srgb, var(--cloth-soft) 16%, transparent), transparent 65%),
-    radial-gradient(60% 50% at 0% 100%, color-mix(in srgb, var(--cloth-900) 80%, transparent), transparent 70%),
+    radial-gradient(70% 55% at 85% 0%, color-mix(in srgb, #fff 35%, transparent), transparent 65%),
     var(--cloth);
 }
-.dept--clothing .section__title { color: var(--cream); }
-.dept--clothing .section__title em, .dept--clothing .eyebrow { color: var(--cloth-soft); }
-.dept--clothing .eyebrow::before { background: var(--cloth-soft); }
-.dept--clothing .section__intro { color: color-mix(in srgb, var(--cream) 84%, transparent); }
+.dept--clothing .section__title { color: var(--sand-ink); }
+.dept--clothing .section__title em, .dept--clothing .eyebrow { color: var(--sand-label); }
+.dept--clothing .eyebrow::before { background: var(--sand-label); }
+.dept--clothing .section__intro { color: var(--sand-body); }
 .dept--clothing .section__head { max-width: none; }
-.dept--clothing .collection { background: linear-gradient(165deg, var(--cloth), var(--cloth-900)); box-shadow: 0 30px 60px -36px var(--cloth-900); }
+.dept--clothing .collection { background: linear-gradient(165deg, var(--cloth-deep), var(--cloth-900)); box-shadow: 0 30px 60px -36px var(--cloth-900); }
 .dept--clothing .collection::before {
   background: linear-gradient(to top,
-    color-mix(in srgb, var(--cloth) 88%, transparent) 0%,
-    color-mix(in srgb, var(--cloth) 55%, transparent) 30%,
+    color-mix(in srgb, var(--cloth-deep) 88%, transparent) 0%,
+    color-mix(in srgb, var(--cloth-deep) 55%, transparent) 30%,
     transparent 62%);
 }
 .dept--clothing .collection__count { color: var(--cloth-soft); }
@@ -532,11 +536,11 @@ p { margin: 0 0 1.1em; }
   padding: 6px 12px; background: var(--jewel-tint); color: var(--tag-jewel);
   font-size: 10px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; border: 1px solid var(--line-gold);
 }
-.tag--clothing { background: var(--cloth-tint); color: var(--cloth); }
+.tag--clothing { background: var(--cloth-tint); color: var(--cloth-deep); }
 .tag--new { background: var(--emerald-800); color: var(--gold-soft); border-color: var(--emerald-800); }
 .product[data-category~="jewelry"] .product__media { background-color: var(--jewel-tint); }
 .product[data-category~="clothing"] .product__media { background-color: var(--cloth-tint); }
-.product[data-category~="clothing"] .product__art { color: var(--cloth); }
+.product[data-category~="clothing"] .product__art { color: var(--cloth-deep); }
 .product__info { padding: 18px 20px 6px; }
 .product__info h3 { font-family: var(--serif); font-size: 25px; line-height: 1.15; margin-bottom: 4px; }
 .product__info p { font-size: 13.5px; color: var(--muted); letter-spacing: .03em; margin-bottom: 14px; }
@@ -570,40 +574,40 @@ p { margin: 0 0 1.1em; }
 /* split background: maroon (clothing) meets emerald (jewelry), joined by a gold hairline */
 .look {
   background:
-    linear-gradient(90deg, transparent calc(50% - .5px), var(--line-gold) calc(50% - .5px), var(--line-gold) calc(50% + .5px), transparent calc(50% + .5px)),
-    radial-gradient(60% 60% at 25% 50%, color-mix(in srgb, var(--cloth-soft) 12%, transparent), transparent 70%),
-    radial-gradient(60% 60% at 80% 20%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+    linear-gradient(90deg, transparent calc(50% - .5px), var(--sand-line) calc(50% - .5px), var(--sand-line) calc(50% + .5px), transparent calc(50% + .5px)),
+    radial-gradient(60% 60% at 80% 20%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%) right / 50% 100% no-repeat,
     linear-gradient(90deg, var(--cloth) 0 50%, var(--emerald-800) 50% 100%);
 }
-.look .look__fig:first-child figcaption { color: var(--cloth-soft); }
+.look .look__fig figcaption { color: var(--sand-label); }
 .look__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(48px, 7vw, 110px); align-items: center; }
-.look__pair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 2vw, 24px); align-items: start; }
+.look__pair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 2vw, 24px); align-items: start; align-self: center; }
 .look__fig { margin: 0; }
-.look__fig--offset { margin-top: clamp(48px, 7vw, 96px); }
+.look__fig--offset { margin-top: clamp(28px, 4vw, 56px); } /* small stagger; the pair is centred on the text */
+.look__pair .look__fig:first-child { margin-bottom: clamp(28px, 4vw, 56px); }
 .look__img {
   position: relative; aspect-ratio: 4 / 5; overflow: hidden; display: grid; place-items: center; border-radius: var(--radius);
   background: linear-gradient(165deg, var(--emerald-700), var(--emerald-900)); box-shadow: 0 40px 80px -40px var(--shadow);
 }
 .look__img.has-photo { background-size: cover; background-position: 50% 25%; }
-.look__img::after { content: ""; position: absolute; inset: 12px; border: 1px solid color-mix(in srgb, var(--gold-soft) 55%, transparent); pointer-events: none; }
+.look__img::after { content: ""; position: absolute; inset: 12px; border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent); pointer-events: none; }
 .look__art { width: 50%; aspect-ratio: 1; color: var(--gold-soft); transition: opacity .6s; }
 .look__img.has-photo .look__art { opacity: 0; }
 .look__fig figcaption { margin-top: 14px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-soft); }
 .look__join { /* gold diamond joining the two departments */
   position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; z-index: 2;
-  transform: translate(-50%, -50%) rotate(45deg); background: linear-gradient(135deg, var(--cloth) 50%, var(--emerald-800) 50%); border: 1px solid var(--gold);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--emerald-900) 40%, transparent), 0 0 0 7px var(--line-gold);
+  transform: translate(-50%, -50%) rotate(45deg); background: #0F3B2E; border: 1px solid #B08D57;
+  box-shadow: 0 0 0 2px #F7F3EA, 0 8px 20px -8px var(--shadow); /* thin cream outline: stands out on sand and on emerald */
 }
-.look__join::after { content: ""; position: absolute; inset: 14px; background: var(--gold); }
+.look__join::after { content: ""; position: absolute; inset: 14px; background: #B08D57; }
 .look__copy > p { max-width: 50ch; }
 @media (max-width: 900px) {
   .look__grid { grid-template-columns: 1fr; }
-  .look__copy { order: -1; } /* text above the images on phones */
-  .look { /* phones: emerald behind the text, maroon behind the photos */
-    background:
-      radial-gradient(70% 40% at 80% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
-      linear-gradient(180deg, var(--emerald-800) 0 52%, var(--cloth) 52% 100%);
-  }
+  /* phones: photos first on sand, then the text on emerald; each half gets its own full-width band */
+  .look { padding: 0; background: var(--emerald-800); overflow: hidden; isolation: isolate; }
+  .look__grid { gap: 0; }
+  .look__pair { padding: 56px 0 44px; }
+  .look__pair::before { content: ""; position: absolute; z-index: -1; inset: 0 -100vmax; background: var(--cloth); border-bottom: 1px solid var(--sand-line); }
+  .look__copy { padding: 48px 0 64px; }
 }
 
 /* ---------- Heritage / About ---------- */
@@ -754,8 +758,8 @@ p { margin: 0 0 1.1em; }
   background: linear-gradient(to top, color-mix(in srgb, var(--emerald-900) 85%, transparent), color-mix(in srgb, var(--emerald-900) 45%, transparent) 45%, transparent 80%);
   box-shadow: inset 0 0 0 12px transparent, inset 0 0 0 13px transparent; transition: box-shadow .6s var(--ease);
 }
-.insta-tile--clothing { background: linear-gradient(165deg, var(--cloth), var(--cloth-900)); }
-.insta-tile--clothing::after { background: linear-gradient(to top, color-mix(in srgb, var(--cloth) 88%, transparent), color-mix(in srgb, var(--cloth) 45%, transparent) 45%, transparent 80%); }
+.insta-tile--clothing { background: linear-gradient(165deg, var(--cloth-deep), var(--cloth-900)); }
+.insta-tile--clothing::after { background: linear-gradient(to top, color-mix(in srgb, var(--cloth-deep) 88%, transparent), color-mix(in srgb, var(--cloth-deep) 45%, transparent) 45%, transparent 80%); }
 .insta-tile--clothing .insta-tile__dept, .insta-tile--clothing .insta-tile__handle svg { color: var(--cloth-soft); }
 .insta-tile:hover::before { transform: scale(1.04); }
 .insta-tile:hover::after { box-shadow: inset 0 0 0 12px transparent, inset 0 0 0 13px color-mix(in srgb, var(--gold-soft) 80%, transparent); }
@@ -914,8 +918,8 @@ p { margin: 0 0 1.1em; }
   transition: transform .3s var(--ease), background-color .3s, color .3s;
 }
 .wish svg { width: 19px; height: 19px; }
-.wish:hover { transform: scale(1.08); color: var(--cloth); }
-.wish[aria-pressed="true"] { background: var(--cloth); border-color: var(--cloth); color: var(--cloth-tint); }
+.wish:hover { transform: scale(1.08); color: var(--cloth-deep); }
+.wish[aria-pressed="true"] { background: var(--cloth-deep); border-color: var(--cloth-deep); color: var(--cloth-tint); }
 .wish[aria-pressed="true"] svg path { fill: currentColor; }
 @media (max-width: 560px) { .wish { top: 6px; right: 6px; } }
 
@@ -934,7 +938,7 @@ p { margin: 0 0 1.1em; }
   min-height: 100vh; color: var(--cream-text);
   background:
     radial-gradient(70% 50% at 85% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 65%),
-    radial-gradient(60% 50% at 0% 100%, color-mix(in srgb, var(--cloth) 30%, transparent), transparent 70%),
+    radial-gradient(60% 50% at 0% 100%, color-mix(in srgb, var(--cloth-deep) 30%, transparent), transparent 70%),
     var(--emerald-900);
 }
 .acct-page :focus-visible { outline-color: var(--gold-soft); }
@@ -1024,7 +1028,7 @@ p { margin: 0 0 1.1em; }
 .badge--replied { border: 1px solid var(--gold-soft); color: var(--gold-soft); }
 .badge--done { border: 1px solid var(--line-light); color: var(--cream-dim); }
 .chip--jewel { background: var(--jewel-tint); color: var(--ink); }
-.chip--cloth { background: var(--cloth-tint); color: var(--cloth); }
+.chip--cloth { background: var(--cloth-tint); color: var(--cloth-deep); }
 .chip--both { background: linear-gradient(90deg, var(--jewel-tint) 50%, var(--cloth-tint) 50%); color: var(--ink); }
 
 @media (max-width: 600px) {
@@ -1090,11 +1094,11 @@ p { margin: 0 0 1.1em; }
 .bag__item .search__txt { flex: 1; }
 .bag__remove { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: none; color: var(--muted); }
 .bag__remove svg { width: 18px; height: 18px; }
-.bag__remove:hover { color: var(--cloth); }
+.bag__remove:hover { color: var(--cloth-deep); }
 .bag__empty { padding: 28px 16px; text-align: center; border: 1px dashed var(--line-gold); border-radius: 10px; color: var(--muted); font-size: 15px; }
 .bag__foot { padding: 18px 24px 24px; border-top: 1px solid var(--line-gold); display: grid; gap: 4px; justify-items: center; }
 .bag .text-btn { color: var(--muted); }
-.bag .text-btn:hover { color: var(--cloth); }
+.bag .text-btn:hover { color: var(--cloth-deep); }
 
 /* add-to-bag button on product cards */
 .product__actions { display: flex; align-items: center; gap: 10px; }
@@ -1279,7 +1283,7 @@ body.is-locked { overflow: hidden; }
 
 /* tags (Jewelry uses --tag-jewel: jewel-deep a touch darker, because jewel-deep on jewel-tint is 4.3:1 at 10px) */
 .tag { background: var(--jewel-tint); color: var(--tag-jewel); }
-.tag--clothing { background: var(--cloth-tint); color: var(--cloth); }
+.tag--clothing { background: var(--cloth-tint); color: var(--cloth-deep); }
 .tag--new { background: var(--emerald-800); color: var(--gold-soft); border-color: var(--emerald-800); }
 
 /* ---------- F. Messages & focus ---------- */
@@ -1501,3 +1505,17 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 .visit .map-card__place { margin: 0; max-width: 18ch; font-family: var(--serif); font-size: clamp(28px, 3vw, 38px); line-height: 1.2; color: var(--cream); text-wrap: balance; font-variant-numeric: lining-nums; }
 .visit .map-card__cta { color: var(--cream); }
 .visit .map-card__cta:hover { color: var(--gold-soft); }
+
+/* ---- Sand (champagne) sections: dark text only, no white/cream text ---- */
+.on-sand { color: var(--sand-body); }
+.on-sand .section__title, .on-sand h2, .on-sand h3 { color: var(--sand-ink); }
+.on-sand .section__title em, .on-sand .eyebrow, .on-sand .label-h { color: var(--sand-label); }
+.on-sand p, .on-sand .section__intro { color: var(--sand-body); }
+.on-sand .link-arrow { color: var(--sand-label); }
+.on-sand .link-arrow:hover { color: var(--sand-ink); }
+.on-sand .btn--outline { --fg: var(--sand-ink); --bd: var(--gold); }
+.on-sand :focus-visible { outline-color: var(--sand-label); }
+/* the line under the cream header */
+.header { border-bottom: 1px solid var(--sand-line); }
+/* keep the photo pair inside the sand half (clear of the centre divider) */
+@media (min-width: 901px) { .look__pair { margin-right: clamp(20px, 3vw, 44px); } }
