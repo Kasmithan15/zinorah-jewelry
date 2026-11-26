@@ -161,10 +161,10 @@ document.querySelectorAll("[data-jump]").forEach((a) =>
   a.addEventListener("click", () => applyFilter(a.dataset.jump))
 );
 
-/* ---- Menu buttons: each opens its own view (Home, Jewelry, Clothing, New Arrivals, About) ----
+/* ---- Menu buttons: each opens its own view (Home, Jewelry, Clothing, New Arrivals, About, Contact) ----
    The view comes from the link's #hash, so Back / Forward and shared links work.
    To add a view: add its section id here, in the <head> script of index.html and in style.css. */
-const VIEWS = ["jewelry", "clothing", "new-arrivals", "about"];
+const VIEWS = ["jewelry", "clothing", "new-arrivals", "about", "visit"]; // "visit" = Contact
 const navLinks = [...document.querySelectorAll(".nav a, .mobile-nav a")];
 let currentView = null;
 const showView = () => {
@@ -172,7 +172,8 @@ const showView = () => {
   const view = VIEWS.includes(id) ? id : "home";
   const changed = currentView !== view;
   currentView = root.dataset.view = view;
-  navLinks.forEach((a) => (a.getAttribute("href") === "#" + view ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
+  const here = view === "home" ? "#top" : "#" + view;
+  navLinks.forEach((a) => (a.getAttribute("href") === here ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
   if (view === "new-arrivals" && changed) applyFilter("clothing"); // New Arrivals lives under Clothing
   window.scrollTo({ top: 0, behavior: "instant" });
   onScroll();

@@ -263,13 +263,15 @@
     const word = $(".orbit__word", root);
     const live = $(".js-orbit-live", root);
     const catLabel = (id) => ((DATA.categories[gender] || []).find((c) => c.id === id) || {}).label || "";
-    const inGender = (p) => !cfg.genders || p.gender === gender;
+    // gender "both" (e.g. couple bands) shows on the Women and the Men side
+    const inGender = (p) => !cfg.genders || p.gender === gender || p.gender === "both";
+    const sideOf = (p) => (p.gender === "both" ? gender : p.gender);
 
     const ctx = {
       dept: cfg.dept,
       optionLabel: cfg.optionLabel,
       art: cfg.art,
-      eyebrow: (p) => (cfg.genders ? (p.gender === "men" ? "Men" : "Women") + " · " : cfg.dept + " · ") + ((DATA.categories[cfg.genders ? p.gender : "all"] || []).find((c) => c.id === p.category) || {}).label,
+      eyebrow: (p) => (cfg.genders ? (p.gender === "both" ? "Women & Men" : p.gender === "men" ? "Men" : "Women") + " · " : cfg.dept + " · ") + ((DATA.categories[cfg.genders ? sideOf(p) : "all"] || []).find((c) => c.id === p.category) || {}).label,
       guideFor: (p) => { const g = DATA.sizeGuide; if (!g || !p || !(p.sizes || []).some((v) => !/custom|free/i.test(v))) return null; return g[p.gender] || g[p.category] || g[{ ring: "rings", bangle: "bangles" }[p.art]] || null; },
       guideNote: DATA.sizeGuide && DATA.sizeGuide.note,
     };
@@ -337,13 +339,13 @@
     const measure = () => {
       const w = stage.clientWidth || window.innerWidth;
       const phone = w < 700;
-      let itemW = phone ? Math.round(w * 0.7) : Math.round(Math.min(360, Math.max(260, w * 0.3)));
+      let itemW = phone ? Math.round(w * 0.74) : Math.round(Math.min(460, Math.max(280, w * 0.34)));
       // fit the whole showcase (heading → name) on one screen under the sticky header
       if (section) {
         const headerH = matchMedia("(min-width: 1181px)").matches ? 118 : 68;
         const box = root.closest(".container") || section; // measured from the content, not the centring gap
-        const above = stage.getBoundingClientRect().top - box.getBoundingClientRect().top + 24;
-        const below = $(".orbit__nav", root).offsetHeight + $(".orbit__info", root).offsetHeight + 30 + 24;
+        const above = stage.getBoundingClientRect().top - box.getBoundingClientRect().top + 14;
+        const below = $(".orbit__nav", root).offsetHeight + $(".orbit__info", root).offsetHeight + 30 + 14;
         const fitH = window.innerHeight - headerH - above - below;
         itemW = Math.round(Math.max(phone ? 170 : 190, Math.min(itemW, fitH / 1.25)));
       }
@@ -543,7 +545,7 @@
       show(id) {
         const p = DATA.products.find((x) => x.id === id);
         if (!p) return;
-        if (cfg.genders && p.gender !== gender) { gender = p.gender; store.set(cfg.storeKey, gender); root.dataset.gender = gender; markGender(); }
+        if (cfg.genders && !inGender(p)) { gender = p.gender; store.set(cfg.storeKey, gender); root.dataset.gender = gender; markGender(); }
         cat = "all"; buildCats(); build();
         const i = list.indexOf(p);
         if (i >= 0) setTimeout(() => goTo(i), 400);
@@ -562,7 +564,7 @@
   }));
   const jRoot = document.getElementById("jshow");
   if (jRoot && window.ZIN_JEWELRY) shows.push(Showcase(jRoot, window.ZIN_JEWELRY, {
-    dept: "Jewelry", genders: false, optionLabel: "Metal",
+    dept: "Jewelry", genders: true, storeKey: "zin-jgender", optionLabel: "Metal",
     art: (p) => "i-" + (p.art || "necklace"),
   }));
   // used by search: jump to a piece in whichever showcase has it

@@ -1333,13 +1333,14 @@ body.is-locked { overflow: hidden; }
 @keyframes archInR { to { opacity: 1; transform: rotate(5deg); } }
 
 /* ---- One view at a time: the menu buttons open Jewelry, Clothing, New Arrivals or About ----
-   Bridal, Instagram, Enquire and Contact are hidden for now (still in index.html).
+   Bridal, Instagram and the Enquire form are hidden for now (still in index.html).
    To bring one back, give it a menu button and add it here, in VIEWS (js/main.js) and the <head> script. */
 html[data-view="home"] main > section:not(.hero, .trust),
 html[data-view="jewelry"] main > section:not(#jewelry),
 html[data-view="clothing"] main > section:not(#clothing),
 html[data-view="new-arrivals"] main > section:not(#new-arrivals),
-html[data-view="about"] main > section:not(#about) { display: none !important; }
+html[data-view="about"] main > section:not(#about),
+html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 
 /* Clothing button with New Arrivals inside it */
 .nav__drop { position: relative; display: inline-flex; align-items: center; }

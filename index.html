@@ -48,13 +48,13 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=26" />
-  <link rel="stylesheet" href="css/clothing.css?v=27" />
+  <link rel="stylesheet" href="css/style.css?v=28" />
+  <link rel="stylesheet" href="css/clothing.css?v=28" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
       /* Menu buttons open one view at a time (same list as VIEWS in js/main.js) */
-      var v = location.hash.slice(1); d.dataset.view = ["jewelry", "clothing", "new-arrivals", "about"].indexOf(v) > -1 ? v : "home";
+      var v = location.hash.slice(1); d.dataset.view = ["jewelry", "clothing", "new-arrivals", "about", "visit"].indexOf(v) > -1 ? v : "home";
       try { if (!sessionStorage.getItem("zinIntro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("intro-on"); } catch (e) { d.classList.add("intro-on"); }
     })(document.documentElement);
   </script>
@@ -179,6 +179,7 @@
 
       <!-- MENU BUTTONS: each opens its own view. New Arrivals sits inside Clothing. -->
       <nav class="nav nav--left" aria-label="Primary">
+        <a href="#top">Home</a>
         <a href="#jewelry">Jewelry</a>
         <div class="nav__drop">
           <a href="#clothing">Clothing</a>
@@ -197,6 +198,7 @@
       <div class="header__right">
         <nav class="nav nav--right" aria-label="Secondary">
           <a href="#about">About</a>
+          <a href="#visit">Contact</a>
         </nav>
         <div class="header__icons">
           <button type="button" class="hicon hicon--search" id="searchOpen" aria-label="Search" aria-expanded="false" aria-controls="searchPanel"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
@@ -208,10 +210,12 @@
     </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+      <a href="#top">Home</a>
       <a href="#jewelry">Jewelry</a>
       <a href="#clothing">Clothing</a>
       <a href="#new-arrivals" class="mobile-nav__sub">New Arrivals</a>
       <a href="#about">About</a>
+      <a href="#visit">Contact</a>
       <a href="account.html">My Account</a>
       <a href="account.html">Wishlist</a>
       <p class="mobile-nav__foot">Jewelry · Clothing · Trincomalee</p>
@@ -348,13 +352,6 @@
     <!-- ============ DEPARTMENT 01 · JEWELRY ============ -->
     <section class="section section--navy on-dark" id="jewelry">
       <div class="container">
-        <header class="section__head section__head--row reveal">
-          <div>
-            <p class="eyebrow">Department 01 · Jewelry</p>
-            <h2 class="section__title">Jewelry made for <br />your <em>moments</em></h2>
-          </div>
-          <p class="section__intro">Gold, diamond, bridal and everyday pieces. Find the piece that speaks to you, or let us make one just for you.</p>
-        </header>
 
         <!-- ============ JEWELRY SHOWCASE (pieces come from js/jewelry-data.js) ============ -->
         <div class="cshow cshow--jewel" id="jshow">
@@ -367,6 +364,12 @@
               <nav class="cats" id="jcats" aria-label="Jewelry categories" hidden>
                 <div class="cats__track"></div>
               </nav>
+            </div>
+            <h2 class="section__title cshow__title">Jewelry made for your <em>moments</em></h2>
+            <div class="gender" role="radiogroup" aria-label="Show jewelry for">
+              <span class="gender__thumb" aria-hidden="true"></span>
+              <button type="button" class="gender__btn" role="radio" aria-checked="true" data-gender="women">Women</button>
+              <button type="button" class="gender__btn" role="radio" aria-checked="false" data-gender="men" tabindex="-1">Men</button>
             </div>
           </div>
 
@@ -398,13 +401,6 @@
          in images/clothing/ (same file names), and edit the names / descriptions to match what the shop sells. -->
     <section class="section dept--clothing on-maroon has-ornament" id="clothing">
       <div class="container">
-        <header class="section__head section__head--row reveal">
-          <div>
-            <p class="eyebrow">Department 02 · Clothing</p>
-            <h2 class="section__title">Dressed for every <br /><em>occasion</em></h2>
-          </div>
-          <p class="section__intro">Silk sarees, bridal wear, lehengas, kurtis and festive outfits for the whole family, from everyday cotton to wedding silk.</p>
-        </header>
 
         <!-- ============ CLOTHING SHOWCASE (products come from js/clothing-data.js) ============ -->
         <div class="cshow" id="cshow">
@@ -418,6 +414,7 @@
                 <div class="cats__track"></div>
               </nav>
             </div>
+            <h2 class="section__title cshow__title">Dressed for every <em>occasion</em></h2>
             <div class="gender" role="radiogroup" aria-label="Show clothing for">
               <span class="gender__thumb" aria-hidden="true"></span>
               <button type="button" class="gender__btn" role="radio" aria-checked="true" data-gender="women">Women</button>
@@ -903,8 +900,8 @@
   <script src="js/firebase-config.js?v=21" defer></script>
   <script type="module" src="js/backend.js?v=21"></script>
   <script src="js/clothing-data.js?v=22" defer></script>
-  <script src="js/jewelry-data.js?v=24" defer></script>
-  <script src="js/main.js?v=25" defer></script>
-  <script src="js/showcase.js?v=27" defer></script>
+  <script src="js/jewelry-data.js?v=28" defer></script>
+  <script src="js/main.js?v=28" defer></script>
+  <script src="js/showcase.js?v=28" defer></script>
 </body>
 </html>
