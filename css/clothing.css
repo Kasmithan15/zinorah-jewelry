@@ -405,3 +405,64 @@
 .cshow:not(.cshow--jewel) .orbit__open { color: var(--sand-label); }
 .cshow:not(.cshow--jewel) .orbit__open:hover { color: var(--sand-ink); }
 .cshow:not(.cshow--jewel) :focus-visible { outline-color: var(--sand-label); }
+
+/* =========================================================
+   Jewelry showcase on cream ("Jewelry made for your moments")
+   All text colours pass WCAG AA on #F7F3EA (lowest: #5A6A60 at 5.2:1).
+   ========================================================= */
+/* the line under the cream logo header, so it doesn't merge with the cream section */
+.header { border-bottom: 1px solid rgba(176, 141, 87, .35); }
+
+#jewelry {
+  background: radial-gradient(ellipse 50% 60% at 50% 55%, #FFFFFF 0%, transparent 70%), #F7F3EA;
+  color: #1E2B25;
+}
+.cshow--jewel { --acc: #7F5F2C; --body: #5A6A60; }
+#jewelry .cshow__title { color: #1E2B25; }
+#jewelry .cshow__title em { color: #7F5F2C; }
+
+/* soft white glow comes from the section; no gold spotlight, faint big word behind */
+.cshow--jewel .orbit::before { display: none; }
+.cshow--jewel .orbit__word { color: color-mix(in srgb, #B08D57 16%, transparent); }
+
+/* product text */
+.cshow--jewel .orbit__name { color: #1E2B25; }
+.cshow--jewel .orbit__details { color: #5A6A60; }
+.cshow--jewel .orbit__price { color: #7F5F2C; }
+.cshow--jewel .orbit__open { color: #7F5F2C; background-image: linear-gradient(#B08D57, #B08D57); }
+.cshow--jewel .orbit__open:hover { color: #1E2B25; }
+.cshow--jewel .orbit__count, .cshow--jewel .orbit__count .js-orbit-now { color: #5A6A60; }
+
+/* prev / next */
+.cshow--jewel .orbit__btn { border: 1px solid #B08D57; color: #0F3B2E; background: transparent; }
+.cshow--jewel .orbit__btn:hover { background: #0F3B2E; color: #F7F3EA; border-color: #0F3B2E; }
+
+/* ☰ ALL menu */
+.cshow--jewel .catmenu__btn { border: 1px solid #B08D57; color: #1E2B25; }
+.cshow--jewel .catmenu__icon i { background: #1E2B25; }
+.cshow--jewel .catmenu__btn:hover, .cshow--jewel .catmenu__btn[aria-expanded="true"] { background: #0F3B2E; border-color: #0F3B2E; color: #F7F3EA; }
+.cshow--jewel .catmenu__btn:hover .catmenu__icon i, .cshow--jewel .catmenu__btn[aria-expanded="true"] .catmenu__icon i { background: #F7F3EA; }
+.cshow--jewel .catmenu .cats { background: #FFFFFF; border-color: rgba(176, 141, 87, .5); box-shadow: 0 24px 50px -24px rgba(8, 38, 29, .35); }
+.cshow--jewel .catmenu .cats__btn { color: #5A6A60; }
+.cshow--jewel .catmenu .cats__btn[aria-pressed="true"] { color: #1E2B25; }
+.cshow--jewel .catmenu .cats__btn[aria-pressed="true"]::before { background: #0F3B2E; border-color: #0F3B2E; }
+.cshow--jewel .catmenu .cats__btn:hover, .cshow--jewel .catmenu .cats__btn:focus-visible { background: #F7F3EA; color: #1E2B25; }
+
+/* Women / Men */
+.cshow--jewel .gender { border: 1px solid #B08D57; }
+.cshow--jewel .gender__thumb { background: #0F3B2E; }
+.cshow--jewel .gender__btn { color: #5A6A60; }
+.cshow--jewel .gender__btn:hover { color: #1E2B25; }
+.cshow--jewel .gender__btn[aria-checked="true"], .cshow--jewel .gender__btn[aria-checked="true"]:hover { color: #D6B88A; }
+
+/* keyboard focus */
+#jewelry :focus-visible { outline: 2px solid #7F5F2C; outline-offset: 2px; }
+#jewelry .orbit__stage:focus-visible { outline: 2px solid #7F5F2C; outline-offset: -6px; } /* inside, so the edge isn't clipped */
+
+/* cards */
+.cshow--jewel .orbit__frame { border-radius: 12px; box-shadow: 0 30px 60px rgba(8, 38, 29, .25); }
+.cshow--jewel .orbit__frame::after { inset: 12px; border: 1px solid rgba(176, 141, 87, .5); border-radius: 6px; }
+.cshow--jewel .orbit__shadow { background: radial-gradient(closest-side, rgba(8, 38, 29, .28), transparent); }
+.cshow--jewel .orbit__new { background: #0F3B2E; color: #D6B88A; }
+.cshow--jewel .cs-art { color: #B08D57; }
+.cshow--jewel .cs-art__note { color: #7F5F2C; }
