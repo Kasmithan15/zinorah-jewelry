@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=31" />
+  <link rel="stylesheet" href="css/style.css?v=33" />
   <link rel="stylesheet" href="css/clothing.css?v=30" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
@@ -840,6 +840,18 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer on-dark">
+    <!-- CUSTOMER REVIEWS: slide right → left. Add real reviews in js/reviews-data.js (hidden until there is one). -->
+    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle" hidden>
+      <div class="container reviews__head">
+        <p class="eyebrow">Customer reviews</p>
+        <h2 class="reviews__title" id="reviewsTitle">Loved by our <em>customers</em></h2>
+        <p class="reviews__note" hidden>Preview with sample text. Customers don't see this until real reviews are added.</p>
+      </div>
+      <div class="reviews__marquee">
+        <div class="reviews__track"></div>
+      </div>
+    </section>
+
     <div class="container footer__grid">
       <div class="footer__brand">
         <a href="#top" class="logo logo--footer">
@@ -899,7 +911,8 @@
   <script type="module" src="js/backend.js?v=21"></script>
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=28" defer></script>
-  <script src="js/main.js?v=30" defer></script>
+  <script src="js/reviews-data.js?v=1" defer></script>
+  <script src="js/main.js?v=32" defer></script>
   <script src="js/showcase.js?v=30" defer></script>
 </body>
 </html>

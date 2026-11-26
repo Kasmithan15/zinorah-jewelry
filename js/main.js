@@ -591,5 +591,38 @@ document.getElementById("bagClear").addEventListener("click", () => { bag = []; 
 bagOpen.addEventListener("click", () => openBag(bagOpen));
 renderBag();
 
+/* ---- Customer reviews: cards slide from right to left (js/reviews-data.js) ---- */
+(() => {
+  const sec = document.getElementById("reviews");
+  const R = window.ZIN_REVIEWS || {};
+  const preview = /[?&]reviews-preview\b/.test(location.search);
+  const list = (R.reviews || []).length ? R.reviews : preview ? R.samples || [] : [];
+  if (!sec || !list.length) return; // stays hidden until there is a real review
+  if (!(R.reviews || []).length) sec.querySelector(".reviews__note").hidden = false;
+  const track = sec.querySelector(".reviews__track");
+  const card = (r) => {
+    const c = document.createElement("figure"); c.className = "review";
+    const n = Math.max(1, Math.min(5, Math.round(r.stars || 5)));
+    const st = document.createElement("p"); st.className = "review__stars";
+    st.setAttribute("aria-label", `${n} out of 5 stars`); st.textContent = "★".repeat(n) + "☆".repeat(5 - n);
+    const q = document.createElement("blockquote"); q.className = "review__text"; q.textContent = `“${r.text}”`;
+    const by = document.createElement("figcaption"); by.className = "review__by";
+    const nm = document.createElement("strong"); nm.textContent = r.name;
+    by.append(nm);
+    const meta = [r.place, r.about].filter(Boolean).join(" · ");
+    if (meta) { const m = document.createElement("span"); m.textContent = meta; by.append(m); }
+    c.append(st, q, by);
+    return c;
+  };
+  // one "half" is wide enough to fill the screen; two identical halves loop without a jump
+  const reps = Math.max(1, Math.ceil(window.innerWidth / (list.length * 340)));
+  const half = Array.from({ length: reps }, () => list).flat();
+  const first = half.map(card);
+  const second = half.map((r) => { const c = card(r); c.setAttribute("aria-hidden", "true"); return c; });
+  track.replaceChildren(...first, ...second);
+  track.style.setProperty("--rev-time", Math.max(20, half.length * 7) + "s");
+  sec.hidden = false;
+})();
+
 /* ---- Footer year ---- */
 document.getElementById("year").textContent = new Date().getFullYear();
