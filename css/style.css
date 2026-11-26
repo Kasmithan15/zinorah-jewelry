@@ -1572,3 +1572,31 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
   .js .look__pair.reveal .look__fig--offset { transform: none; transition: none; }
   .js .look::after { opacity: 1; transition: none; }
 }
+
+/* =========================================================
+   BRIDAL LOOK: the whole section is one smooth emerald blend (replaces the sand half and the seam)
+   ========================================================= */
+.look {
+  border-top: 1px solid rgba(176, 141, 87, .25); border-bottom: 1px solid rgba(176, 141, 87, .25);
+  background:
+    radial-gradient(ellipse 60% 80% at 25% 50%, rgba(23, 74, 58, .55), transparent 70%),
+    linear-gradient(90deg, #1A4D3D 0%, #174A3A 30%, #12402F 55%, #0F3B2E 75%, #0B3227 100%);
+}
+.look::before, .look::after, .look__pair::before, .look__pair::after { content: none; display: none; }
+.look .look__img { box-shadow: 0 24px 48px rgba(4, 20, 15, .45); }
+.look .look__img::after { border-color: color-mix(in srgb, #B08D57 60%, transparent); }
+.look__join { background: #0B3227; border: 1px solid #D6B88A; box-shadow: 0 8px 20px -8px rgba(4, 20, 15, .6); }
+.look__join::after { background: #B08D57; }
+.look .look__fig figcaption, .look .look__fig--offset figcaption { color: #D6B88A; }
+.look .look__copy .eyebrow { color: #D6B88A; }
+.look .look__copy .eyebrow::before { background: #D6B88A; }
+.look .look__copy .section__title { color: #F7F3EA; }
+.look .look__copy .section__title em { color: #D6B88A; }
+.look .look__copy p, .look .ticks li { color: rgba(247, 243, 234, .78); }
+.look .ticks li::before { background: #B08D57; }
+.look .btn--gold { --bg: #B08D57; --bd: #B08D57; --fg: #08261D; }
+.look .btn--gold:hover { --bg: #D6B88A; --bd: #D6B88A; }
+/* stacked layout (phones / small tablets): photos on top, text below, one vertical blend */
+@media (max-width: 900px) {
+  .look { background: linear-gradient(180deg, #1A4D3D 0%, #12402F 50%, #0B3227 100%); }
+}
