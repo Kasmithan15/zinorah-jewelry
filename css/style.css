@@ -1131,3 +1131,15 @@ body.is-locked { overflow: hidden; }
   .js .collection.reveal, .js .product.reveal .product__media, .js .look__pair.reveal .look__img, .js .heritage__visual.reveal .arch { clip-path: none; }
   .split__panel:hover::before, .insta-tile:hover::before, .product:hover .product__media.has-photo::before { transform: none; }
 }
+
+/* Password show / hide (eye button) */
+.field--pass input { padding-right: 44px; }
+.pass-toggle {
+  position: absolute; right: 0; bottom: 4px; width: 40px; height: 40px; display: grid; place-items: center;
+  background: none; border: 0; padding: 0; color: var(--gold-soft); cursor: pointer; transition: color .3s;
+}
+.pass-toggle:hover { color: var(--gold); }
+.pass-toggle:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
+.pass-toggle svg { width: 20px; height: 20px; }
+.pass-toggle .pass-toggle__hide, .pass-toggle.is-on .pass-toggle__show { display: none; }
+.pass-toggle.is-on .pass-toggle__hide { display: block; }

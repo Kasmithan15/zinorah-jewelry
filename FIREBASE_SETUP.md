@@ -38,7 +38,7 @@ Commit and push `js/firebase-config.js`. The site updates at
 <https://kasmithan15.github.io/zinorah-jewelry/> within a minute or two.
 
 ## Check it works
-- Open <https://kasmithan15.github.io/zinorah-jewelry/account.html#admin> and sign in with the admin user. The dashboard should say **Secure sign-in**.
+- Open <https://kasmithan15.github.io/zinorah-jewelry/account.html> and sign in with the admin user. The dashboard should say **Secure sign-in**.
 - On a phone, create a customer account, tap ♡ on a product, and send the enquiry form. The enquiry and the customer appear in the dashboard on the computer.
 - In **Shop info**, set the opening hours and save. Reload the website: the Contact section and footer show them.
 

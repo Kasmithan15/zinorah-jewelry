@@ -63,7 +63,7 @@ if (config) {
     }),
     customerSignIn: guard(async (email, password) => {
       const cred = await A.signInWithEmailAndPassword(auth, email.trim(), password);
-      if (isAdminUser(cred.user)) { await A.signOut(auth); throw new Error('This is the admin account. Use the "Admin" tab.'); }
+      if (isAdminUser(cred.user)) { await A.signOut(auth); throw new Error("Wrong email or password."); }
       const ref = customer(cred.user.uid);
       const snap = await F.getDoc(ref);
       if (!snap.exists()) {

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Account · ZINORAH Jewelry &amp; Clothing</title>
-  <meta name="description" content="Sign in to your ZINORAH account: wishlist, enquiries and measurements. Staff sign in to the admin dashboard." />
+  <meta name="description" content="Sign in to your ZINORAH account: wishlist, enquiries and measurements. Staff use the same sign-in for the dashboard." />
   <meta name="robots" content="noindex" />
   <meta name="theme-color" content="#0F3B2E" />
   <meta name="color-scheme" content="light" />
@@ -34,6 +34,12 @@
       <symbol id="i-shield" viewBox="0 0 24 24">
         <path d="M12 3 5 6v5.5c0 4.4 3 7.9 7 9.5 4-1.6 7-5.1 7-9.5V6z M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
       </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></g>
+      </symbol>
+      <symbol id="i-eye-off" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></g>
+      </symbol>
     </defs>
   </svg>
 
@@ -51,23 +57,14 @@
   <main id="main" class="acct">
     <div class="container">
 
-      <!-- ============ SIGN IN (one page, two roles) ============ -->
+      <!-- ============ SIGN IN / CREATE ACCOUNT (staff use the same form) ============ -->
       <section class="acct-card" id="loginView" aria-labelledby="loginTitle">
         <svg class="acct-card__mark" aria-hidden="true"><use href="#i-diamond"/></svg>
         <p class="eyebrow eyebrow--light eyebrow--center">Welcome to Zinorah</p>
         <h1 class="section__title section__title--light" id="loginTitle">Sign <em>in</em></h1>
 
-        <div class="role-tabs" role="tablist" aria-label="Sign in as">
-          <button class="role-tab is-active" id="tab-customer" role="tab" aria-selected="true" aria-controls="customerForm">
-            <svg aria-hidden="true"><use href="#i-user"/></svg> Customer
-          </button>
-          <button class="role-tab" id="tab-admin" role="tab" aria-selected="false" aria-controls="adminForm" tabindex="-1">
-            <svg aria-hidden="true"><use href="#i-shield"/></svg> Admin
-          </button>
-        </div>
-
         <!-- Customer: sign in / create account -->
-        <form class="form acct-form" id="customerForm" role="tabpanel" aria-labelledby="tab-customer" novalidate>
+        <form class="form acct-form" id="customerForm" novalidate>
           <div class="mode-switch">
             <button type="button" class="mode-btn is-active" data-mode="signin" aria-pressed="true">Sign in</button>
             <button type="button" class="mode-btn" data-mode="signup" aria-pressed="false">Create account</button>
@@ -84,30 +81,19 @@
             <input id="c-email" name="email" type="email" placeholder=" " required autocomplete="email" />
             <label for="c-email">Email</label>
           </div>
-          <div class="field">
+          <div class="field field--pass">
             <input id="c-pass" name="password" type="password" placeholder=" " required minlength="6" autocomplete="current-password" />
             <label for="c-pass">Password (6+ characters)</label>
+            <button type="button" class="pass-toggle" aria-label="Show password" aria-pressed="false" aria-controls="c-pass">
+              <svg class="pass-toggle__show" aria-hidden="true"><use href="#i-eye"/></svg>
+              <svg class="pass-toggle__hide" aria-hidden="true"><use href="#i-eye-off"/></svg>
+            </button>
           </div>
           <button type="submit" class="btn btn--gold btn--block">Sign in</button>
           <p class="form__status" role="status" aria-live="polite"></p>
           <p class="acct-note demo-note"></p>
         </form>
 
-        <!-- Admin -->
-        <form class="form acct-form" id="adminForm" role="tabpanel" aria-labelledby="tab-admin" hidden novalidate>
-          <p class="acct-lead">Staff only. Sign in to see enquiries, customers and shop info.</p>
-          <div class="field">
-            <input id="a-email" name="email" type="email" placeholder=" " required autocomplete="username" />
-            <label for="a-email">Admin email</label>
-          </div>
-          <div class="field">
-            <input id="a-pass" name="password" type="password" placeholder=" " required autocomplete="current-password" />
-            <label for="a-pass">Password</label>
-          </div>
-          <button type="submit" class="btn btn--gold btn--block">Sign in to dashboard</button>
-          <p class="form__status" role="status" aria-live="polite"></p>
-          <p class="acct-note demo-note"></p>
-        </form>
       </section>
 
       <!-- ============ CUSTOMER PANEL ============ -->

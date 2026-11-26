@@ -32,7 +32,7 @@ A fast, static one-page site (HTML + CSS + JavaScript). There's no database, no 
 ## Logins (customer + admin)
 One page: **`account.html`** (linked from the person icon in the header and from the footer).
 - **Customer** tab: create an account / sign in → **Wishlist** (♡ on products), **My enquiries**, **Profile & measurements**.
-- **Admin** tab (`account.html#admin`): **Enquiries** (status New / Replied / Done, department filter, Reply on WhatsApp), **Customers**, **Shop info** (opening hours and address shown on the website).
+- **Admin** tab (`account.html`): **Enquiries** (status New / Replied / Done, department filter, Reply on WhatsApp), **Customers**, **Shop info** (opening hours and address shown on the website).
 
 It runs in **demo mode** until Firebase is connected: data is saved only in that browser. Demo admin: `admin@zinorah.com` / `Zinorah@2026`.
 To make it real (enquiries from every phone, secure passwords), follow **`FIREBASE_SETUP.md`** (about 10 minutes, free).

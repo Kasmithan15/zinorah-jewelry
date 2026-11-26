@@ -1,5 +1,5 @@
 /* =========================================================
-   ZINORAH · Account page: one sign-in, two roles
+   ZINORAH · Account page: one sign-in form for everyone
    Customer → wishlist, my enquiries, profile & measurements
    Admin    → enquiries, customers, shop info
    Data comes from window.DB (js/db.js demo, or Firebase via js/backend.js).
@@ -16,7 +16,7 @@
   const busy = (form, on) => { const b = $("button[type=submit]", form); b.disabled = on; b.classList.toggle("is-busy", on); };
 
   const loginView = $("#loginView"), custView = $("#customerView"), adminView = $("#adminView");
-  const custForm = $("#customerForm"), adminForm = $("#adminForm");
+  const custForm = $("#customerForm");
   const show = (view) => { [loginView, custView, adminView].forEach((v) => (v.hidden = v !== view)); window.scrollTo(0, 0); };
 
   const modeNote = () => {
@@ -24,7 +24,7 @@
     $$(".demo-note").forEach((n) => {
       n.textContent = remote
         ? "Secure sign-in. Passwords are never visible to Zinorah."
-        : n.closest("#adminForm") || n.closest("#adminView")
+        : n.closest("#adminView")
           ? "Demo mode: data is saved in this browser only. Demo login: admin@zinorah.com / Zinorah@2026"
           : "Demo mode: your account is saved in this browser only until the shop connects its secure server.";
     });
@@ -47,10 +47,16 @@
     return select;
   };
 
-  /* ---------- sign-in: Customer | Admin ---------- */
-  const roleTabs = [$("#tab-customer"), $("#tab-admin")];
-  const selectRole = makeTabs(roleTabs, (t) => { history.replaceState(null, "", t.id === "tab-admin" ? "#admin" : location.pathname + location.search); });
-  if (location.hash === "#admin") selectRole(roleTabs[1]);
+  /* ---------- show / hide password (eye button) ---------- */
+  $$(".pass-toggle").forEach((b) => b.addEventListener("click", () => {
+    const input = document.getElementById(b.getAttribute("aria-controls"));
+    const on = input.type === "password";
+    input.type = on ? "text" : "password";
+    b.setAttribute("aria-pressed", String(on));
+    b.setAttribute("aria-label", on ? "Hide password" : "Show password");
+    b.classList.toggle("is-on", on);
+  }));
+  const hidePasswords = () => $$(".pass-toggle.is-on").forEach((b) => b.click());
 
   let mode = "signin";
   const setMode = (m) => {
@@ -78,26 +84,18 @@
     if (invalid(custForm, fields)) return say(custForm, "Please check the highlighted fields (password needs 6+ characters).", false);
     busy(custForm, true); say(custForm, mode === "signup" ? "Creating your account…" : "Signing in…", true);
     try {
+      // Staff sign in with the same form: the admin email opens the dashboard.
+      if (mode === "signin" && await DB.adminSignIn(f.email.value, f.password.value)) {
+        custForm.reset(); hidePasswords(); say(custForm, "", true);
+        return openAdmin();
+      }
       const u = mode === "signup"
         ? await DB.customerSignUp({ name: f.name.value, email: f.email.value, phone: f.phone.value, password: f.password.value })
         : await DB.customerSignIn(f.email.value, f.password.value);
-      custForm.reset(); say(custForm, "", true);
+      custForm.reset(); hidePasswords(); say(custForm, "", true);
       openCustomer(u);
     } catch (err) { say(custForm, err.message, false); }
     finally { busy(custForm, false); }
-  });
-
-  adminForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (invalid(adminForm, ["email", "password"])) return say(adminForm, "Please enter the admin email and password.", false);
-    busy(adminForm, true); say(adminForm, "Signing in…", true);
-    try {
-      const ok = await DB.adminSignIn(adminForm.elements.email.value, adminForm.elements.password.value);
-      if (!ok) { adminForm.elements.password.closest(".field").classList.add("is-invalid"); return say(adminForm, "Wrong email or password.", false); }
-      adminForm.reset(); say(adminForm, "", true);
-      openAdmin();
-    } catch (err) { say(adminForm, err.message, false); }
-    finally { busy(adminForm, false); }
   });
 
   $$(".js-signout").forEach((b) => b.addEventListener("click", async () => {
