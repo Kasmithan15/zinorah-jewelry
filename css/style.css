@@ -1388,7 +1388,14 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 }
 .reviews .review__stars { margin: 0; font-size: 15px; letter-spacing: .18em; color: var(--gold-soft); }
 .review__text { margin: 0; font-family: var(--serif); font-size: 19px; line-height: 1.45; color: var(--cream); }
-.review__by { display: grid; gap: 2px; font-size: 13px; color: var(--cream-dim); }
+.review__by { display: flex; align-items: center; gap: 12px; margin-top: 4px; font-size: 13px; color: var(--cream-dim); }
+.review__who { display: grid; gap: 2px; min-width: 0; }
+.review__avatar {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; overflow: hidden;
+  background: color-mix(in srgb, var(--gold) 22%, var(--emerald-900)); border: 1px solid var(--gold-soft);
+  font-family: var(--serif); font-size: 17px; letter-spacing: .04em; color: var(--gold-soft);
+}
+.review__avatar img { width: 100%; height: 100%; object-fit: cover; }
 .review__by strong { font-weight: 400; letter-spacing: .14em; text-transform: uppercase; font-size: 11.5px; color: var(--gold-soft); }
 @media (prefers-reduced-motion: reduce) {
   .reviews__marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }

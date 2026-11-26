@@ -11,6 +11,8 @@
      stars   1 to 5
      text    their words; keep them as they wrote them
      about   "Jewelry", "Clothing" or "Jewelry & Clothing"   (optional)
+     photo   their real profile photo, only with their permission, e.g. "images/reviews/priya.jpg"
+             (square, about 200 x 200 px). Leave it out and their initials show in a gold circle.
 
    The strip stays hidden until "reviews" has at least one real review.
    To preview the look before then, open the site with ?reviews-preview at the end of the address,
@@ -20,7 +22,7 @@
 window.ZIN_REVIEWS = {
   // Real reviews go here.
   reviews: [
-    // { name: "Customer name", place: "Trincomalee", stars: 5, text: "Their words…", about: "Jewelry" },
+    // { name: "Customer name", place: "Trincomalee", stars: 5, text: "Their words…", about: "Jewelry", photo: "images/reviews/name.jpg" },
   ],
 
   // Only for ?reviews-preview. Not real customers; never shown on the normal site.

@@ -607,10 +607,16 @@ renderBag();
     st.setAttribute("aria-label", `${n} out of 5 stars`); st.textContent = "★".repeat(n) + "☆".repeat(5 - n);
     const q = document.createElement("blockquote"); q.className = "review__text"; q.textContent = `“${r.text}”`;
     const by = document.createElement("figcaption"); by.className = "review__by";
+    // customer's photo if they gave one, otherwise their initials in a gold circle
+    const av = document.createElement("span"); av.className = "review__avatar"; av.setAttribute("aria-hidden", "true");
+    if (r.photo) { const im = document.createElement("img"); im.src = r.photo; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; av.append(im); }
+    else av.textContent = (r.name || "?").split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+    const who = document.createElement("span"); who.className = "review__who";
     const nm = document.createElement("strong"); nm.textContent = r.name;
-    by.append(nm);
+    who.append(nm);
     const meta = [r.place, r.about].filter(Boolean).join(" · ");
-    if (meta) { const m = document.createElement("span"); m.textContent = meta; by.append(m); }
+    if (meta) { const m = document.createElement("span"); m.textContent = meta; who.append(m); }
+    by.append(av, who);
     c.append(st, q, by);
     return c;
   };
