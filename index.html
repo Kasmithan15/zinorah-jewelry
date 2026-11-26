@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=39" />
+  <link rel="stylesheet" href="css/style.css?v=40" />
   <link rel="stylesheet" href="css/clothing.css?v=30" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
@@ -648,13 +648,16 @@
     <section class="section heritage on-cream" id="about">
       <div class="container heritage__grid">
         <div class="heritage__visual reveal">
-          <div class="arch arch--story" data-img="images/jewelry/about.jpg">
-            <svg class="arch__art"><use href="#i-ring"/></svg>
-          </div>
+          <figure class="about-photo">
+            <picture>
+              <source srcset="images/about-shop.avif" type="image/avif" />
+              <img src="images/about-shop.jpg" alt="The Zinorah shop front in Trincomalee: the green ZINORAH 'Where quality matters' sign above a window of flower garlands and mannequins in sarees and kurtas" width="700" height="720" loading="lazy" decoding="async" />
+            </picture>
+          </figure>
           <div class="heritage__stamp">
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <defs><path id="circ" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs>
-              <text><textPath href="#circ">ZINORAH · JEWELRY · CLOTHING · TRINCOMALEE ·</textPath></text>
+              <text><textPath href="#circ" textLength="286" lengthAdjust="spacing">ZINORAH · JEWELRY · CLOTHING · TRINCOMALEE ·</textPath></text>
             </svg>
             <svg class="heritage__stamp-mark" viewBox="0 0 100 130"><use href="#i-zlogo"/></svg>
           </div>
