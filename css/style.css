@@ -4,19 +4,27 @@
    ========================================================= */
 
 :root {
-  /* ---- Palette: Emerald & Antique Gold ---- */
-  --emerald-900: #08261D;   /* deepest: footer, intro */
-  --emerald-800: #0F3B2E;   /* main dark sections, header */
-  --emerald-700: #174A3A;   /* cards / hover on dark */
-  --gold:        #B08D57;   /* buttons, lines, dividers (never body text) */
-  --gold-soft:   #D6B88A;   /* gold text & accents on dark (6.6:1 on emerald-800) */
-  --gold-deep:   #7F5F2C;   /* gold text on cream (5.3:1, passes AA) */
+  /* ---- Shared brand: used on every page ---- */
+  --emerald-900: #08261D;   /* intro, footer */
+  --emerald-800: #0F3B2E;   /* header, dark sections */
+  --emerald-700: #174A3A;   /* hover on dark */
+  --gold:        #B08D57;   /* buttons, labels, lines (never body text) */
+  --gold-soft:   #D6B88A;   /* gold text on dark (6.6:1 on emerald-800) */
   --cream:       #F7F3EA;   /* light sections */
-  --cream-2:     #EEE7D8;   /* alternate light sections, cards */
+  --cream-2:     #EEE7D8;   /* alternate light sections */
   --ink:         #1E2B25;   /* headings on cream (13:1) */
   --muted:       #5A6A60;   /* body text on cream (5.2:1) */
   --line-gold:   rgba(176, 141, 87, .25);  /* hairline borders */
-  --maroon:      #6E2232;   /* clothing accent: small touches only */
+
+  /* ---- Jewelry accent ---- */
+  --jewel-deep:  #7F5F2C;   /* gold text on cream (5.3:1, passes AA) */
+  --jewel-tint:  #E9DCC0;   /* jewelry tags, card backgrounds */
+
+  /* ---- Clothing accent (clothing areas only, never main buttons) ---- */
+  --cloth:       #6E2232;   /* clothing section background, tags */
+  --cloth-soft:  #E7C9A0;   /* warm gold text on maroon (6.8:1) */
+  --cloth-tint:  #F1DFDC;   /* clothing tags, card backgrounds */
+
   --error:       #E39A8A;   /* form errors on dark */
 
   /* derived tints (built from the tokens above) */
@@ -25,6 +33,7 @@
   --cream-text:  color-mix(in srgb, var(--cream) 78%, transparent);  /* body text on emerald, AA */
   --cream-dim:   color-mix(in srgb, var(--cream) 72%, transparent);  /* small text on emerald, AA */
   --shadow:      color-mix(in srgb, var(--emerald-900) 55%, transparent);
+  --cloth-900:   color-mix(in srgb, var(--cloth) 45%, var(--ink));   /* deep maroon for photo shades */
   --mint-glow:   color-mix(in srgb, var(--cream) 22%, transparent);
 
   /* ---- Type ---- */
@@ -68,7 +77,7 @@ p { margin: 0 0 1.1em; }
 /* Visible focus for keyboard users */
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 1px; }
 .section--dark :focus-visible, .section--navy :focus-visible, .bridal :focus-visible,
-.footer :focus-visible, .header.is-scrolled :focus-visible, .mobile-nav :focus-visible { outline-color: var(--gold-soft); }
+.footer :focus-visible, .dept--clothing :focus-visible, .look :focus-visible, .header.is-scrolled :focus-visible, .mobile-nav :focus-visible { outline-color: var(--gold-soft); }
 
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
 
@@ -79,7 +88,7 @@ p { margin: 0 0 1.1em; }
   font-weight: 400;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--jewel-deep);
   margin-bottom: 20px;
   display: inline-flex;
   align-items: center;
@@ -96,7 +105,7 @@ p { margin: 0 0 1.1em; }
   letter-spacing: -.01em;
   margin-bottom: 24px;
 }
-.section__title em, .hero__title em { font-style: italic; color: var(--gold-deep); }
+.section__title em, .hero__title em { font-style: italic; color: var(--jewel-deep); }
 .section__title--light { color: var(--cream); }
 .section__title--light em { color: var(--gold-soft); }
 
@@ -185,7 +194,7 @@ p { margin: 0 0 1.1em; }
   transition: height .4s var(--ease);
 }
 .header.is-scrolled .header__inner { height: 66px; }
-.header .btn--outline { --fg: var(--gold-deep); }
+.header .btn--outline { --fg: var(--jewel-deep); }
 .header.is-scrolled .btn--outline, .header.menu-open .btn--outline { --fg: var(--gold-soft); }
 
 .nav { display: flex; align-items: center; gap: 30px; font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; white-space: nowrap; }
@@ -200,7 +209,7 @@ p { margin: 0 0 1.1em; }
 .logo { display: grid; justify-items: center; align-content: center; min-height: 44px; line-height: 1; text-align: center; }
 .logo__mark { width: 24px; height: 24px; color: var(--gold); margin-bottom: 6px; }
 .logo__word { font-family: var(--serif); font-size: 28px; letter-spacing: .38em; margin-right: -.38em; font-weight: 500; color: inherit; }
-.logo__sub { font-size: 9px; letter-spacing: .28em; white-space: nowrap; text-transform: uppercase; color: var(--gold-deep); margin-top: 7px; }
+.logo__sub { font-size: 9px; letter-spacing: .28em; white-space: nowrap; text-transform: uppercase; color: var(--jewel-deep); margin-top: 7px; }
 .header.is-scrolled .logo__sub, .header.menu-open .logo__sub { color: var(--gold-soft); }
 .header.is-scrolled .logo__mark { display: none; }
 
@@ -387,9 +396,32 @@ p { margin: 0 0 1.1em; }
 
 /* clothing department: tall card + four */
 .collections--five { grid-template-columns: 1.15fr 1fr 1fr; grid-template-rows: 320px 320px; }
-.dept--clothing .eyebrow::before { background: var(--maroon); }
-.dept--clothing.has-ornament::after { background: var(--maroon); }
+/* clothing department: maroon silk with warm gold text */
+.dept--clothing {
+  position: relative; isolation: isolate; color: color-mix(in srgb, var(--cream) 84%, transparent);
+  background:
+    radial-gradient(70% 55% at 85% 0%, color-mix(in srgb, var(--cloth-soft) 16%, transparent), transparent 65%),
+    radial-gradient(60% 50% at 0% 100%, color-mix(in srgb, var(--cloth-900) 80%, transparent), transparent 70%),
+    var(--cloth);
+}
+.dept--clothing .section__title { color: var(--cream); }
+.dept--clothing .section__title em, .dept--clothing .eyebrow { color: var(--cloth-soft); }
+.dept--clothing .eyebrow::before { background: var(--cloth-soft); }
+.dept--clothing .section__intro { color: color-mix(in srgb, var(--cream) 84%, transparent); }
 .dept--clothing .section__head { max-width: none; }
+.dept--clothing .collection { background: linear-gradient(165deg, var(--cloth), var(--cloth-900)); box-shadow: 0 30px 60px -36px var(--cloth-900); }
+.dept--clothing .collection::before {
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--cloth-900) 92%, transparent) 0%,
+    color-mix(in srgb, var(--cloth-900) 55%, transparent) 30%,
+    transparent 62%);
+}
+.dept--clothing .collection__count { color: var(--cloth-soft); }
+/* keep the people in frame in the wide desktop tiles */
+.dept--clothing .collection.has-photo { background-position: 50% 30%; }
+.dept--clothing .collection.has-photo:nth-child(4) { background-position: 50% 45%; }
+.dept--clothing .collection.has-photo:nth-child(5) { background-position: 50% 78%; }
+.dept--clothing .collection:hover::after { border-color: color-mix(in srgb, var(--cloth-soft) 80%, transparent); }
 
 @media (max-width: 900px) {
   .collections, .collections--five { grid-template-columns: 1fr 1fr; grid-template-rows: none; grid-auto-rows: 300px; }
@@ -439,11 +471,15 @@ p { margin: 0 0 1.1em; }
 }
 .product:hover .product__media::after { border-color: color-mix(in srgb, var(--gold-soft) 85%, transparent); }
 
-.tag {
+.tag { /* department tag: champagne for jewelry, blush for clothing */
   position: absolute; z-index: 2; top: 18px; left: 18px; padding: 6px 12px;
-  background: var(--emerald-800); color: var(--gold-soft); font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+  background: var(--jewel-tint); color: var(--ink); font-size: 10px; font-weight: 400; letter-spacing: .22em; text-transform: uppercase;
+  border: 1px solid var(--line-gold);
 }
-.tag--clothing { background: var(--maroon); color: var(--cream); }
+.tag--clothing { background: var(--cloth-tint); color: var(--cloth); }
+.product[data-category~="jewelry"] .product__media { background-color: var(--jewel-tint); }
+.product[data-category~="clothing"] .product__media { background-color: var(--cloth-tint); }
+.product[data-category~="clothing"] .product__art { color: var(--cloth); }
 .product__info { padding-top: 20px; }
 .product__info h3 { font-family: var(--serif); font-size: 25px; line-height: 1.15; margin-bottom: 4px; }
 .product__info p { font-size: 13.5px; color: var(--muted); letter-spacing: .03em; margin-bottom: 14px; }
@@ -451,7 +487,7 @@ p { margin: 0 0 1.1em; }
 .price { font-size: 14px; letter-spacing: .05em; color: var(--ink); }
 .enquire { /* link with animated underline */
   min-height: 44px; display: inline-flex; align-items: center;
-  font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-deep);
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--jewel-deep);
   background: linear-gradient(currentColor, currentColor) right calc(50% + 11px) / 100% 1px no-repeat;
   transition: background-size .45s var(--ease), color .3s;
 }
@@ -472,6 +508,15 @@ p { margin: 0 0 1.1em; }
 }
 
 /* ---------- Signature: complete the bridal look ---------- */
+/* split background: maroon (clothing) meets emerald (jewelry), joined by a gold hairline */
+.look {
+  background:
+    linear-gradient(90deg, transparent calc(50% - .5px), var(--line-gold) calc(50% - .5px), var(--line-gold) calc(50% + .5px), transparent calc(50% + .5px)),
+    radial-gradient(60% 60% at 25% 50%, color-mix(in srgb, var(--cloth-soft) 12%, transparent), transparent 70%),
+    radial-gradient(60% 60% at 80% 20%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+    linear-gradient(90deg, var(--cloth) 0 50%, var(--emerald-800) 50% 100%);
+}
+.look .look__fig:first-child figcaption { color: var(--cloth-soft); }
 .look__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(48px, 7vw, 110px); align-items: center; }
 .look__pair { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 2vw, 24px); align-items: start; }
 .look__fig { margin: 0; }
@@ -487,14 +532,19 @@ p { margin: 0 0 1.1em; }
 .look__fig figcaption { margin-top: 14px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-soft); }
 .look__join { /* gold diamond joining the two departments */
   position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; z-index: 2;
-  transform: translate(-50%, -50%) rotate(45deg); background: var(--emerald-800); border: 1px solid var(--gold);
-  box-shadow: 0 0 0 6px var(--emerald-800), 0 0 0 7px var(--line-gold);
+  transform: translate(-50%, -50%) rotate(45deg); background: linear-gradient(135deg, var(--cloth) 50%, var(--emerald-800) 50%); border: 1px solid var(--gold);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--emerald-900) 40%, transparent), 0 0 0 7px var(--line-gold);
 }
 .look__join::after { content: ""; position: absolute; inset: 14px; background: var(--gold); }
 .look__copy > p { max-width: 50ch; }
 @media (max-width: 900px) {
   .look__grid { grid-template-columns: 1fr; }
   .look__copy { order: -1; } /* text above the images on phones */
+  .look { /* phones: emerald behind the text, maroon behind the photos */
+    background:
+      radial-gradient(70% 40% at 80% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--emerald-800) 0 52%, var(--cloth) 52% 100%);
+  }
 }
 
 /* ---------- Heritage / About ---------- */
@@ -517,7 +567,7 @@ p { margin: 0 0 1.1em; }
 
 .process { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line-gold); }
 .process li { padding: 22px 20px 0 0; display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
-.process span { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--gold-deep); }
+.process span { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--jewel-deep); }
 .process strong { display: block; font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink); }
 
 @media (max-width: 900px) {
@@ -613,10 +663,10 @@ p { margin: 0 0 1.1em; }
 .visit__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
 .visit__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 32px; margin: 8px 0 36px; }
 @media (max-width: 480px) { .visit__cols { grid-template-columns: 1fr; } }
-.visit .label-h { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 6px; font-weight: 400; }
+.visit .label-h { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--jewel-deep); margin-bottom: 6px; font-weight: 400; }
 .visit__cols p { margin: 0; font-size: 15.5px; }
 .visit__cols a { display: inline-flex; align-items: center; min-height: 44px; }
-.visit__cols a:hover { color: var(--gold-deep); }
+.visit__cols a:hover { color: var(--jewel-deep); }
 .visit__map { aspect-ratio: 4 / 3.4; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line-gold); }
 .map-card { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; color: var(--cream); background: radial-gradient(circle at 50% 40%, var(--emerald-700), var(--emerald-900)); }
 .map-card::after { content: ""; position: absolute; inset: 14px; border: 1px solid color-mix(in srgb, var(--gold-soft) 45%, transparent); pointer-events: none; transition: inset .4s ease; }
@@ -645,6 +695,9 @@ p { margin: 0 0 1.1em; }
   background: linear-gradient(to top, color-mix(in srgb, var(--emerald-900) 92%, transparent), color-mix(in srgb, var(--emerald-900) 45%, transparent) 45%, transparent 80%);
   box-shadow: inset 0 0 0 12px transparent, inset 0 0 0 13px transparent; transition: box-shadow .6s var(--ease);
 }
+.insta-tile--clothing { background: linear-gradient(165deg, var(--cloth), var(--cloth-900)); }
+.insta-tile--clothing::after { background: linear-gradient(to top, color-mix(in srgb, var(--cloth-900) 92%, transparent), color-mix(in srgb, var(--cloth-900) 45%, transparent) 45%, transparent 80%); }
+.insta-tile--clothing .insta-tile__dept, .insta-tile--clothing .insta-tile__handle svg { color: var(--cloth-soft); }
 .insta-tile:hover::before { transform: scale(1.04); }
 .insta-tile:hover::after { box-shadow: inset 0 0 0 12px transparent, inset 0 0 0 13px color-mix(in srgb, var(--gold-soft) 80%, transparent); }
 .insta-tile__dept { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold-soft); }
