@@ -5,7 +5,7 @@
 // fires "db-ready" so the page reloads its data.
 //
 // Firestore layout
-//   customers/{uid}  { name, email, phone, dept, measurements, wishlist[], created, last }
+//   customers/{uid}  { name, email, phone, dept, measurements, birthday, city, address, style, photo, wishlist[], created, last }
 //   enquiries/{id}   { name, phone, department, interest, neededBy, message, uid, email, status, createdAt }
 //   settings/shop    { hours, address, updated }
 // Who can do what is enforced by firestore.rules.
@@ -29,7 +29,7 @@ if (config) {
   const authReady = new Promise((res) => { const off = A.onAuthStateChanged(auth, (u) => { off(); res(u); }); });
   const isAdminUser = (u) => !!u && (u.email || "").toLowerCase() === ADMIN;
   const toISO = (ts) => (ts && ts.toDate ? ts.toDate().toISOString() : ts || null);
-  const clean = (d) => d && ({ name: d.name || "", email: d.email || "", phone: d.phone || "", dept: d.dept || "", measurements: d.measurements || "", wishlist: d.wishlist || [], created: toISO(d.created) });
+  const clean = (d) => d && ({ name: d.name || "", email: d.email || "", phone: d.phone || "", dept: d.dept || "", measurements: d.measurements || "", birthday: d.birthday || "", city: d.city || "", address: d.address || "", style: d.style || "", photo: d.photo || "", wishlist: d.wishlist || [], created: toISO(d.created) });
 
   const friendly = (e) => {
     const c = (e && e.code) || "";
@@ -83,8 +83,14 @@ if (config) {
     customerUpdate: guard(async (patch) => {
       const u = await signedInCustomer(); if (!u) throw new Error("Please sign in again.");
       const p = {};
-      ["name", "phone", "dept", "measurements"].forEach((k) => { if (k in patch) p[k] = String(patch[k]).slice(0, 1000); });
+      ["name", "phone", "dept", "measurements", "birthday", "city", "address", "style"].forEach((k) => { if (k in patch) p[k] = String(patch[k]).slice(0, 1000); });
       await F.updateDoc(customer(u.uid), { ...p, last: F.serverTimestamp() });
+      return clean((await F.getDoc(customer(u.uid))).data());
+    }),
+    // Small (about 30 KB) JPEG stored on the profile itself, so no extra Firebase Storage setup is needed.
+    customerSetPhoto: guard(async (dataUrl) => {
+      const u = await signedInCustomer(); if (!u) throw new Error("Please sign in again.");
+      await F.updateDoc(customer(u.uid), { photo: dataUrl || "", last: F.serverTimestamp() });
       return clean((await F.getDoc(customer(u.uid))).data());
     }),
     wishlistToggle: guard(async (item) => {

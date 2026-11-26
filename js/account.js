@@ -159,7 +159,49 @@
   const fillProfile = () => {
     const f = $("#profileForm").elements;
     f.name.value = me.name || ""; f.phone.value = me.phone || ""; f.dept.value = me.dept || ""; f.measurements.value = me.measurements || "";
+    f.birthday.value = me.birthday || ""; f.city.value = me.city || ""; f.address.value = me.address || ""; f.style.value = me.style || "";
   };
+
+  /* ---------- profile photo ---------- */
+  const isPhoto = (v) => typeof v === "string" && v.startsWith("data:image/jpeg;base64,");
+  const renderAvatar = () => {
+    const photo = me && isPhoto(me.photo) ? me.photo : "";
+    const initial = ((me && (me.name || me.email)) || "?").trim().charAt(0).toUpperCase();
+    $$(".js-avatar-img").forEach((img) => { img.hidden = !photo; if (photo) img.src = photo; else img.removeAttribute("src"); });
+    $$(".js-avatar-initial").forEach((n) => { n.textContent = initial; n.hidden = !!photo; });
+    $(".js-photo-label").textContent = photo ? "Change photo" : "Add photo";
+    $(".js-photo-remove").hidden = !photo;
+  };
+  // Shrink any photo to a 320 x 320 centre-cropped JPEG (about 20-40 KB).
+  const toSquareJpeg = (file) => new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const side = Math.min(img.naturalWidth, img.naturalHeight);
+      const c = document.createElement("canvas"); c.width = c.height = 320;
+      c.getContext("2d").drawImage(img, (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side, 0, 0, 320, 320);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("That file could not be opened as a photo. Please try a JPG or PNG.")); };
+    img.src = url;
+  });
+  const photoStatus = (text, ok) => { const m = $(".js-photo-status"); m.textContent = text; m.classList.toggle("is-error", !ok); };
+  $("#photoInput").addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return photoStatus("Please choose a photo (JPG or PNG).", false);
+    if (file.size > 15 * 1024 * 1024) return photoStatus("That photo is too large. Please choose one under 15 MB.", false);
+    photoStatus("Saving photo…", true);
+    try { me = await DB.customerSetPhoto(await toSquareJpeg(file)); renderAvatar(); photoStatus("Photo saved.", true); }
+    catch (err) { photoStatus(err.message, false); }
+  });
+  $(".js-photo-remove").addEventListener("click", async () => {
+    try { me = await DB.customerSetPhoto(""); renderAvatar(); photoStatus("Photo removed.", true); }
+    catch (err) { photoStatus(err.message, false); }
+  });
+  $(".js-avatar-head").addEventListener("click", () => { selectCustTab(custTabs[2]); $("#photoInput").click(); });
   $("#profileForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -167,8 +209,9 @@
     busy(form, true);
     try {
       const f = form.elements;
-      me = await DB.customerUpdate({ name: f.name.value.trim(), phone: f.phone.value.trim(), dept: f.dept.value, measurements: f.measurements.value.trim() });
+      me = await DB.customerUpdate({ name: f.name.value.trim(), phone: f.phone.value.trim(), dept: f.dept.value, measurements: f.measurements.value.trim(), birthday: f.birthday.value, city: f.city.value.trim(), address: f.address.value.trim(), style: f.style.value.trim() });
       $(".js-cust-name").textContent = me.name.split(" ")[0] || "there";
+      renderAvatar();
       say(form, "Saved.", true);
     } catch (err) { say(form, err.message, false); }
     finally { busy(form, false); }
@@ -178,7 +221,8 @@
     me = u;
     $(".js-cust-name").textContent = (u.name || "").split(" ")[0] || "there";
     $(".js-cust-email").textContent = u.email;
-    renderWishlist(); renderMyEnquiries(); fillProfile();
+    photoStatus("", true);
+    renderWishlist(); renderMyEnquiries(); fillProfile(); renderAvatar();
     selectCustTab(custTabs[0]);
     show(custView);
   };
@@ -252,7 +296,11 @@
     $(".js-stat-cust").textContent = items.length;
     if (!items.length) return empty(list, "No customer accounts yet. They appear here when customers create an account.");
     list.replaceChildren(...items.map((c) => {
-      const li = el("li", "item");
+      const li = el("li", "item item--customer");
+      const av = el("div", "avatar avatar--sm");
+      if (isPhoto(c.photo)) { const img = el("img"); img.src = c.photo; img.alt = ""; av.append(img); }
+      else av.append(el("span", "avatar__initial", (c.name || c.email || "?").trim().charAt(0).toUpperCase()));
+      li.append(av);
       const body = el("div", "item__body");
       const top = el("div", "item__top");
       top.append(el("strong", "item__title", c.name || c.email));
@@ -260,6 +308,9 @@
       body.append(top);
       body.append(el("p", "item__meta", [c.email, c.phone, c.created ? "Joined " + fmtDate(c.created) : ""].filter(Boolean).join(" · ")));
       if (c.wishlist && c.wishlist.length) body.append(el("p", "item__text", "Wishlist: " + c.wishlist.join(", ")));
+      const extra = [c.city, c.birthday ? "Birthday " + fmtDate(c.birthday) : "", c.address].filter(Boolean).join(" · ");
+      if (extra) body.append(el("p", "item__meta", extra));
+      if (c.style) body.append(el("p", "item__text", "Style: " + c.style));
       if (c.measurements) body.append(el("p", "item__text", "Measurements: " + c.measurements));
       li.append(body);
       const wa = waFor(c.phone);

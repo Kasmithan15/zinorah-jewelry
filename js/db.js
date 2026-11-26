@@ -20,7 +20,7 @@
     return [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, "0")).join("");
   };
   const err = (m) => { throw new Error(m); };
-  const clean = (u) => u && ({ name: u.name, email: u.email, phone: u.phone || "", dept: u.dept || "", measurements: u.measurements || "", wishlist: u.wishlist || [], created: u.created });
+  const clean = (u) => u && ({ name: u.name, email: u.email, phone: u.phone || "", dept: u.dept || "", measurements: u.measurements || "", birthday: u.birthday || "", city: u.city || "", address: u.address || "", style: u.style || "", photo: u.photo || "", wishlist: u.wishlist || [], created: u.created });
   const id = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
   const users = () => read(K.users, {});
@@ -53,8 +53,15 @@
     async customerSignOut() { try { localStorage.removeItem(K.me); } catch (e) {} },
     async customerUpdate(patch) {
       const u = me(); if (!u) err("Please sign in again.");
-      ["name", "phone", "dept", "measurements"].forEach((k) => { if (k in patch) u[k] = String(patch[k]).slice(0, 1000); });
+      ["name", "phone", "dept", "measurements", "birthday", "city", "address", "style"].forEach((k) => { if (k in patch) u[k] = String(patch[k]).slice(0, 1000); });
       return clean(saveUser(u));
+    },
+    async customerSetPhoto(dataUrl) {
+      const u = me(); if (!u) err("Please sign in again.");
+      u.photo = dataUrl || "";
+      const all = users(); all[u.email] = u;
+      try { localStorage.setItem(K.users, JSON.stringify(all)); } catch (e) { err("Not enough space in this browser to save the photo."); }
+      return clean(u);
     },
     async wishlistToggle(item) {
       const u = me(); if (!u) return null;

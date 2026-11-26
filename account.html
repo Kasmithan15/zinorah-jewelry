@@ -99,10 +99,16 @@
       <!-- ============ CUSTOMER PANEL ============ -->
       <section class="panel" id="customerView" hidden aria-labelledby="custTitle">
         <header class="panel__head">
-          <div>
+          <div class="panel__who">
+            <button type="button" class="avatar avatar--head js-avatar-head" aria-label="Change profile photo">
+              <img class="js-avatar-img" alt="" hidden />
+              <span class="avatar__initial js-avatar-initial" aria-hidden="true"></span>
+            </button>
+            <div>
             <p class="eyebrow eyebrow--light">My Zinorah</p>
             <h1 class="section__title section__title--light" id="custTitle">Hello, <em class="js-cust-name">there</em></h1>
             <p class="panel__sub js-cust-email"></p>
+            </div>
           </div>
           <button type="button" class="btn btn--outline btn--sm js-signout">Sign out</button>
         </header>
@@ -110,7 +116,7 @@
         <div class="panel-tabs" role="tablist" aria-label="My account">
           <button class="panel-tab is-active" role="tab" aria-selected="true" aria-controls="c-wish" id="ct-wish">Wishlist</button>
           <button class="panel-tab" role="tab" aria-selected="false" aria-controls="c-enq" id="ct-enq" tabindex="-1">My enquiries</button>
-          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="c-prof" id="ct-prof" tabindex="-1">Profile &amp; measurements</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="c-prof" id="ct-prof" tabindex="-1">My profile</button>
         </div>
 
         <div class="panel-body" id="c-wish" role="tabpanel" aria-labelledby="ct-wish">
@@ -120,6 +126,25 @@
           <ul class="list js-my-enquiries"></ul>
         </div>
         <div class="panel-body" id="c-prof" role="tabpanel" aria-labelledby="ct-prof" hidden>
+          <div class="photo-edit">
+            <div class="avatar avatar--lg">
+              <img class="js-avatar-img" alt="Your profile photo" hidden />
+              <span class="avatar__initial js-avatar-initial" aria-hidden="true"></span>
+            </div>
+            <div class="photo-edit__body">
+              <p class="photo-edit__title">Profile photo</p>
+              <p class="photo-edit__hint">JPG or PNG. It is cropped to a circle.</p>
+              <div class="photo-edit__actions">
+                <label class="btn btn--outline btn--sm photo-edit__pick">
+                  <span class="js-photo-label">Add photo</span>
+                  <input type="file" id="photoInput" accept="image/*" class="visually-hidden" />
+                </label>
+                <button type="button" class="text-btn js-photo-remove" hidden>Remove</button>
+              </div>
+              <p class="form__status js-photo-status" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+
           <form class="form profile-form" id="profileForm" novalidate>
             <div class="field-row">
               <div class="field">
@@ -131,6 +156,20 @@
                 <label for="p-phone">Phone / WhatsApp</label>
               </div>
             </div>
+            <div class="field-row">
+              <div class="field">
+                <input id="p-bday" name="birthday" type="date" placeholder=" " />
+                <label for="p-bday" class="is-fixed">Birthday (optional)</label>
+              </div>
+              <div class="field">
+                <input id="p-city" name="city" type="text" placeholder=" " maxlength="100" autocomplete="address-level2" />
+                <label for="p-city">City / town</label>
+              </div>
+            </div>
+            <div class="field">
+              <input id="p-address" name="address" type="text" placeholder=" " maxlength="300" autocomplete="street-address" />
+              <label for="p-address">Address for delivery (optional)</label>
+            </div>
             <div class="field">
               <select id="p-dept" name="dept">
                 <option value="">No preference</option>
@@ -139,6 +178,10 @@
                 <option>Both</option>
               </select>
               <label for="p-dept" class="is-fixed">I usually shop for</label>
+            </div>
+            <div class="field">
+              <input id="p-style" name="style" type="text" placeholder=" " maxlength="300" />
+              <label for="p-style">Favourite colours &amp; style (optional): e.g. maroon, temple jewelry</label>
             </div>
             <div class="field">
               <textarea id="p-meas" name="measurements" rows="4" placeholder=" " maxlength="1000"></textarea>

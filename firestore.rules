@@ -31,9 +31,15 @@ service cloud.firestore {
     // the admin can see and remove all of them.
     match /customers/{uid} {
       function validCustomer(d) {
-        return d.keys().hasOnly(['name', 'email', 'phone', 'dept', 'measurements', 'wishlist', 'created', 'last'])
+        return d.keys().hasOnly(['name', 'email', 'phone', 'dept', 'measurements', 'birthday', 'city', 'address', 'style', 'photo', 'wishlist', 'created', 'last'])
           && shortText(d.name, 100) && shortText(d.phone, 30) && shortText(d.dept, 40)
           && shortText(d.measurements, 1000)
+          && (!('birthday' in d) || shortText(d.birthday, 10))
+          && (!('city' in d) || shortText(d.city, 100))
+          && (!('address' in d) || shortText(d.address, 300))
+          && (!('style' in d) || shortText(d.style, 300))
+          // profile photo: a small JPEG data URL made in the browser (max ~150 KB)
+          && (!('photo' in d) || (shortText(d.photo, 150000) && (d.photo == '' || d.photo.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$'))))
           && d.wishlist is list && d.wishlist.size() <= 100;
       }
       allow read: if isAdmin() || isSelf(uid);
