@@ -1431,3 +1431,6 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 /* About: the shop photo, plain (no arch or frame lines) */
 .about-photo { margin: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px -30px var(--shadow); }
 .about-photo img { display: block; width: 100%; height: auto; }
+
+/* Instagram clothing card: portrait photo, keep the face and blouse in view */
+.insta-tile--clothing.has-photo::before { background-position: 50% 0%; }
