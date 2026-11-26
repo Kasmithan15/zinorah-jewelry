@@ -48,8 +48,8 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=21" />
-  <link rel="stylesheet" href="css/clothing.css?v=21" />
+  <link rel="stylesheet" href="css/style.css?v=24" />
+  <link rel="stylesheet" href="css/clothing.css?v=24" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -61,18 +61,24 @@
   <a class="skip-link" href="#top">Skip to content</a>
 
   <!-- ============ DIAMOND INTRO (opens into the site) ============ -->
-  <div class="intro" id="intro" role="button" tabindex="0">
+  <div class="intro" id="intro" role="button" tabindex="0" aria-label="Enter the Zinorah website">
     <div class="intro__inner">
-      <div class="intro__stone">
-        <picture>
-          <source srcset="images/jewelry/diamond.avif" type="image/avif" />
-          <img src="images/jewelry/diamond.jpg" alt="" width="720" height="720" fetchpriority="high" decoding="async" />
-        </picture>
-        <span class="spark spark--1"></span><span class="spark spark--2"></span><span class="spark spark--3"></span><span class="spark spark--4"></span>
+      <div class="intro__duo" aria-hidden="true">
+        <figure class="intro__arch intro__arch--jewel">
+          <picture>
+            <source srcset="images/jewelry/s-crystal-leaf-set.avif" type="image/avif" />
+            <img src="images/jewelry/s-crystal-leaf-set.jpg" alt="" width="736" height="1104" fetchpriority="high" decoding="async" />
+          </picture>
+        </figure>
+        <figure class="intro__arch intro__arch--cloth">
+          <picture>
+            <source srcset="images/clothing/p-party-lehenga.avif" type="image/avif" />
+            <img src="images/clothing/p-party-lehenga.jpg" alt="" width="800" height="1000" fetchpriority="high" decoding="async" />
+          </picture>
+        </figure>
       </div>
       <p class="intro__word">ZINORAH</p>
       <p class="intro__sub">Jewelry · Clothing</p>
-      <p class="intro__hint"><span class="t-tap">Tap to enter</span><span class="t-click">Click to enter</span></p>
     </div>
   </div>
 
@@ -353,7 +359,7 @@
         <header class="section__head section__head--row reveal">
           <div>
             <p class="eyebrow">Department 01 · Jewelry</p>
-            <h2 class="section__title">Jewelry made for<br />your <em>moments</em></h2>
+            <h2 class="section__title">Jewelry made for <br />your <em>moments</em></h2>
           </div>
           <p class="section__intro">Gold, diamond, bridal and everyday pieces. Find the piece that speaks to you, or let us make one just for you.</p>
         </header>
@@ -378,8 +384,10 @@
             <div class="orbit__info">
               <h3 class="orbit__name js-orbit-name"></h3>
               <p class="orbit__details js-orbit-details"></p>
-              <p class="orbit__price js-orbit-price"></p>
-              <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="orbit__row">
+                <p class="orbit__price js-orbit-price"></p>
+                <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              </div>
             </div>
             <p class="visually-hidden js-orbit-live" aria-live="polite"></p>
           </div>
@@ -396,7 +404,7 @@
         <header class="section__head section__head--row reveal">
           <div>
             <p class="eyebrow">Department 02 · Clothing</p>
-            <h2 class="section__title">Dressed for every<br /><em>occasion</em></h2>
+            <h2 class="section__title">Dressed for every <br /><em>occasion</em></h2>
           </div>
           <p class="section__intro">Silk sarees, bridal wear, lehengas, kurtis and festive outfits for the whole family, from everyday cotton to wedding silk.</p>
         </header>
@@ -426,8 +434,10 @@
             <div class="orbit__info">
               <h3 class="orbit__name js-orbit-name"></h3>
               <p class="orbit__details js-orbit-details"></p>
-              <p class="orbit__price js-orbit-price"></p>
-              <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="orbit__row">
+                <p class="orbit__price js-orbit-price"></p>
+                <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              </div>
             </div>
             <p class="visually-hidden js-orbit-live" aria-live="polite"></p>
           </div>
@@ -891,7 +901,7 @@
   <script type="module" src="js/backend.js?v=21"></script>
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=22" defer></script>
-  <script src="js/main.js?v=21" defer></script>
-  <script src="js/showcase.js?v=22" defer></script>
+  <script src="js/main.js?v=24" defer></script>
+  <script src="js/showcase.js?v=24" defer></script>
 </body>
 </html>

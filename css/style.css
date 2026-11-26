@@ -70,7 +70,7 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; scroll-padding-top: 68px; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--cream);
@@ -295,7 +295,7 @@ p { margin: 0 0 1.1em; }
 
 /* Desktop: menu links + icons sit in the emerald bar on top, logo on its own row below */
 @media (min-width: 1181px) {
-  html { scroll-padding-top: 128px; }
+  html { scroll-padding-top: 118px; }
   .header { --bar-h: 52px; background: linear-gradient(var(--emerald-900) var(--bar-h), transparent var(--bar-h)) no-repeat; }
   .header.is-scrolled { background: linear-gradient(var(--emerald-900) var(--bar-h), var(--emerald-800) var(--bar-h)) no-repeat border-box; }
   .header__inner { height: auto; grid-template-columns: 1fr 1fr; grid-template-rows: var(--bar-h) 100px; row-gap: 0; }
@@ -1333,3 +1333,19 @@ body.is-locked { overflow: hidden; }
 }
 .on-dark .field--area textarea:focus, .field--area textarea:focus { border-color: var(--gold); }
 .field--area textarea:focus-visible { box-shadow: 0 0 0 1px var(--gold); }
+
+/* ---- Welcome page: jewelry + clothing in two arches (replaces the diamond) ---- */
+.intro__duo { position: relative; display: flex; justify-content: center; align-items: flex-end; margin-bottom: 26px; height: clamp(200px, min(42vh, 64vw), 420px); }
+.intro__arch {
+  position: relative; margin: 0; height: 100%; aspect-ratio: 3 / 4.4; overflow: hidden;
+  border-radius: 999px 999px 6px 6px; border: 1px solid color-mix(in srgb, var(--gold-soft) 70%, transparent);
+  box-shadow: 0 30px 60px -30px var(--shadow); opacity: 0;
+}
+.intro__arch::after { content: ""; position: absolute; inset: 8px; border: 1px solid color-mix(in srgb, var(--gold-soft) 40%, transparent); border-radius: 999px 999px 3px 3px; pointer-events: none; }
+.intro__arch picture, .intro__arch img { display: block; width: 100%; height: 100%; }
+.intro__arch img { object-fit: cover; }
+.intro__arch--jewel { z-index: 2; margin-right: -9%; transform: translateY(18px) rotate(-4deg); animation: archInL 1.3s cubic-bezier(.2,.7,.2,1) .2s forwards; }
+.intro__arch--cloth { height: 88%; border-color: color-mix(in srgb, var(--cloth-soft) 70%, transparent); transform: translateY(18px) rotate(5deg); animation: archInR 1.3s cubic-bezier(.2,.7,.2,1) .45s forwards; }
+.intro__arch--cloth img { object-position: 50% 20%; }
+@keyframes archInL { to { opacity: 1; transform: rotate(-4deg); } }
+@keyframes archInR { to { opacity: 1; transform: rotate(5deg); } }

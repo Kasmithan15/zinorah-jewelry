@@ -318,13 +318,24 @@
     }, { passive: true });
 
     /* ---------- orbit ---------- */
+    const section = root.closest("section");
     const measure = () => {
       const w = stage.clientWidth || window.innerWidth;
       const phone = w < 700;
-      const itemW = phone ? Math.round(w * 0.7) : Math.round(Math.min(360, Math.max(260, w * 0.3)));
+      let itemW = phone ? Math.round(w * 0.7) : Math.round(Math.min(360, Math.max(260, w * 0.3)));
+      // fit the whole showcase (heading → name) on one screen under the sticky header
+      if (section) {
+        const headerH = matchMedia("(min-width: 1181px)").matches ? 118 : 68;
+        const box = root.closest(".container") || section; // measured from the content, not the centring gap
+        const above = stage.getBoundingClientRect().top - box.getBoundingClientRect().top + 24;
+        const below = $(".orbit__nav", root).offsetHeight + $(".orbit__info", root).offsetHeight + 30 + 24;
+        const fitH = window.innerHeight - headerH - above - below;
+        itemW = Math.round(Math.max(phone ? 170 : 190, Math.min(itemW, fitH / 1.25)));
+      }
       stage.style.setProperty("--item-w", itemW + "px");
+      root.style.setProperty("--item-w", itemW + "px");
       geo = phone
-        ? { spacing: w * 0.42, depth: 140, rot: 26, blur: 1.5, show: 1.6 }
+        ? { spacing: itemW * 0.6, depth: 140, rot: 26, blur: 1.5, show: 1.6 }
         : { spacing: itemW * 0.92, depth: 220, rot: 30, blur: 3, show: 2.6 };
     };
     const layout = () => {
@@ -418,8 +429,8 @@
         return;
       }
       pos = 0; active = -1;
-      measure();
       setActive(0, false);
+      measure(); // after the name/price are filled in, so their height counts
       if (flat()) stage.scrollLeft = 0; else layout();
     };
 
@@ -510,6 +521,7 @@
     markGender();
     buildCats();
     build();
+    document.fonts?.ready.then(() => { measure(); layout(); moveLine(); }); // web fonts change text heights
 
     return {
       has: (id) => DATA.products.some((x) => x.id === id),
