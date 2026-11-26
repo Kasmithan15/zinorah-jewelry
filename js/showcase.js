@@ -291,31 +291,46 @@
       });
     });
 
-    /* ---------- category bar ---------- */
+    /* ---------- categories: the ☰ menu button in the left corner ---------- */
     const catTrack = $(".cats__track", root);
-    const catLine = $(".cats__line", root);
-    const moveLine = () => {
-      const b = $(".cats__btn[aria-pressed='true']", catTrack);
-      if (!b) return;
-      catLine.style.width = b.offsetWidth + "px";
-      catLine.style.transform = `translateX(${b.offsetLeft - catTrack.scrollLeft}px)`;
-      const left = b.offsetLeft - (catTrack.clientWidth - b.offsetWidth) / 2;
-      if (Math.abs(catTrack.scrollLeft - left) > 4) catTrack.scrollTo({ left, behavior: flat() ? "auto" : "smooth" });
+    const catMenu = $(".catmenu", root);
+    const catBtn = $(".catmenu__btn", root);
+    const catList = $(".cats", root);
+    const catNow = $(".catmenu__now", root);
+    const moveLine = () => {}; // (the old sliding underline; kept so resize code can still call it)
+    const setCatMenu = (open, focusBtn) => {
+      catBtn.setAttribute("aria-expanded", String(open));
+      catList.hidden = !open;
+      if (open) ($(".cats__btn[aria-pressed='true']", catTrack) || $(".cats__btn", catTrack))?.focus();
+      else if (focusBtn) catBtn.focus();
     };
+    catBtn.addEventListener("click", () => setCatMenu(catList.hidden));
+    document.addEventListener("click", (e) => { if (!catList.hidden && !catMenu.contains(e.target)) setCatMenu(false); });
+    catMenu.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !catList.hidden) { e.stopPropagation(); setCatMenu(false, true); return; }
+      if (!["ArrowDown", "ArrowUp"].includes(e.key) || catList.hidden) return;
+      e.preventDefault();
+      const btns = $$(".cats__btn", catTrack);
+      const i = btns.indexOf(document.activeElement);
+      btns[(i + (e.key === "ArrowDown" ? 1 : -1) + btns.length) % btns.length].focus();
+    });
+    catMenu.addEventListener("focusout", (e) => { if (!catList.hidden && !catMenu.contains(e.relatedTarget)) setCatMenu(false); });
     const buildCats = () => {
       const usable = (DATA.categories[gender] || []).filter((c) => c.id === "all" || DATA.products.some((p) => inGender(p) && p.category === c.id));
+      catNow.textContent = (usable.find((c) => c.id === cat) || usable[0] || {}).label || "All";
       catTrack.replaceChildren(...usable.map((c) => {
         const b = el("button", "cats__btn", c.label);
         b.type = "button"; b.dataset.cat = c.id; b.setAttribute("aria-pressed", String(c.id === cat));
-        b.addEventListener("click", () => { if (c.id === cat) return; cat = c.id; $$(".cats__btn", catTrack).forEach((x) => x.setAttribute("aria-pressed", String(x === b))); moveLine(); swap(); });
+        b.addEventListener("click", () => {
+          setCatMenu(false, true);
+          if (c.id === cat) return;
+          cat = c.id; catNow.textContent = c.label;
+          $$(".cats__btn", catTrack).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+          swap();
+        });
         return b;
       }));
-      requestAnimationFrame(moveLine);
     };
-    catTrack.addEventListener("scroll", () => {
-      const b = $(".cats__btn[aria-pressed='true']", catTrack);
-      if (b) catLine.style.transform = `translateX(${b.offsetLeft - catTrack.scrollLeft}px)`;
-    }, { passive: true });
 
     /* ---------- orbit ---------- */
     const section = root.closest("section");

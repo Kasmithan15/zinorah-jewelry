@@ -49,7 +49,7 @@
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
   <link rel="stylesheet" href="css/style.css?v=26" />
-  <link rel="stylesheet" href="css/clothing.css?v=25" />
+  <link rel="stylesheet" href="css/clothing.css?v=27" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -359,10 +359,15 @@
         <!-- ============ JEWELRY SHOWCASE (pieces come from js/jewelry-data.js) ============ -->
         <div class="cshow cshow--jewel" id="jshow">
           <div class="cshow__controls">
-            <nav class="cats" aria-label="Jewelry categories">
-              <div class="cats__track"></div>
-              <span class="cats__line" aria-hidden="true"></span>
-            </nav>
+            <div class="catmenu">
+              <button type="button" class="catmenu__btn" aria-expanded="false" aria-controls="jcats">
+                <span class="catmenu__icon" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="visually-hidden">Categories: </span><span class="catmenu__now">All</span>
+              </button>
+              <nav class="cats" id="jcats" aria-label="Jewelry categories" hidden>
+                <div class="cats__track"></div>
+              </nav>
+            </div>
           </div>
 
           <div class="orbit" role="region" aria-roledescription="carousel" aria-label="Jewelry collection">
@@ -404,15 +409,20 @@
         <!-- ============ CLOTHING SHOWCASE (products come from js/clothing-data.js) ============ -->
         <div class="cshow" id="cshow">
           <div class="cshow__controls">
+            <div class="catmenu">
+              <button type="button" class="catmenu__btn" aria-expanded="false" aria-controls="ccats">
+                <span class="catmenu__icon" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="visually-hidden">Categories: </span><span class="catmenu__now">All</span>
+              </button>
+              <nav class="cats" id="ccats" aria-label="Clothing categories" hidden>
+                <div class="cats__track"></div>
+              </nav>
+            </div>
             <div class="gender" role="radiogroup" aria-label="Show clothing for">
               <span class="gender__thumb" aria-hidden="true"></span>
               <button type="button" class="gender__btn" role="radio" aria-checked="true" data-gender="women">Women</button>
               <button type="button" class="gender__btn" role="radio" aria-checked="false" data-gender="men" tabindex="-1">Men</button>
             </div>
-            <nav class="cats" aria-label="Clothing categories">
-              <div class="cats__track"></div>
-              <span class="cats__line" aria-hidden="true"></span>
-            </nav>
           </div>
 
           <div class="orbit" role="region" aria-roledescription="carousel" aria-label="Clothing collection">
@@ -895,6 +905,6 @@
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=24" defer></script>
   <script src="js/main.js?v=25" defer></script>
-  <script src="js/showcase.js?v=25" defer></script>
+  <script src="js/showcase.js?v=27" defer></script>
 </body>
 </html>
