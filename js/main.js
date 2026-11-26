@@ -596,9 +596,10 @@ renderBag();
   const sec = document.getElementById("reviews");
   const R = window.ZIN_REVIEWS || {};
   const preview = /[?&]reviews-preview\b/.test(location.search);
-  const list = (R.reviews || []).length ? R.reviews : preview ? R.samples || [] : [];
+  const real = (R.reviews || []).length > 0;
+  const list = real ? R.reviews : preview ? (R.samples || []).map((r) => ({ ...r, about: [r.about, "Sample"].filter(Boolean).join(" · ") })) : [];
   if (!sec || !list.length) return; // stays hidden until there is a real review
-  if (!(R.reviews || []).length) sec.querySelector(".reviews__note").hidden = false;
+  if (!real) sec.querySelector(".reviews__note").hidden = false;
   const track = sec.querySelector(".reviews__track");
   const dlg = document.getElementById("revDialog");
   let opener = null, viaKey = false;

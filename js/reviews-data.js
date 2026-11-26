@@ -27,12 +27,18 @@ window.ZIN_REVIEWS = {
     // { name: "Customer name", place: "Trincomalee", stars: 5, text: "Their words…", about: "Jewelry", piece: "images/jewelry/s-gold-hoops.jpg" },
   ],
 
-  // Only for ?reviews-preview. Not real customers; never shown on the normal site.
+  // Only for ?reviews-preview, to see the design. Made-up examples, not real customers:
+  // they are tagged "Sample" and never shown on the normal site. Do not move them into "reviews".
   samples: [
-    { name: "Sample customer", place: "Trincomalee", stars: 5, about: "Jewelry", text: "Sample review: a short line about the piece they bought and how they were helped in the shop.", piece: "images/jewelry/s-crystal-leaf-display.jpg" },
-    { name: "Sample customer", place: "Kinniya", stars: 5, about: "Clothing", text: "Sample review: what they thought of the saree, the fabric and the stitching.", piece: "images/clothing/p-silk-saree.jpg" },
-    { name: "Sample customer", place: "Batticaloa", stars: 4, about: "Jewelry & Clothing", text: "Sample review: about matching a bridal set with the outfit for a wedding.", piece: "images/clothing/p-bridal-lehenga.jpg" },
-    { name: "Sample customer", place: "Colombo", stars: 5, about: "Jewelry", text: "Sample review: about ordering on WhatsApp and getting the piece delivered.", piece: "images/jewelry/s-diamond-trio.jpg" },
-    { name: "Sample customer", place: "Trincomalee", stars: 5, about: "Clothing", text: "Sample review: about the men's kurta or sherwani for a function.", piece: "images/clothing/men/sherwani-ivory.jpg" },
+    { name: "Priya S.", place: "Trincomalee", stars: 5, about: "Jewelry", piece: "images/jewelry/s-crystal-leaf-display.jpg",
+      text: "The leaf necklace set is even prettier in person. They let me try a few styles and helped me pick the right length." },
+    { name: "Kavitha R.", place: "Kinniya", stars: 5, about: "Clothing", piece: "images/clothing/p-silk-saree.jpg",
+      text: "Beautiful silk and the blouse stitching fit perfectly the first time. I will come back for Deepavali." },
+    { name: "Nirosha M.", place: "Batticaloa", stars: 4, about: "Jewelry & Clothing", piece: "images/clothing/p-bridal-lehenga.jpg",
+      text: "We matched my bridal lehenga and jewelry in one visit. Very patient staff, only the alterations took a little longer." },
+    { name: "Tharshini K.", place: "Colombo", stars: 5, about: "Jewelry", piece: "images/jewelry/s-diamond-trio.jpg",
+      text: "I ordered on WhatsApp from Colombo. They sent clear photos and videos, and the set arrived safely, well packed." },
+    { name: "Arjun V.", place: "Trincomalee", stars: 5, about: "Clothing", piece: "images/clothing/men/sherwani-ivory.jpg",
+      text: "Got my sherwani for my brother's wedding. Great fit, rich embroidery, and they finished it before the date." },
   ],
 };
