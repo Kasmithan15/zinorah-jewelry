@@ -527,3 +527,6 @@
 
 /* chosen size in the details panel: emerald, never a wine background */
 .size.is-on { background: var(--emerald-800); border-color: var(--emerald-800); color: var(--gold-soft); }
+
+/* the line under the sizes after one is picked */
+.pd-size-note { margin: 12px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }

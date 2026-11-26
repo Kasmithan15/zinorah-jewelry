@@ -85,6 +85,15 @@
       return pick;
     };
 
+    /* a line under the sizes so each choice visibly does something */
+    const showSizeNote = (v) => {
+      const n = $("#pdSizeNote"); if (!n) return;
+      const text = !v ? ""
+        : /custom/i.test(v) ? "Made to your measurements: we take them in the shop, or send them to us on WhatsApp."
+        : /free/i.test(v) ? "Free size: one size that fits most. The blouse is stitched to fit."
+        : "Size " + v + " selected.";
+      n.textContent = text; n.hidden = !text;
+    };
     const updateWa = () => {
       if (!current) return;
       const bits = [choice.size && (/custom/i.test(choice.size) ? "custom size, please help me with the measurement" : "size " + choice.size), choice.colour && ctx.optionLabel.toLowerCase() + " " + choice.colour].filter(Boolean).join(", ");
@@ -125,11 +134,12 @@
           }, (c) => c.name);
         pickC(0);
       }
+      showSizeNote("");
       const sBox = $("#pdSizesBox");
       sBox.hidden = !(p.sizes && p.sizes.length);
       if (!sBox.hidden) {
         radioGroup($("#pdSizes"), p.sizes, (v) => el("button", "size" + (v.length > 4 ? " size--wide" : ""), v),
-          (v) => { choice.size = v; msg.textContent = ""; updateWa(); }, (v) => "Size " + v);
+          (v) => { choice.size = v; msg.textContent = ""; msg.classList.remove("is-error"); showSizeNote(v); updateWa(); }, (v) => "Size " + v);
         if (p.sizes.length === 1) $("#pdSizes button").click();
       }
       $("#pdGuide").hidden = !ctx.guideFor(p);
@@ -190,11 +200,12 @@
 
     /* swipe down (from the top of the panel) to close */
     let pull = null;
-    panel.addEventListener("touchstart", (e) => { if (panel.scrollTop <= 0 && !e.target.closest(".pdetail__slides")) pull = { y: e.touches[0].clientY, dy: 0 }; }, { passive: true });
+    // (never from a button or link: a tiny finger movement there used to cancel the tap, so sizes/colours "did nothing")
+    panel.addEventListener("touchstart", (e) => { if (panel.scrollTop <= 0 && !e.target.closest(".pdetail__slides, button, a, input, select, textarea, label")) pull = { y: e.touches[0].clientY, dy: 0 }; }, { passive: true });
     panel.addEventListener("touchmove", (e) => {
       if (!pull) return;
       pull.dy = e.touches[0].clientY - pull.y;
-      if (pull.dy <= 0) { panel.style.transform = ""; return; }
+      if (pull.dy <= 8) { panel.style.transform = ""; return; } // small wobble while tapping: not a swipe
       e.preventDefault();
       panel.style.transform = `translateY(${pull.dy}px)`;
     }, { passive: false });

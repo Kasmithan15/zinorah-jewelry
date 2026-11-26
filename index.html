@@ -49,7 +49,7 @@
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
   <link rel="stylesheet" href="css/style.css?v=56" />
-  <link rel="stylesheet" href="css/clothing.css?v=53" />
+  <link rel="stylesheet" href="css/clothing.css?v=54" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -284,6 +284,7 @@
         <fieldset class="pd-opt" id="pdSizesBox">
           <legend>Size</legend>
           <div class="sizes" id="pdSizes"></div>
+          <p class="pd-size-note" id="pdSizeNote" aria-live="polite" hidden></p>
           <button type="button" class="pd-guide" id="pdGuide">Size guide</button>
         </fieldset>
         <p class="form__status pdetail__msg" id="pdMsg" role="status" aria-live="polite"></p>
@@ -925,10 +926,10 @@
   <script src="js/db.js?v=22" defer></script>
   <script src="js/firebase-config.js?v=21" defer></script>
   <script type="module" src="js/backend.js?v=22"></script>
-  <script src="js/clothing-data.js?v=23" defer></script>
+  <script src="js/clothing-data.js?v=24" defer></script>
   <script src="js/jewelry-data.js?v=34" defer></script>
   <script src="js/reviews-data.js?v=4" defer></script>
   <script src="js/main.js?v=48" defer></script>
-  <script src="js/showcase.js?v=45" defer></script>
+  <script src="js/showcase.js?v=46" defer></script>
 </body>
 </html>
