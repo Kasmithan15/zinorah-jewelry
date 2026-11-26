@@ -139,12 +139,26 @@
     }));
   };
 
+  // pieces in the website bag (saved in this browser) that have not been sent yet
+  const bagLines = () => { try { return (JSON.parse(localStorage.getItem("zin-bag")) || []).filter((x) => x && x.name); } catch (e) { return []; } };
   const renderMyEnquiries = async () => {
     const list = $(".js-my-enquiries");
     let items = [];
     try { items = await DB.myEnquiries(); } catch (e) { return empty(list, e.message); }
-    if (!items.length) return empty(list, "No enquiries yet. Enquiries you send from the website while signed in appear here.", "Send an enquiry", "index.html#appointment");
-    list.replaceChildren(...items.map((q) => {
+    const inBag = bagLines().map((x) => {
+      const li = el("li", "item");
+      const body = el("div", "item__body");
+      const top = el("div", "item__top");
+      top.append(el("strong", "item__title", x.name), el("span", "badge badge--replied", "In your bag"));
+      body.append(top, el("p", "item__meta", [x.size && "Size " + x.size, x.colour, "Qty " + (x.qty || 1)].filter(Boolean).join(" · ")));
+      const a = el("a", "link-arrow", "Open bag to send");
+      a.href = "index.html#clothing";
+      const actions = el("div", "item__actions"); actions.append(a);
+      li.append(body, actions);
+      return li;
+    });
+    if (!items.length && !inBag.length) return empty(list, "No enquiries yet. Enquiries you send from the website while signed in appear here.", "Send an enquiry", "index.html#appointment");
+    list.replaceChildren(...inBag, ...items.map((q) => {
       const li = el("li", "item");
       const body = el("div", "item__body");
       const top = el("div", "item__top");

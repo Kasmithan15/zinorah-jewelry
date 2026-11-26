@@ -350,6 +350,8 @@ document.querySelectorAll(".search, .bag").forEach((panel) => {
   });
 });
 
+window.ZinPanels = { open: openPanel, close: closePanel };
+
 /* ---- Product data (used by search and the bag) ---- */
 const pieces = [...document.querySelectorAll(".product")].map((p) => ({
   el: p,
@@ -365,6 +367,11 @@ const collections = [...document.querySelectorAll(".collection")].map((c) => ({
   detail: c.querySelector(".collection__count").textContent.trim(),
   img: c.dataset.img,
   cloth: !!c.closest("#clothing"),
+}));
+// clothing showcase products (js/clothing-data.js) are searchable too
+const clothes = ((window.ZIN_CLOTHING && window.ZIN_CLOTHING.products) || []).map((c) => ({
+  cid: c.id, name: c.name, detail: c.details, img: (c.images && c.images[0]) || "", cloth: true,
+  tags: `clothing ${c.gender} ${c.gender === "men" ? "mens gents" : "womens ladies"} ${c.category}`,
 }));
 const thumb = (item) => {
   const t = document.createElement("span");
@@ -387,7 +394,10 @@ const searchResults = document.getElementById("searchResults");
 const searchStatus = document.getElementById("searchStatus");
 const findPiece = (item) => {
   closePanel(searchPanel);
-  if (item.el.classList.contains("product")) {
+  if (item.cid) {
+    document.getElementById("clothing").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    window.ZinOrbit?.show(item.cid);
+  } else if (item.el.classList.contains("product")) {
     applyFilter("all");
     item.el.classList.add("is-visible");
     item.el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
@@ -403,13 +413,14 @@ const runSearch = () => {
   if (!words.length) { searchStatus.textContent = ""; return; }
   const hit = (it, extra = "") => words.every((w) => (it.name + " " + it.detail + " " + extra).toLowerCase().includes(w.replace(/s$/, "")));
   const found = [
+    ...clothes.filter((c) => hit(c, c.tags)).map((c) => ({ item: c, sub: "Clothing · " + c.detail })),
     ...pieces.filter((p) => hit(p, p.tags)).map((p) => ({ item: p, sub: p.detail })),
     ...collections.filter((c) => hit(c, c.cloth ? "clothing collection" : "jewelry jewellery collection")).map((c) => ({ item: c, sub: "Collection · " + c.detail })),
   ].slice(0, 12);
   found.forEach(({ item, sub }) => {
     const li = document.createElement("li");
     const a = document.createElement("a");
-    a.href = item.el.classList.contains("product") ? "#new-arrivals" : item.el.getAttribute("href");
+    a.href = item.cid ? "#clothing" : item.el.classList.contains("product") ? "#new-arrivals" : item.el.getAttribute("href");
     a.append(thumb(item), label(item, sub));
     a.addEventListener("click", (e) => { e.preventDefault(); findPiece(item); });
     li.append(a); searchResults.append(li);
@@ -422,13 +433,52 @@ searchInput.addEventListener("input", runSearch);
 searchPanel.querySelectorAll("[data-q]").forEach((b) => b.addEventListener("click", () => { searchInput.value = b.dataset.q; runSearch(); searchInput.focus(); }));
 searchOpen.addEventListener("click", () => { setMenu(false); openPanel(searchPanel, searchOpen, searchInput); });
 
-/* ---- Enquiry bag (saved in this browser; sent as one WhatsApp message) ---- */
+/* ---- Bag (saved in this browser; sent as one WhatsApp order) ----
+   Each line: { key, id, name, detail, img, size, colour, qty, dept }
+   The clothing showcase adds lines with window.ZinBag.add(item, photoElement). */
 const bagPanel = document.getElementById("bagPanel");
 const bagOpen = document.getElementById("bagOpen");
 const bagList = document.getElementById("bagList");
-const readBag = () => { try { return JSON.parse(localStorage.getItem("zin-bag")) || []; } catch (e) { return []; } };
-const writeBag = (b) => { try { localStorage.setItem("zin-bag", JSON.stringify(b)); } catch (e) {} };
-let bag = readBag().filter((n) => pieces.some((p) => p.name === n));
+const BAG_KEY = "zin-bag";
+const readBag = () => { try { return JSON.parse(localStorage.getItem(BAG_KEY)) || []; } catch (e) { return []; } };
+const writeBag = (b) => { try { localStorage.setItem(BAG_KEY, JSON.stringify(b)); } catch (e) {} };
+const pieceLine = (p) => ({ key: "p:" + p.name, id: "", name: p.name, detail: p.detail, img: p.img || "", size: "", colour: "", qty: 1, dept: p.cloth ? "Clothing" : "Jewelry" });
+// older bags stored just names: turn them into lines
+let bag = readBag().map((x) => {
+  if (typeof x === "string") { const p = pieces.find((q) => q.name === x); return p ? pieceLine(p) : null; }
+  return x && x.key && x.name ? { ...x, qty: Math.max(1, Math.min(20, parseInt(x.qty, 10) || 1)) } : null;
+}).filter(Boolean);
+const bagTotal = () => bag.reduce((n, x) => n + x.qty, 0);
+const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* thumbnail flies from the product photo to the bag icon */
+const flyToBag = (fromEl) => new Promise((done) => {
+  const to = bagOpen.getBoundingClientRect();
+  if (!fromEl || reduceMotion() || !to.width || !fromEl.animate) return done();
+  const r = fromEl.getBoundingClientRect();
+  const ghost = fromEl.cloneNode(true);
+  ghost.removeAttribute("id"); ghost.setAttribute("aria-hidden", "true");
+  Object.assign(ghost.style, { position: "fixed", left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px", margin: 0, zIndex: 300, pointerEvents: "none", borderRadius: "12px", overflow: "hidden", viewTransitionName: "none" });
+  ghost.classList.add("bag-ghost");
+  document.body.append(ghost);
+  const dx = to.left + to.width / 2 - (r.left + r.width / 2), dy = to.top + to.height / 2 - (r.top + r.height / 2);
+  const anim = ghost.animate([
+    { transform: "translate(0,0) scale(1)", opacity: 1 },
+    { transform: `translate(${dx * 0.55}px, ${dy * 0.35 - 60}px) scale(.45)`, opacity: 1, offset: 0.55 },
+    { transform: `translate(${dx}px, ${dy}px) scale(.06)`, opacity: 0.3 },
+  ], { duration: 760, easing: "cubic-bezier(.7,0,.2,1)" });
+  anim.onfinish = anim.oncancel = () => { ghost.remove(); done(); };
+});
+
+const addToBag = async (item, fromEl) => {
+  const line = bag.find((x) => x.key === item.key);
+  if (line) line.qty = Math.min(20, line.qty + (item.qty || 1));
+  else bag.push({ key: item.key, id: item.id || "", name: item.name, detail: item.detail || "", img: item.img || "", size: item.size || "", colour: item.colour || "", qty: item.qty || 1, dept: item.dept || "Clothing" });
+  writeBag(bag);
+  await flyToBag(fromEl);
+  renderBag();
+};
+window.ZinBag = { add: addToBag, open: () => openBag(document.activeElement), count: bagTotal };
 
 const bagButtons = pieces.map((p) => {
   const foot = p.el.querySelector(".product__foot");
@@ -438,50 +488,80 @@ const bagButtons = pieces.map((p) => {
   b.type = "button"; b.className = "bag-add"; b.dataset.item = p.name;
   b.innerHTML = '<svg aria-hidden="true"><use href="#i-bag"/></svg>';
   enquire.replaceWith(actions); actions.append(enquire, b);
-  b.addEventListener("click", () => {
-    const has = bag.includes(p.name);
-    bag = has ? bag.filter((n) => n !== p.name) : [...bag, p.name];
-    renderBag();
-    toast(has ? `Removed "${p.name}" from your enquiry bag.` : `Added "${p.name}" to your enquiry bag.`, has ? null : { href: "#", text: "View bag" });
+  b.addEventListener("click", async () => {
+    const key = "p:" + p.name;
+    const has = bag.some((x) => x.key === key);
+    if (has) { bag = bag.filter((x) => x.key !== key); renderBag(); }
+    else await addToBag(pieceLine(p), p.el.querySelector(".product__media"));
+    toast(has ? `Removed "${p.name}" from your bag.` : `Added "${p.name}" to your bag.`, has ? null : { href: "#", text: "View bag" });
     const link = document.querySelector(".toast a");
-    link?.addEventListener("click", (e) => { e.preventDefault(); openPanel(bagPanel, bagOpen); }, { once: true });
+    link?.addEventListener("click", (e) => { e.preventDefault(); openBag(b); }, { once: true });
   });
   return b;
 });
+
+const qtyBtn = (sign, label, onClick) => {
+  const x = document.createElement("button");
+  x.type = "button"; x.className = "qty__btn"; x.textContent = sign; x.setAttribute("aria-label", label);
+  x.addEventListener("click", onClick);
+  return x;
+};
 const renderBag = () => {
   writeBag(bag);
-  const n = bag.length;
-  setCount("bag", n, `Enquiry bag, ${n} piece${n === 1 ? "" : "s"}`);
+  const n = bagTotal();
+  setCount("bag", n, n ? `Bag, ${n} piece${n === 1 ? "" : "s"}` : "Bag, empty");
   bagButtons.forEach((b) => {
-    const on = bag.includes(b.dataset.item);
+    const on = bag.some((x) => x.key === "p:" + b.dataset.item);
     b.setAttribute("aria-pressed", String(on));
-    b.setAttribute("aria-label", on ? `Remove ${b.dataset.item} from enquiry bag` : `Add ${b.dataset.item} to enquiry bag`);
+    b.setAttribute("aria-label", on ? `Remove ${b.dataset.item} from bag` : `Add ${b.dataset.item} to bag`);
   });
-  document.getElementById("bagSend").disabled = !n;
-  document.getElementById("bagClear").hidden = !n;
-  if (!n) {
+  bagPanel.querySelector(".bag__foot").hidden = !n;
+  if (!bag.length) {
     const li = document.createElement("li"); li.className = "bag__empty";
-    li.textContent = "Your bag is empty. Tap the bag button on any piece to add it.";
+    const t = document.createElement("p"); t.className = "bag__empty-title"; t.textContent = "Your bag is empty";
+    const s2 = document.createElement("p"); s2.textContent = "Find a piece you love and tap “Add to bag”.";
+    const go = document.createElement("button"); go.type = "button"; go.className = "btn btn--outline btn--sm"; go.textContent = "Explore clothing";
+    go.addEventListener("click", () => { closePanel(bagPanel); document.getElementById("clothing")?.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth" }); });
+    li.append(t, s2, go);
     return bagList.replaceChildren(li);
   }
-  bagList.replaceChildren(...bag.map((name) => {
-    const p = pieces.find((x) => x.name === name);
+  bagList.replaceChildren(...bag.map((line) => {
     const li = document.createElement("li"); li.className = "bag__item";
+    const extra = [line.size && "Size " + line.size, line.colour].filter(Boolean).join(" · ") || line.detail;
+    const body = label({ name: line.name, detail: extra });
+    const qty = document.createElement("div"); qty.className = "qty"; qty.setAttribute("role", "group"); qty.setAttribute("aria-label", `Quantity of ${line.name}`);
+    const num = document.createElement("output"); num.className = "qty__num"; num.textContent = line.qty; num.setAttribute("aria-live", "polite");
+    const minus = qtyBtn("−", `One less ${line.name}`, () => { if (line.qty > 1) { line.qty--; renderBag(); bagList.querySelector(`[data-key="${CSS.escape(line.key)}"] .qty__btn`)?.focus(); } });
+    minus.disabled = line.qty <= 1;
+    const plus = qtyBtn("+", `One more ${line.name}`, () => { if (line.qty < 20) { line.qty++; renderBag(); bagList.querySelectorAll(`[data-key="${CSS.escape(line.key)}"] .qty__btn`)[1]?.focus(); } });
+    qty.append(minus, num, plus);
+    body.append(qty);
     const rm = document.createElement("button");
-    rm.type = "button"; rm.className = "bag__remove"; rm.setAttribute("aria-label", `Remove ${name}`);
+    rm.type = "button"; rm.className = "bag__remove"; rm.setAttribute("aria-label", `Remove ${line.name}`);
     rm.innerHTML = '<svg aria-hidden="true"><use href="#i-close"/></svg>';
-    rm.addEventListener("click", () => { bag = bag.filter((x) => x !== name); renderBag(); (bagList.querySelector("button") || document.getElementById("bagPanel").querySelector("[data-close]")).focus(); });
-    li.append(thumb(p), label(p), rm);
+    rm.addEventListener("click", () => { bag = bag.filter((x) => x !== line); renderBag(); (bagList.querySelector("button") || bagPanel.querySelector("[data-close]")).focus(); });
+    li.dataset.key = line.key;
+    li.append(thumb({ img: line.img, cloth: line.dept === "Clothing" }), body, rm);
     return li;
   }));
 };
-document.getElementById("bagSend").addEventListener("click", () => {
+const openBag = (opener) => { setMenu(false); openPanel(bagPanel, opener || bagOpen); };
+document.getElementById("bagSend").addEventListener("click", async () => {
   if (!bag.length) return;
-  const lines = bag.map((name, i) => { const p = pieces.find((x) => x.name === name); return `${i + 1}. ${name} (${p ? p.detail : ""})`; });
-  window.open(waUrl(`Hello ${SHOP.name}, I'd like to enquire about these pieces:\n\n${lines.join("\n")}\n\nCould you share prices and availability?`), "_blank", "noopener");
+  const lines = bag.map((x, i) => `${i + 1}. ${x.name}` + (x.size ? ` | Size: ${x.size}` : "") + (x.colour ? ` | Colour: ${x.colour}` : "") + ` | Qty: ${x.qty}`);
+  const text = `Hello ${SHOP.name}, I'd like to order:\n\n${lines.join("\n")}\n\nCould you confirm price and availability?`;
+  window.open(waUrl(text), "_blank", "noopener");
+  // signed-in customers also see it under "My enquiries"
+  try {
+    const me = window.DB && await DB.customerCurrent();
+    if (me && me.phone) {
+      const depts = new Set(bag.map((x) => x.dept));
+      await DB.addEnquiry({ name: me.name || me.email, phone: me.phone, department: depts.size > 1 ? "Both: bridal look" : [...depts][0] || "Clothing", interest: "Bag order", neededBy: "", message: lines.join("\n") });
+    }
+  } catch (e) {}
 });
 document.getElementById("bagClear").addEventListener("click", () => { bag = []; renderBag(); bagPanel.querySelector("[data-close]").focus(); });
-bagOpen.addEventListener("click", () => { setMenu(false); openPanel(bagPanel, bagOpen); });
+bagOpen.addEventListener("click", () => openBag(bagOpen));
 renderBag();
 
 /* ---- Footer year ---- */

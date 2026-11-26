@@ -48,7 +48,8 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=19" />
+  <link rel="stylesheet" href="css/style.css?v=20" />
+  <link rel="stylesheet" href="css/clothing.css?v=20" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -140,6 +141,9 @@
           <path d="M42 38c4 10 14 18 26 22 M38 52c10 8 22 12 34 12" opacity=".55"/>
           <path d="M24 82h52" opacity=".55"/>
         </g>
+      </symbol>
+      <symbol id="i-kurta" viewBox="0 0 100 100">
+        <path d="M39 16h22l15 11-7 15-6-4v46H37V38l-6 4-7-15z M44 16l6 11 6-11 M50 27v22 M37 72h26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       </symbol>
       <symbol id="i-whatsapp" viewBox="0 0 24 24">
         <path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.700-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.800c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.700.7 2.3.8 3.2.6.5-.1 1.5-.6 1.700-1.2.2-.6.2-1.100.2-1.200-.1-.1-.2-.2-.5-.3z"/>
@@ -241,22 +245,65 @@
     </div>
   </div>
 
-  <!-- ============ ENQUIRY BAG (no online payment: the list goes to WhatsApp) ============ -->
+  <!-- ============ BAG (no online payment: the order goes to WhatsApp) ============ -->
   <div class="bag on-cream" id="bagPanel" hidden>
     <div class="bag__backdrop" data-close></div>
     <aside class="bag__panel" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
       <header class="bag__head">
-        <h2 id="bagTitle">Your enquiry bag</h2>
-        <button type="button" class="search__close" data-close aria-label="Close enquiry bag"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+        <h2 id="bagTitle">Your bag</h2>
+        <button type="button" class="search__close" data-close aria-label="Close bag"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
       </header>
-      <p class="bag__intro">Add the pieces you love, then send them to us on WhatsApp in one message. We'll reply with prices and availability.</p>
+      <p class="bag__intro">Send your bag to us on WhatsApp in one message. We'll confirm price, size and availability. No online payment.</p>
       <ul class="bag__list" id="bagList"></ul>
       <footer class="bag__foot">
-        <button type="button" class="btn btn--gold btn--block" id="bagSend">Send enquiry on WhatsApp</button>
+        <button type="button" class="btn btn--gold btn--block" id="bagSend">Send order on WhatsApp</button>
         <button type="button" class="text-btn" id="bagClear">Clear bag</button>
       </footer>
     </aside>
   </div>
+
+  <!-- ============ CLOTHING: PRODUCT DETAIL (opens in place) ============ -->
+  <div class="pdetail" id="pdetail" hidden>
+    <div class="pdetail__backdrop" data-close></div>
+    <article class="pdetail__panel on-cream" role="dialog" aria-modal="true" aria-labelledby="pdName">
+      <div class="pdetail__grab" aria-hidden="true"></div>
+      <button type="button" class="pdetail__close" data-close aria-label="Close details"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      <div class="pdetail__gallery">
+        <div class="pdetail__slides" id="pdSlides" tabindex="0" aria-label="Photos"></div>
+        <div class="pdetail__thumbs" id="pdThumbs"></div>
+      </div>
+      <div class="pdetail__body">
+        <p class="eyebrow" id="pdCat"></p>
+        <h2 class="pdetail__name" id="pdName"></h2>
+        <p class="pdetail__details" id="pdDetails"></p>
+        <p class="pdetail__price" id="pdPrice"></p>
+        <fieldset class="pd-opt" id="pdColours">
+          <legend>Colour: <span id="pdColourName"></span></legend>
+          <div class="swatches" id="pdSwatches"></div>
+        </fieldset>
+        <fieldset class="pd-opt" id="pdSizesBox">
+          <legend>Size</legend>
+          <div class="sizes" id="pdSizes"></div>
+          <button type="button" class="pd-guide" id="pdGuide">Size guide</button>
+        </fieldset>
+        <p class="form__status pdetail__msg" id="pdMsg" role="status" aria-live="polite"></p>
+        <div class="pdetail__actions">
+          <button type="button" class="btn btn--gold" id="pdAdd">Add to bag</button>
+          <a class="btn btn--outline" id="pdWa" href="#" target="_blank" rel="noopener">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <dialog class="sizeguide on-cream" id="sizeGuide" aria-labelledby="sgTitle">
+    <div class="sizeguide__head">
+      <h2 id="sgTitle">Size guide</h2>
+      <button type="button" class="search__close" id="sgClose" aria-label="Close size guide"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <p class="sizeguide__unit">Measurements in inches</p>
+    <table class="sizeguide__table" id="sgTable"></table>
+    <p class="sizeguide__note" id="sgNote"></p>
+  </dialog>
 
   <main id="top">
 
@@ -361,52 +408,37 @@
           <p class="section__intro">Silk sarees, bridal wear, lehengas, kurtis and festive outfits for the whole family, from everyday cotton to wedding silk.</p>
         </header>
 
-        <div class="collections collections--five">
-          <!-- TODO: photo images/clothing/col-sarees.jpg -->
-          <a href="#new-arrivals" data-jump="clothing" class="collection collection--tall reveal" data-img="images/clothing/col-sarees.jpg">
-            <svg class="collection__art"><use href="#i-saree"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Silk · Cotton · Festive</span>
-              <h3>Sarees</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+        <!-- ============ CLOTHING SHOWCASE (products come from js/clothing-data.js) ============ -->
+        <div class="cshow" id="cshow">
+          <div class="cshow__controls">
+            <div class="gender" role="radiogroup" aria-label="Show clothing for">
+              <span class="gender__thumb" aria-hidden="true"></span>
+              <button type="button" class="gender__btn" role="radio" aria-checked="true" data-gender="women">Women</button>
+              <button type="button" class="gender__btn" role="radio" aria-checked="false" data-gender="men" tabindex="-1">Men</button>
             </div>
-          </a>
-          <!-- TODO: photo images/clothing/col-bridal-wear.jpg -->
-          <a href="#bridal" class="collection reveal" data-img="images/clothing/col-bridal-wear.jpg">
-            <svg class="collection__art"><use href="#i-saree"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Bridal sarees · Lehengas</span>
-              <h3>Bridal Wear</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            <nav class="cats" aria-label="Clothing categories">
+              <div class="cats__track"></div>
+              <span class="cats__line" aria-hidden="true"></span>
+            </nav>
+          </div>
+
+          <div class="orbit" role="region" aria-roledescription="carousel" aria-label="Clothing collection">
+            <div class="orbit__word" aria-hidden="true"></div>
+            <div class="orbit__stage" tabindex="0" aria-label="Use the left and right arrow keys to browse. Press Enter to see details."></div>
+            <div class="orbit__nav">
+              <button type="button" class="orbit__btn" data-dir="-1" aria-label="Previous piece"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <p class="orbit__count" aria-hidden="true"><span class="js-orbit-now">01</span> / <span class="js-orbit-total">08</span></p>
+              <button type="button" class="orbit__btn" data-dir="1" aria-label="Next piece"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
-          </a>
-          <!-- TODO: photo images/clothing/col-lehenga.jpg -->
-          <a href="#new-arrivals" data-jump="clothing" class="collection reveal" data-img="images/clothing/col-lehenga.jpg">
-            <svg class="collection__art"><use href="#i-saree"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Lehengas · Gowns · Sets</span>
-              <h3>Lehengas &amp; Party Wear</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            <div class="orbit__info">
+              <h3 class="orbit__name js-orbit-name"></h3>
+              <p class="orbit__details js-orbit-details"></p>
+              <p class="orbit__price js-orbit-price"></p>
+              <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
-          </a>
-          <!-- TODO: photo images/clothing/col-kurtis.jpg -->
-          <a href="#new-arrivals" data-jump="clothing" class="collection reveal" data-img="images/clothing/col-kurtis.jpg">
-            <svg class="collection__art"><use href="#i-saree"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Kurtis · Salwar · Tops</span>
-              <h3>Kurtis &amp; Everyday Wear</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
-            </div>
-          </a>
-          <!-- TODO: photo images/clothing/col-kids.jpg -->
-          <a href="#new-arrivals" data-jump="clothing" class="collection reveal" data-img="images/clothing/col-kids.jpg">
-            <svg class="collection__art"><use href="#i-saree"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Festive sets · Family</span>
-              <h3>Kids &amp; Family</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
-            </div>
-          </a>
+            <p class="visually-hidden" aria-live="polite" id="orbitLive"></p>
+          </div>
+          <noscript><p class="cshow__noscript">Please turn on JavaScript to browse the clothing collection, or <a href="https://wa.me/94767667028">ask us on WhatsApp</a>.</p></noscript>
         </div>
       </div>
     </section>
@@ -861,9 +893,11 @@
     <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/db.js?v=19" defer></script>
-  <script src="js/firebase-config.js?v=19" defer></script>
-  <script type="module" src="js/backend.js?v=19"></script>
-  <script src="js/main.js?v=19" defer></script>
+  <script src="js/db.js?v=20" defer></script>
+  <script src="js/firebase-config.js?v=20" defer></script>
+  <script type="module" src="js/backend.js?v=20"></script>
+  <script src="js/clothing-data.js?v=20" defer></script>
+  <script src="js/main.js?v=20" defer></script>
+  <script src="js/clothing.js?v=20" defer></script>
 </body>
 </html>
