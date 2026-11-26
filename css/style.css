@@ -1444,3 +1444,54 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
   .header { background: linear-gradient(var(--emerald-900) var(--bar-h), var(--cream) var(--bar-h)) no-repeat; }
   .header__inner { grid-template-rows: var(--bar-h) 96px; }
 }
+
+/* =========================================================
+   ACCOUNT PAGE ON CREAM (sign-in, customer panel, admin panel)
+   Same look as the website header: thin green bar, cream logo row, cream page.
+   ========================================================= */
+.acct-page {
+  color: var(--muted);
+  background: radial-gradient(70% 45% at 85% 0%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 65%), var(--cream);
+}
+.acct-page :focus-visible { outline-color: var(--jewel-deep); }
+.acct-page .btn--outline { --fg: var(--jewel-deep); }
+.acct-top { background: var(--cream); border-top: 8px solid var(--emerald-900); }
+.acct-top .logo, .acct-top .logo__word { color: var(--ink); }
+.acct-top .logo .logo__sub { color: var(--jewel-deep); }
+.acct-top .logo .logo__mark { color: var(--gold); }
+.acct-top .link-arrow { color: var(--jewel-deep); }
+.acct-top .link-arrow:hover { color: var(--ink); }
+
+.acct-page .acct-card { background: color-mix(in srgb, #fff 55%, var(--cream)); box-shadow: 0 30px 70px -40px color-mix(in srgb, var(--ink) 35%, transparent); }
+.acct-page .acct-card::after { border-color: color-mix(in srgb, var(--gold) 28%, transparent); }
+.acct-page .acct-card__mark { color: var(--gold); }
+.acct-page .acct-lead, .acct-page .acct-note, .acct-page .panel__sub, .acct-page .item__meta, .acct-page .list__empty,
+.acct-page .form__hint, .acct-page .toolbar, .acct-page .photo-edit__hint { color: var(--meta-cream); }
+.acct-page .form__status { color: var(--jewel-deep); }
+.acct-page .form__status.is-error { color: var(--err-cream); }
+.acct-page .field input[type="date"] { color-scheme: light; }
+.acct-page .pass-toggle { color: var(--jewel-deep); }
+
+.acct-page .role-tab { color: var(--ink-tab); }
+.acct-page .role-tab:hover { color: var(--jewel-deep); }
+.acct-page .role-tab.is-active { color: var(--emerald-900); }
+.acct-page .mode-switch { border-bottom-color: var(--line); }
+.acct-page .mode-btn { color: var(--ink-tab); }
+.acct-page .mode-btn.is-active { color: var(--jewel-deep); border-bottom-color: var(--jewel-deep); }
+
+.acct-page .panel-tab { color: var(--ink-tab); }
+.acct-page .panel-tab:hover { color: var(--ink); border-color: var(--gold); }
+.acct-page .panel-tab.is-active { color: var(--emerald-900); }
+.acct-page .stats div, .acct-page .item { background: color-mix(in srgb, #fff 55%, var(--cream)); }
+.acct-page .stats dt { color: var(--jewel-deep); }
+.acct-page .stats dd, .acct-page .item__title, .acct-page .photo-edit__title { color: var(--ink); }
+.acct-page .item__text { color: var(--muted); }
+.acct-page .item__link, .acct-page .item__actions .link-arrow, .acct-page .list__empty .link-arrow { color: var(--jewel-deep); }
+.acct-page .text-btn { color: var(--meta-cream); }
+.acct-page .text-btn:hover { color: var(--err-cream); }
+.acct-page .mini-select { color: var(--ink);
+  background-image: linear-gradient(45deg, transparent 50%, var(--jewel-deep) 50%), linear-gradient(-45deg, transparent 50%, var(--jewel-deep) 50%); }
+.acct-page .badge--replied { border-color: var(--jewel-deep); color: var(--jewel-deep); }
+.acct-page .badge--done { border-color: var(--line); color: var(--meta-cream); }
+.acct-page .avatar { background: var(--jewel-tint); border-color: var(--gold); }
+.acct-page .avatar__initial { color: var(--jewel-deep); }
