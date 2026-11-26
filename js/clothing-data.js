@@ -17,8 +17,10 @@
      images    list of photos; the first is the main one. [] shows the line drawing.
      alts      describes each photo for screen readers and search, in the same order as images
      cutout    true when the images are transparent cut-outs (no frame behind them)
-     colours   list of { name, hex, image }  (4 per piece; the first is the colour in the photo.
-               image = that colour's own photo, shown when it's picked; [] hides the colour picker)
+     colours   list of { name, hex, image, preview }  (4 per piece; the first is the colour in the photo.
+               image = that colour's own photo, shown when it's picked; preview: true = a recoloured
+               photo (labelled "Colour preview"). Without an image the note says to ask on WhatsApp.
+               [] hides the colour picker)
      sizes     list of sizes, e.g. ["XS","S","M","L","XL"], ["Free size"], or add "Custom stitching"
      isNew     true shows a "New" label
    ========================================================= */
@@ -59,7 +61,7 @@ window.ZIN_CLOTHING = {
       name: "Royal Blue Banarasi Silk", details: "Silk · Silver zari paisley weave", price: null,
       images: ["images/clothing/v-royal-blue-banarasi.jpg"], cutout: false,
       alts: ["Woman in a royal blue Banarasi silk saree with silver zari paisley weave and a matching blouse"],
-      colours: [{ name: "Royal blue", hex: "#2B2F8F" }, { name: "Emerald", hex: "#12553A" }, { name: "Maroon", hex: "#6E2232" }, { name: "Mustard", hex: "#C9962E" }],
+      colours: [{ name: "Royal blue", hex: "#2B2F8F", image: "images/clothing/v-royal-blue-banarasi.jpg" }, { name: "Emerald", hex: "#12553A", image: "images/clothing/v-royal-blue-banarasi-emerald.jpg", preview: true }, { name: "Maroon", hex: "#6E2232", image: "images/clothing/v-royal-blue-banarasi-maroon.jpg", preview: true }, { name: "Mustard", hex: "#C9962E", image: "images/clothing/v-royal-blue-banarasi-mustard.jpg", preview: true }],
       sizes: ["Free size", "Custom stitching"], isNew: true,
     },
     { // new photo (2026-11-27)
@@ -67,7 +69,7 @@ window.ZIN_CLOTHING = {
       name: "Emerald Kanjivaram Silk", details: "Pure silk · Gold zari border and pallu", price: null,
       images: ["images/clothing/v-emerald-kanjivaram.jpg"], cutout: false,
       alts: ["Woman in an emerald green Kanjivaram silk saree with a wide gold zari border and pallu"],
-      colours: [{ name: "Emerald", hex: "#12553A" }, { name: "Royal blue", hex: "#2B2F8F" }, { name: "Maroon", hex: "#6E2232" }, { name: "Mustard", hex: "#C9962E" }],
+      colours: [{ name: "Emerald", hex: "#12553A", image: "images/clothing/v-emerald-kanjivaram.jpg" }, { name: "Royal blue", hex: "#2B2F8F", image: "images/clothing/v-emerald-kanjivaram-royal-blue.jpg", preview: true }, { name: "Maroon", hex: "#6E2232", image: "images/clothing/v-emerald-kanjivaram-maroon.jpg", preview: true }, { name: "Mustard", hex: "#C9962E", image: "images/clothing/v-emerald-kanjivaram-mustard.jpg", preview: true }],
       sizes: ["Free size", "Custom stitching"], isNew: true,
     },
     { // new photo (2026-11-27)
@@ -107,7 +109,7 @@ window.ZIN_CLOTHING = {
       name: "Kanchipuram Silk", details: "Pure silk · Gold zari border", price: null,
       images: ["images/clothing/p-silk-saree.jpg", "images/clothing/col-sarees.jpg"], cutout: false,
       alts: ["Woman in a blue printed silk saree with an orange border, standing on painted steps", "Woman in a green silk saree with flowers in her braided hair"],
-      colours: [{ name: "Maroon", hex: "#6E2232" }, { name: "Emerald", hex: "#0F3B2E" }, { name: "Mustard", hex: "#C9962E" }, { name: "Royal blue", hex: "#24407A" }],
+      colours: [{ name: "Royal blue", hex: "#24407A" }, { name: "Maroon", hex: "#6E2232" }, { name: "Emerald", hex: "#0F3B2E" }, { name: "Mustard", hex: "#C9962E" }],
       sizes: ["Free size", "Custom stitching"], isNew: true,
     },
     { // TODO: replace placeholder photo
@@ -115,7 +117,7 @@ window.ZIN_CLOTHING = {
       name: "Banarasi Festive", details: "Silk blend · Woven motifs", price: null,
       images: ["images/clothing/p-festive-saree.jpg"], cutout: false,
       alts: ["Festive orange and blue silk sarees draped on mannequins in a shop window"],
-      colours: [{ name: "Rani pink", hex: "#B0305A" }, { name: "Royal blue", hex: "#24407A" }, { name: "Emerald", hex: "#12553A" }, { name: "Mustard", hex: "#C9962E" }],
+      colours: [{ name: "Saffron", hex: "#E07A2E" }, { name: "Rani pink", hex: "#B0305A" }, { name: "Royal blue", hex: "#24407A" }, { name: "Emerald", hex: "#12553A" }],
       sizes: ["Free size", "Custom stitching"], isNew: false,
     },
     { // TODO: replace placeholder photo
@@ -139,7 +141,7 @@ window.ZIN_CLOTHING = {
       name: "Party Lehenga Set", details: "Georgette · Sequin work", price: null,
       images: ["images/clothing/p-party-lehenga.jpg", "images/clothing/col-lehenga.jpg"], cutout: false,
       alts: ["Woman in an ivory and red embroidered lehenga with emerald jewelry against a brick wall", "Close-up of red lehenga fabric with gold embroidery"],
-      colours: [{ name: "Blush", hex: "#D9A3A0" }, { name: "Teal", hex: "#1F6B6B" }, { name: "Lavender", hex: "#B7A6CF" }, { name: "Mint", hex: "#A9CDB8" }],
+      colours: [{ name: "Red & ivory", hex: "#B8323C" }, { name: "Blush", hex: "#D9A3A0" }, { name: "Teal", hex: "#1F6B6B" }, { name: "Lavender", hex: "#B7A6CF" }],
       sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
     },
     { // TODO: replace placeholder photo
@@ -155,7 +157,7 @@ window.ZIN_CLOTHING = {
       name: "Festive Kurti Set", details: "Silk blend · Dupatta included", price: null,
       images: ["images/clothing/p-kurti-set.jpg", "images/clothing/col-kurtis.jpg"], cutout: false,
       alts: ["Woman in a white and pink floral kurti set with a printed dupatta", "Woman in a wine and gold silk kurti set in a heritage hallway"],
-      colours: [{ name: "Wine", hex: "#6E2232" }, { name: "Gold", hex: "#B08D57" }, { name: "Emerald", hex: "#12553A" }, { name: "Navy", hex: "#1F2A44" }],
+      colours: [{ name: "White & pink", hex: "#E8C3D2" }, { name: "Wine", hex: "#6E2232" }, { name: "Gold", hex: "#B08D57" }, { name: "Emerald", hex: "#12553A" }],
       sizes: ["S", "M", "L", "XL"], isNew: false,
     },
     { // TODO: replace placeholder photo
@@ -163,7 +165,7 @@ window.ZIN_CLOTHING = {
       name: "Evening Party Gown", details: "Net · Hand-beaded bodice", price: null,
       images: ["images/clothing/col-lehenga.jpg"], cutout: false,
       alts: ["Close-up of a red party gown with gold hand-beaded detail"],
-      colours: [{ name: "Champagne", hex: "#D6B88A" }, { name: "Black", hex: "#1E1E1E" }, { name: "Emerald", hex: "#12553A" }, { name: "Maroon", hex: "#6E2232" }],
+      colours: [{ name: "Red & gold", hex: "#9C2230" }, { name: "Champagne", hex: "#D6B88A" }, { name: "Black", hex: "#1E1E1E" }, { name: "Emerald", hex: "#12553A" }],
       sizes: ["XS", "S", "M", "L", "XL"], isNew: false,
     },
 
@@ -183,7 +185,7 @@ window.ZIN_CLOTHING = {
       name: "Festive Kurta Set", details: "Cotton silk · Pyjama included", price: null,
       images: ["images/clothing/men/kurta-set-royal-blue.jpg"], cutout: false,
       alts: ["Man in a royal blue kurta and pyjama set with embroidered loafers"],
-      colours: [{ name: "Royal blue", hex: "#1F4E9C", image: "images/clothing/men/kurta-set-royal-blue.jpg" }, { name: "Ivory", hex: "#EFE6D0" }, { name: "Maroon", hex: "#6E2232" }, { name: "Black", hex: "#1E1E1E" }],
+      colours: [{ name: "Royal blue", hex: "#1F4E9C", image: "images/clothing/men/kurta-set-royal-blue.jpg" }, { name: "Ivory", hex: "#EFE6D0", image: "images/clothing/men/kurta-set-ivory.jpg", preview: true }, { name: "Maroon", hex: "#6E2232", image: "images/clothing/men/kurta-set-maroon.jpg", preview: true }, { name: "Black", hex: "#1E1E1E", image: "images/clothing/men/kurta-set-black.jpg", preview: true }],
       sizes: ["S", "M", "L", "XL", "XXL", "Custom stitching"], isNew: false,
     },
     { // stock photos (Unsplash dF3nzZ8ZZK4, iiVy7LJvBnw, cUuWmT8G0MI)

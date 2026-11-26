@@ -236,7 +236,10 @@
   .pdetail__gallery { padding: 18px; overflow: hidden; }
   /* photo keeps the 4:5 shape of the product shots (nothing cropped); text is centred against it */
   .pdetail__gallery { align-self: center; }
-  .pdetail__slide { aspect-ratio: 4 / 5; height: auto; max-height: calc(88vh - 36px); }
+  /* the photo box is exactly one photo wide (no next photo peeking in); capped so it fits the screen height */
+  .pdetail__slides { width: min(100%, calc((88vh - 36px) * .8)); margin-inline: auto; }
+  .pdetail__thumbs { width: min(100%, calc((88vh - 36px) * .8)); margin-inline: auto; }
+  .pdetail__slide { aspect-ratio: 4 / 5; height: auto; max-height: none; }
   .pdetail__body { padding: 48px 44px; overflow-y: auto; align-content: center; }
   .pdetail__actions { grid-template-columns: 1fr 1fr; }
   .pdetail.is-fallback .pdetail__panel { animation: pdPop .5s cubic-bezier(.7,0,.2,1); }
@@ -530,3 +533,7 @@
 
 /* the line under the sizes after one is picked */
 .pd-size-note { margin: 12px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+.pdetail__slide { position: relative; }
+.pdetail__preview { position: absolute; left: 12px; bottom: 12px; padding: 5px 10px; border-radius: 999px; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; background: color-mix(in srgb, var(--cream) 88%, transparent); color: var(--ink); }
+/* behind a photo while it loads: sand, never a wine block */
+.pdetail__slide { background: var(--sand); }

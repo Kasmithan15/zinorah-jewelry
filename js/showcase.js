@@ -111,7 +111,14 @@
 
       const imgs = p.images && p.images.length ? [...p.images] : [""];
       (p.colours || []).forEach((c) => { if (c.image && !imgs.includes(c.image)) imgs.push(c.image); });
-      slides.replaceChildren(...imgs.map((src, i) => { const s = el("div", "pdetail__slide" + (p.cutout ? " is-cutout" : "")); s.append(media(p, src, ctx, { eager: i === 0, alt: altFor(p, i) })); return s; }));
+      const colourOf = (src) => (p.colours || []).find((c) => c.image === src && !(p.images || []).includes(src));
+      slides.replaceChildren(...imgs.map((src, i) => {
+        const s = el("div", "pdetail__slide" + (p.cutout ? " is-cutout" : ""));
+        const c = colourOf(src);
+        s.append(media(p, src, ctx, { eager: true, alt: c ? `${p.name} in ${c.name}${c.preview ? " (colour preview)" : ""}` : altFor(p, i) }));
+        if (c && c.preview) s.append(el("span", "pdetail__preview", "Colour preview"));
+        return s;
+      }));
       slides.scrollLeft = 0;
       thumbs.hidden = imgs.length < 2;
       thumbs.replaceChildren(...(imgs.length < 2 ? [] : imgs.map((src, i) => {
@@ -129,8 +136,15 @@
         const pickC = radioGroup($("#pdSwatches"), p.colours, (c) => { const b = el("button", "swatch"); b.style.setProperty("--sw", c.hex); return b; },
           (c) => {
             choice.colour = c.name; $("#pdColourName").textContent = c.name; updateWa();
+            const note = $("#pdColourNote");
+            if (note) {
+              const first = p.colours[0];
+              note.textContent = c.preview ? "Colour preview: the real fabric shade may differ slightly."
+                : !c.image && c !== first ? `The photo shows ${first.name}. Ask us on WhatsApp for photos in ${c.name}.` : "";
+              note.hidden = !note.textContent;
+            }
             const i = c.image ? imgs.indexOf(c.image) : -1; // show this colour's own photo
-            if (i >= 0) slides.scrollTo({ left: slides.clientWidth * i, behavior: flat() ? "auto" : "smooth" });
+            if (i >= 0) slides.scrollTo({ left: slides.clientWidth * i, behavior: "auto" }); // switch at once so the click clearly changes the photo
           }, (c) => c.name);
         pickC(0);
       }
