@@ -1391,7 +1391,7 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 .review__by { display: flex; align-items: center; gap: 12px; margin-top: 4px; font-size: 13px; color: var(--cream-dim); }
 .review__who { display: grid; gap: 2px; min-width: 0; }
 .review__avatar {
-  flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; overflow: hidden;
+  flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; overflow: hidden;
   background: color-mix(in srgb, var(--gold) 22%, var(--emerald-900)); border: 1px solid var(--gold-soft);
   font-family: var(--serif); font-size: 17px; letter-spacing: .04em; color: var(--gold-soft);
 }

@@ -607,9 +607,10 @@ renderBag();
     st.setAttribute("aria-label", `${n} out of 5 stars`); st.textContent = "★".repeat(n) + "☆".repeat(5 - n);
     const q = document.createElement("blockquote"); q.className = "review__text"; q.textContent = `“${r.text}”`;
     const by = document.createElement("figcaption"); by.className = "review__by";
-    // customer's photo if they gave one, otherwise their initials in a gold circle
+    // the customer's own photo (with permission), else a photo of the piece they bought, else their initials
     const av = document.createElement("span"); av.className = "review__avatar"; av.setAttribute("aria-hidden", "true");
-    if (r.photo) { const im = document.createElement("img"); im.src = r.photo; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; av.append(im); }
+    const pic = r.photo || r.piece;
+    if (pic) { const im = document.createElement("img"); im.src = pic; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; av.append(im); }
     else av.textContent = (r.name || "?").split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
     const who = document.createElement("span"); who.className = "review__who";
     const nm = document.createElement("strong"); nm.textContent = r.name;

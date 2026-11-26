@@ -12,7 +12,9 @@
      text    their words; keep them as they wrote them
      about   "Jewelry", "Clothing" or "Jewelry & Clothing"   (optional)
      photo   their real profile photo, only with their permission, e.g. "images/reviews/priya.jpg"
-             (square, about 200 x 200 px). Leave it out and their initials show in a gold circle.
+             (square, about 200 x 200 px).
+     piece   photo of the piece they bought, e.g. "images/jewelry/s-gold-hoops.jpg" (shown when there is no photo).
+             With neither, their initials show in a gold circle.
 
    The strip stays hidden until "reviews" has at least one real review.
    To preview the look before then, open the site with ?reviews-preview at the end of the address,
@@ -22,15 +24,15 @@
 window.ZIN_REVIEWS = {
   // Real reviews go here.
   reviews: [
-    // { name: "Customer name", place: "Trincomalee", stars: 5, text: "Their words…", about: "Jewelry", photo: "images/reviews/name.jpg" },
+    // { name: "Customer name", place: "Trincomalee", stars: 5, text: "Their words…", about: "Jewelry", piece: "images/jewelry/s-gold-hoops.jpg" },
   ],
 
   // Only for ?reviews-preview. Not real customers; never shown on the normal site.
   samples: [
-    { name: "Sample customer", place: "Trincomalee", stars: 5, about: "Jewelry", text: "Sample review: a short line about the piece they bought and how they were helped in the shop." },
-    { name: "Sample customer", place: "Kinniya", stars: 5, about: "Clothing", text: "Sample review: what they thought of the saree, the fabric and the stitching." },
-    { name: "Sample customer", place: "Batticaloa", stars: 4, about: "Jewelry & Clothing", text: "Sample review: about matching a bridal set with the outfit for a wedding." },
-    { name: "Sample customer", place: "Colombo", stars: 5, about: "Jewelry", text: "Sample review: about ordering on WhatsApp and getting the piece delivered." },
-    { name: "Sample customer", place: "Trincomalee", stars: 5, about: "Clothing", text: "Sample review: about the men's kurta or sherwani for a function." },
+    { name: "Sample customer", place: "Trincomalee", stars: 5, about: "Jewelry", text: "Sample review: a short line about the piece they bought and how they were helped in the shop.", piece: "images/jewelry/s-crystal-leaf-display.jpg" },
+    { name: "Sample customer", place: "Kinniya", stars: 5, about: "Clothing", text: "Sample review: what they thought of the saree, the fabric and the stitching.", piece: "images/clothing/p-silk-saree.jpg" },
+    { name: "Sample customer", place: "Batticaloa", stars: 4, about: "Jewelry & Clothing", text: "Sample review: about matching a bridal set with the outfit for a wedding.", piece: "images/clothing/p-bridal-lehenga.jpg" },
+    { name: "Sample customer", place: "Colombo", stars: 5, about: "Jewelry", text: "Sample review: about ordering on WhatsApp and getting the piece delivered.", piece: "images/jewelry/s-diamond-trio.jpg" },
+    { name: "Sample customer", place: "Trincomalee", stars: 5, about: "Clothing", text: "Sample review: about the men's kurta or sherwani for a function.", piece: "images/clothing/men/sherwani-ivory.jpg" },
   ],
 };
