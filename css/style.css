@@ -896,24 +896,6 @@ p { margin: 0 0 1.1em; }
   clip-path: polygon(50% -100%, 200% 50%, 50% 200%, -100% 50%);
 }
 
-/* ---- 3. Diamond menu: side navigation that lights up as you scroll (desktop only) ---- */
-.gem-nav { position: fixed; right: 26px; top: 50%; z-index: 40; display: grid; gap: 6px; transform: translateY(-50%); }
-.gem-nav a { position: relative; display: block; width: 24px; height: 24px; }
-.gem-nav a::before { /* the diamond */
-  content: ""; position: absolute; inset: 6px; transform: rotate(45deg);
-  border: 1px solid var(--gold); background: color-mix(in srgb, var(--cream) 60%, transparent);
-  transition: background-color .4s, transform .4s var(--ease), box-shadow .4s;
-}
-.gem-nav a::after { /* label */
-  content: attr(data-label); position: absolute; right: 32px; top: 50%; transform: translate(8px, -50%);
-  white-space: nowrap; font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
-  background: var(--emerald-800); color: var(--gold-soft); padding: 7px 12px; opacity: 0; pointer-events: none;
-  transition: opacity .3s, transform .3s var(--ease);
-}
-.gem-nav a:hover::after, .gem-nav a:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
-.gem-nav a:hover::before { transform: rotate(45deg) scale(1.3); }
-.gem-nav a.is-active::before { background: var(--gold); transform: rotate(45deg) scale(1.35); box-shadow: 0 0 0 4px var(--line-gold), 0 0 14px var(--mint-glow); }
-@media (max-width: 1180px) { .gem-nav { display: none; } }
 
 /* =========================================================
    ACCOUNT: wishlist hearts, header icon, sign-in page & panels
@@ -1314,7 +1296,7 @@ body.is-locked { overflow: hidden; }
 .on-dark :focus-visible, .on-dark:focus-visible, .on-maroon :focus-visible,
 .on-cream .split__panel:focus-visible, .on-cream .insta-tile:focus-visible, .on-cream .map-card :focus-visible,
 .header.is-scrolled :focus-visible, .header.menu-open :focus-visible, .mobile-nav :focus-visible,
-.collection:focus-visible, .gem-nav a:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+.collection:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
 .pass-toggle:focus-visible, .avatar--head:focus-visible, .photo-edit__pick:focus-within { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
 .choice input:focus-visible + span { outline: 2px solid var(--gold-soft); outline-offset: 2px; }
 .field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: none; box-shadow: 0 1px 0 0 var(--gold); }
