@@ -1624,3 +1624,13 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 html { overflow-x: clip; }
 .wa-float { right: 24px; bottom: 24px; z-index: 100; }
 @media (max-width: 767px) { .wa-float { right: 16px; bottom: 16px; } }
+
+/* ---- Bridal look: bigger photos, aligned to the page's left content edge (like the text on the right) ----
+   left column = 100%: lehenga 58% + gap 4% + bangles 52% = 114% → bangles runs 14% into the text column */
+@media (min-width: 901px) {
+  .look__pair { justify-content: flex-start; }
+  .look__pair > .look__fig:first-child { flex: 0 0 58%; }
+  .look__pair > .look__fig--offset { flex: 0 0 52%; margin-right: -14%; }
+  .look__join { left: 60%; }               /* centred in the gap between the photos */
+  .look__copy { padding-left: calc(14% + 48px); } /* still 48px clear of the bangles photo */
+}
