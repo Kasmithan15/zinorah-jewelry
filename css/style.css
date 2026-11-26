@@ -1600,3 +1600,27 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 @media (max-width: 900px) {
   .look { background: linear-gradient(180deg, #1A4D3D 0%, #12402F 50%, #0B3227 100%); }
 }
+
+/* ---- Bridal look polish: spacing, centring, captions, diamond ---- */
+.look.section, .look { padding-top: clamp(80px, 9vw, 120px); padding-bottom: clamp(80px, 9vw, 120px); }
+.look__grid { align-items: center; }
+.look__pair { align-self: center; }
+.look__pair .look__fig:first-child { margin-bottom: 0; } /* no empty space under the photos */
+.look .look__fig figcaption, .look .look__fig--offset figcaption {
+  margin: 14px 0 0; text-align: left; white-space: nowrap; color: #D6B88A; /* both captions: one line, same style and spacing */
+}
+.look__join { background: #174A3A; border: 1px solid #D6B88A; box-shadow: 0 8px 20px rgba(4, 20, 15, .4); }
+.look__join::after { background: #B08D57; }
+@media (max-width: 900px) {
+  .look .look__grid { gap: 0; }
+  .look .look__pair { padding: 0 0 48px; }
+  .look .look__copy { padding: 0; }
+}
+@media (max-width: 600px) {
+  .look .look__fig figcaption { font-size: clamp(8.5px, 2.5vw, 11px); letter-spacing: .12em; } /* stays on one line on small phones */
+}
+
+/* ---- WhatsApp button: always fully on screen, above every section (below open panels) ---- */
+html { overflow-x: clip; }
+.wa-float { right: 24px; bottom: 24px; z-index: 100; }
+@media (max-width: 767px) { .wa-float { right: 16px; bottom: 16px; } }
