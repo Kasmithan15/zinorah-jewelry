@@ -50,6 +50,22 @@ window.ZIN_JEWELRY = {
   },
 
   products: [
+    { // emerald velvet shot (sent by the shop, 2026-11-26)
+      id: "emerald-royal-set", gender: "women", category: "bridal",
+      name: "Emerald Royal Set", details: "Necklace, earrings, bracelet & ring · Emerald & diamond", price: null,
+      images: ["images/jewelry/s-emerald-royal-set.jpg"], art: "necklace",
+      alts: ["White gold necklace with oval emeralds in diamond halos on a dark green velvet bust, with matching drop earrings, bracelet and ring"],
+      colours: [{ name: "White gold", hex: "#DCDCD6" }, { name: "Yellow gold", hex: "#D4AF6A" }],
+      sizes: ["6", "7", "8", "9", "10", "Custom size"], isNew: true,
+    },
+    { // emerald velvet shot (sent by the shop, 2026-11-26)
+      id: "emerald-halo-necklace", gender: "women", category: "necklaces",
+      name: "Emerald Halo Necklace", details: "White gold · Emerald & diamond drops, matching earrings", price: null,
+      images: ["images/jewelry/s-emerald-halo-necklace.jpg"], art: "necklace",
+      alts: ["White gold necklace with emerald drops and a square emerald pendant in a diamond halo, with matching earrings, in an open green velvet box"],
+      colours: [{ name: "White gold", hex: "#DCDCD6" }, { name: "Yellow gold", hex: "#D4AF6A" }],
+      sizes: ["16 in", "18 in", "Custom length"], isNew: true,
+    },
     { // TODO: check you have the right to use this photo (or replace it with your own shot)
       id: "crystal-leaf-set", gender: "women", category: "bridal",
       name: "Crystal Leaf Bridal Set", details: "Necklace, drop earrings & bracelet · Gold finish", price: null,
