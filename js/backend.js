@@ -7,7 +7,7 @@
 // Firestore layout
 //   customers/{uid}  { name, email, phone, dept, measurements, birthday, city, address, style, photo, wishlist[], created, last }
 //   enquiries/{id}   { name, phone, department, interest, neededBy, message, uid, email, status, createdAt }
-//   settings/shop    { hours, address, updated }
+//   settings/shop    { hours, address, mapLink, updated }
 // Who can do what is enforced by firestore.rules.
 // =====================================================================
 const config = window.ZIN_FIREBASE_CONFIG;
@@ -142,7 +142,7 @@ if (config) {
       return (await F.getDocs(q)).docs.map((d) => clean(d.data()));
     }),
     saveShop: guard(async (s) => F.setDoc(F.doc(db, "settings", "shop"), {
-      hours: String(s.hours || "").slice(0, 300), address: String(s.address || "").slice(0, 300), updated: F.serverTimestamp(),
+      hours: String(s.hours || "").slice(0, 300), address: String(s.address || "").slice(0, 300), mapLink: String(s.mapLink || "").slice(0, 300), updated: F.serverTimestamp(),
     })),
   };
 

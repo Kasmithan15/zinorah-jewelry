@@ -22,9 +22,10 @@ service cloud.firestore {
     match /settings/{docId} {
       allow read: if true;
       allow write: if isAdmin() && docId == 'shop'
-        && request.resource.data.keys().hasOnly(['hours', 'address', 'updated'])
+        && request.resource.data.keys().hasOnly(['hours', 'address', 'mapLink', 'updated'])
         && shortText(request.resource.data.hours, 300)
-        && shortText(request.resource.data.address, 300);
+        && shortText(request.resource.data.address, 300)
+        && (!('mapLink' in request.resource.data) || shortText(request.resource.data.mapLink, 300));
     }
 
     // Customer accounts: each customer reads and edits their own profile;

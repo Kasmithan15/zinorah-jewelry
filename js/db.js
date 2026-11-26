@@ -99,6 +99,6 @@
     async setEnquiryStatus(eid, status) { const l = read(K.enq, []); const e = l.find((x) => x.id === eid); if (e) e.status = status; write(K.enq, l); },
     async deleteEnquiry(eid) { write(K.enq, read(K.enq, []).filter((x) => x.id !== eid)); },
     async listCustomers() { return Object.values(users()).map(clean).sort((a, b) => (b.created || "").localeCompare(a.created || "")); },
-    async saveShop(s) { write(K.shop, { hours: String(s.hours || "").slice(0, 300), address: String(s.address || "").slice(0, 300), updated: new Date().toISOString() }); },
+    async saveShop(s) { write(K.shop, { hours: String(s.hours || "").slice(0, 300), address: String(s.address || "").slice(0, 300), mapLink: String(s.mapLink || "").slice(0, 300), updated: new Date().toISOString() }); },
   };
 })();

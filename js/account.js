@@ -334,13 +334,13 @@
   };
 
   const loadShop = async () => {
-    try { const s = await DB.getShop(); const f = $("#shopForm").elements; f.hours.value = (s && s.hours) || ""; f.address.value = (s && s.address) || ""; } catch (e) {}
+    try { const s = await DB.getShop(); const f = $("#shopForm").elements; f.hours.value = (s && s.hours) || ""; f.address.value = (s && s.address) || ""; f.mapLink.value = (s && s.mapLink) || ""; } catch (e) {}
   };
   $("#shopForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     busy(form, true);
-    try { await DB.saveShop({ hours: form.elements.hours.value.trim(), address: form.elements.address.value.trim() }); say(form, "Saved. The website now shows this.", true); }
+    try { await DB.saveShop({ hours: form.elements.hours.value.trim(), address: form.elements.address.value.trim(), mapLink: form.elements.mapLink.value.trim() }); say(form, "Saved. The website now shows this.", true); }
     catch (err) { say(form, err.message, false); }
     finally { busy(form, false); }
   });

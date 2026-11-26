@@ -7,7 +7,22 @@ const SHOP = {
   // WhatsApp number in international format, digits only (94 = Sri Lanka)
   whatsapp: "94767667028",
   name: "Zinorah",
+  // Shop address shown in Contact (and the map). The admin can change it in account.html → Shop info.
+  address: "Trincomalee, Sri Lanka",
+  // Optional exact pin: Google Maps → find the shop → Share → Copy link. Empty = search for the address.
+  mapLink: "",
 };
+
+/* ---- Address + map: text, the live map and the "Open in Google Maps" link all follow one address ---- */
+const showAddress = (address, mapLink) => {
+  const addr = (address || SHOP.address).trim();
+  document.querySelectorAll('[data-shop="address"]').forEach((n) => (n.textContent = addr));
+  const q = encodeURIComponent(addr);
+  document.querySelectorAll(".map-card__map").forEach((f) => (f.src = `https://maps.google.com/maps?q=${q}&z=16&output=embed`));
+  const link = /^https:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps)/i.test(mapLink || "") ? mapLink : SHOP.mapLink || `https://www.google.com/maps/search/?api=1&query=${q}`;
+  document.querySelectorAll('[data-shop="maplink"]').forEach((a) => (a.href = link));
+};
+showAddress();
 
 document.documentElement.classList.add("js");
 
@@ -358,7 +373,7 @@ const syncAccount = async () => {
   try {
     const shop = await DB.getShop();
     if (shop && shop.hours) document.querySelectorAll('[data-shop="hours"]').forEach((n) => (n.textContent = shop.hours));
-    if (shop && shop.address) document.querySelectorAll('[data-shop="address"]').forEach((n) => (n.textContent = shop.address));
+    if (shop && (shop.address || shop.mapLink)) showAddress(shop.address, shop.mapLink);
   } catch (e) {}
   try {
     const me = await DB.customerCurrent();

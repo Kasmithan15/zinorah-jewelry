@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=45" />
+  <link rel="stylesheet" href="css/style.css?v=46" />
   <link rel="stylesheet" href="css/clothing.css?v=44" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
@@ -802,7 +802,6 @@
           <div class="visit__cols">
             <div>
               <h3 class="label-h">Location</h3>
-              <!-- TODO: add the full shop address here if customers can visit -->
               <p data-shop="address">Trincomalee, Sri Lanka</p>
             </div>
             <div>
@@ -829,13 +828,17 @@
           <a class="link-arrow wa-link" href="https://wa.me/94767667028" target="_blank" rel="noopener">Message us on WhatsApp <svg><use href="#i-arrow"/></svg></a>
         </div>
         <div class="visit__map reveal">
-          <!-- TODO: for the exact shop pin: Google Maps → search your shop → Share → Copy link → paste it in href below -->
-          <a class="map-card" href="https://www.google.com/maps/search/?api=1&query=Trincomalee,+Sri+Lanka" target="_blank" rel="noopener">
-            <svg class="map-card__pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
-            <span class="map-card__place">Trincomalee</span>
-            <span class="map-card__country">Sri Lanka</span>
-            <span class="map-card__cta">Open in Google Maps <svg><use href="#i-arrow"/></svg></span>
-          </a>
+          <!-- Shop address + live map. The admin changes them in account.html → Shop info;
+               the defaults are SHOP.address / SHOP.mapLink at the top of js/main.js. -->
+          <div class="map-card">
+            <iframe class="map-card__map" title="Map showing where the Zinorah shop is" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              src="https://maps.google.com/maps?q=Trincomalee%2C%20Sri%20Lanka&amp;z=15&amp;output=embed"></iframe>
+            <div class="map-card__info">
+              <svg class="map-card__pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+              <p class="map-card__place" data-shop="address">Trincomalee, Sri Lanka</p>
+              <a class="map-card__cta" data-shop="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Trincomalee%2C%20Sri%20Lanka" target="_blank" rel="noopener">Open in Google Maps <svg><use href="#i-arrow"/></svg></a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -921,13 +924,13 @@
     <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/db.js?v=21" defer></script>
+  <script src="js/db.js?v=22" defer></script>
   <script src="js/firebase-config.js?v=21" defer></script>
-  <script type="module" src="js/backend.js?v=21"></script>
+  <script type="module" src="js/backend.js?v=22"></script>
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=28" defer></script>
   <script src="js/reviews-data.js?v=4" defer></script>
-  <script src="js/main.js?v=44" defer></script>
+  <script src="js/main.js?v=46" defer></script>
   <script src="js/showcase.js?v=44" defer></script>
 </body>
 </html>
