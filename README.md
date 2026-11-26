@@ -12,7 +12,7 @@ A fast, static one-page site (HTML + CSS + JavaScript). There's no database, no 
 | File / folder | What it is |
 |---|---|
 | `index.html` | The whole website: all text, products and contact details |
-| `css/style.css` | Design: colours, fonts and layout. Brand palette at the top: Espresso Brown `#2B160D`, Dark Chocolate `#452416`, Champagne Gold `#D6AE69`, Soft Gold `#F2D49A`, Warm Cream `#FFF0DF`, Peach Beige `#F2D8C1`, Ivory `#FFF9F1`, Burgundy `#701D2C` |
+| `css/style.css` | Design: colours, fonts and layout. Brand palette at the top: emerald (`--emerald-900/800/700`), gold (`--gold`, `--gold-soft`), cream (`--cream`, `--cream-2`), ink/muted text, jewelry accent (`--jewel-deep`, `--jewel-tint`) and clothing maroon (`--cloth`, `--cloth-soft`, `--cloth-tint`) |
 | `js/main.js` | Menu, product filters, WhatsApp enquiry form, wishlist hearts. **WhatsApp number is at the top** |
 | `account.html`, `js/account.js` | Login page with **Customer** and **Admin** tabs, customer panel and admin dashboard |
 | `js/db.js` | Demo data store (saves in the browser) |
