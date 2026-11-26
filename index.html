@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=46" />
+  <link rel="stylesheet" href="css/style.css?v=48" />
   <link rel="stylesheet" href="css/clothing.css?v=44" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
@@ -828,11 +828,9 @@
           <a class="link-arrow wa-link" href="https://wa.me/94767667028" target="_blank" rel="noopener">Message us on WhatsApp <svg><use href="#i-arrow"/></svg></a>
         </div>
         <div class="visit__map reveal">
-          <!-- Shop address + live map. The admin changes them in account.html → Shop info;
+          <!-- Shop address card. The admin changes the address / map link in account.html → Shop info;
                the defaults are SHOP.address / SHOP.mapLink at the top of js/main.js. -->
           <div class="map-card">
-            <iframe class="map-card__map" title="Map showing where the Zinorah shop is" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-              src="https://maps.google.com/maps?q=No.%20119%20Sea%20View%20Road%2C%20Trincomalee%2031000%2C%20Sri%20Lanka&amp;z=16&amp;output=embed"></iframe>
             <div class="map-card__info">
               <svg class="map-card__pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
               <p class="map-card__place" data-shop="address">No. 119 Sea View Road, Trincomalee 31000, Sri Lanka</p>
@@ -930,7 +928,7 @@
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=28" defer></script>
   <script src="js/reviews-data.js?v=4" defer></script>
-  <script src="js/main.js?v=47" defer></script>
+  <script src="js/main.js?v=48" defer></script>
   <script src="js/showcase.js?v=44" defer></script>
 </body>
 </html>

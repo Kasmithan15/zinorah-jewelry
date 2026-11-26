@@ -13,12 +13,11 @@ const SHOP = {
   mapLink: "",
 };
 
-/* ---- Address + map: text, the live map and the "Open in Google Maps" link all follow one address ---- */
+/* ---- Address: the text and the "Open in Google Maps" link both follow one address ---- */
 const showAddress = (address, mapLink) => {
   const addr = (address || SHOP.address).trim();
   document.querySelectorAll('[data-shop="address"]').forEach((n) => (n.textContent = addr));
   const q = encodeURIComponent(addr);
-  document.querySelectorAll(".map-card__map").forEach((f) => (f.src = `https://maps.google.com/maps?q=${q}&z=16&output=embed`));
   const link = /^https:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps)/i.test(mapLink || "") ? mapLink : SHOP.mapLink || `https://www.google.com/maps/search/?api=1&query=${q}`;
   document.querySelectorAll('[data-shop="maplink"]').forEach((a) => (a.href = link));
 };
