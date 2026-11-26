@@ -211,6 +211,8 @@ document.querySelectorAll(".enquire").forEach((btn) =>
 /* ---- WhatsApp links ---- */
 const generalMsg = waUrl(`Hello ${SHOP.name}, I'd like to know more about your collection.`);
 document.querySelectorAll(".wa-link, #waDirect").forEach((a) => (a.href = generalMsg));
+// buttons with their own WhatsApp message, e.g. "Plan your bridal look"
+document.querySelectorAll("a[data-wa]").forEach((a) => (a.href = waUrl(`Hello ${SHOP.name}, ${a.dataset.wa}`)));
 
 /* ---- Appointment form → WhatsApp ---- */
 const form = document.getElementById("apptForm");

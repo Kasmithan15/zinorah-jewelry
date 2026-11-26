@@ -619,7 +619,7 @@ p { margin: 0 0 1.1em; }
 }
 .heritage__stamp > svg:first-child { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); animation: spin 26s linear infinite; }
 .heritage__stamp text { font-size: 9.6px; letter-spacing: .28em; fill: var(--ink); font-family: var(--sans); }
-.heritage__stamp-mark { width: 34px; height: 34px; color: var(--gold); }
+.heritage__stamp-mark { width: 30px; height: 39px; color: var(--gold); }
 @keyframes spin { to { transform: rotate(360deg); } }
 .heritage__copy > p { color: var(--muted); max-width: 58ch; }
 .heritage__copy > p em { color: var(--ink); font-family: var(--serif); font-size: 1.15em; }
@@ -1316,9 +1316,9 @@ body.is-locked { overflow: hidden; }
 
 
 /* ---- One view at a time: the menu buttons open Jewelry, Clothing, New Arrivals or About ----
-   Bridal, Instagram and the Enquire form are hidden for now (still in index.html).
+   Home shows the banner, Bridal look, About, Instagram and Contact. The Enquire form is hidden for now.
    To bring one back, give it a menu button and add it here, in VIEWS (js/main.js) and the <head> script. */
-html[data-view="home"] main > section:not(.hero, .trust),
+html[data-view="home"] main > section:not(.hero, .trust, #bridal, #about, #instagram, #visit),
 html[data-view="jewelry"] main > section:not(#jewelry),
 html[data-view="clothing"] main > section:not(#clothing),
 html[data-view="new-arrivals"] main > section:not(#new-arrivals),
