@@ -1517,5 +1517,58 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 .on-sand :focus-visible { outline-color: var(--sand-label); }
 /* the line under the cream header */
 .header { border-bottom: 1px solid var(--sand-line); }
-/* keep the photo pair inside the sand half (clear of the centre divider) */
-@media (min-width: 901px) { .look__pair { margin-right: clamp(20px, 3vw, 44px); } }
+
+/* =========================================================
+   BRIDAL LOOK: sand and emerald meet at a glowing gold seam (no sand→emerald blend)
+   Desktop: the two columns split exactly at the centre (the seam). The bangles photo straddles it,
+   40% on sand / 60% on emerald; the text starts 48px past the photo.
+   ========================================================= */
+@media (min-width: 901px) {
+  .look {
+    position: relative; isolation: isolate;
+    /* sand side: #E8DCC6 → #EDE3D0 at the seam; emerald side: #174A3A at the seam → #0F3B2E. Hard stop at the seam. */
+    background: linear-gradient(90deg, #E8DCC6 0%, #EDE3D0 50%, #174A3A 50%, #0F3B2E 100%);
+  }
+  .look::before { /* the seam: 1px gold line */
+    content: ""; position: absolute; z-index: 0; top: 0; bottom: 0; left: 50%; width: 1px; transform: translateX(-50%); background: #B08D57;
+  }
+  .look::after { /* soft glow around the seam */
+    content: ""; position: absolute; z-index: 0; top: 0; bottom: 0; left: 50%; width: 120px; transform: translateX(-50%); pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(214, 184, 138, .28) 50%, transparent);
+    transition: opacity 1.2s ease;
+  }
+  .look__grid { position: relative; z-index: 1; grid-template-columns: 1fr 1fr; column-gap: 0; }
+
+  /* left column ends exactly at the seam; lehenga 50% wide on sand, bangles 44% wide hanging 26.4% past the seam */
+  .look__pair { display: flex; justify-content: flex-end; align-items: flex-start; gap: 4%; margin-right: 0; }
+  .look__pair > .look__fig:first-child { flex: 0 0 50%; }
+  .look__pair > .look__fig--offset { flex: 0 0 44%; margin-right: -26.4%; }
+  .look__join { left: 80.4%; } /* in the gap between the two photos (on sand) */
+  .look__fig--offset .look__img { box-shadow: 0 24px 48px rgba(8, 38, 29, .35); }
+  /* bangles caption sits on the emerald part (right 60%) of the photo */
+  .look .look__fig--offset figcaption { margin-left: 40%; text-align: right; text-wrap: balance; color: #D6B88A; }
+
+  /* text: clear of the overhanging photo by at least 48px */
+  .look__copy { padding-left: calc(26.4% + 48px); }
+
+  /* scroll-in: the bangles photo slides in from the right, the seam glow fades in */
+  .js .look__pair.reveal .look__fig--offset { transform: translateX(30px); transition: transform 1s ease; }
+  .js .look__pair.reveal.is-visible .look__fig--offset { transform: none; }
+  .js .look::after { opacity: 0; }
+  .js .look:has(.look__pair.is-visible)::after { opacity: 1; }
+}
+
+/* phones and small tablets: no overlap. Sand band with both photos, a thin gold glow line, then the text on emerald */
+@media (max-width: 900px) {
+  .look { background: #0F3B2E; }
+  .look__pair::before { border-bottom: 0; }
+  .look__pair::after { /* horizontal gold seam with a soft glow */
+    content: ""; position: absolute; z-index: 1; left: -100vmax; right: -100vmax; bottom: 0; height: 1px; background: #B08D57;
+    box-shadow: 0 0 18px 5px rgba(214, 184, 138, .28);
+  }
+  .look .look__fig--offset figcaption { color: var(--sand-label); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .look__pair.reveal .look__fig--offset { transform: none; transition: none; }
+  .js .look::after { opacity: 1; transition: none; }
+}
