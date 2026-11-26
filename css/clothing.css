@@ -306,7 +306,7 @@
 .cshow .orbit__open { margin-top: 0; min-height: 40px; }
 .cshow .orbit__nav { margin-top: 0; }
 .cshow .orbit__shadow { margin-top: 8px; height: 14px; }
-@media (min-width: 1181px) { #jewelry, #clothing { --hdr: 118px; } }
+@media (min-width: 1181px) { #jewelry, #clothing { --hdr: 142px; } }
 @media (max-width: 700px) {
   #jewelry .section__intro, #clothing .section__intro { display: none; } /* phones: keep the heading short so the piece fits */
   #jewelry .section__head, #clothing .section__head { margin-bottom: 8px; }

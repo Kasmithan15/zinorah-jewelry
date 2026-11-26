@@ -220,7 +220,6 @@ p { margin: 0 0 1.1em; }
 .logo__word { font-family: var(--serif); font-size: 28px; letter-spacing: .38em; margin-right: -.38em; font-weight: 500; color: inherit; }
 .logo__sub { font-size: 9px; letter-spacing: .28em; white-space: nowrap; text-transform: uppercase; color: var(--jewel-deep); margin-top: 7px; }
 .header.is-scrolled .logo__sub, .header.menu-open .logo__sub { color: var(--gold-soft); }
-.header.is-scrolled .logo__mark { display: none; }
 
 .nav-toggle { display: none; width: 44px; height: 44px; position: relative; }
 .nav-toggle span { position: absolute; left: 10px; right: 10px; height: 1px; background: currentColor; transition: transform .4s var(--ease), top .4s var(--ease); }
@@ -289,13 +288,12 @@ p { margin: 0 0 1.1em; }
   .hicon--account { grid-column: 5; grid-row: 1; }
   .hicon--wish { display: none; } /* wishlist is in the menu on phones */
   .logo__word { font-size: 23px; }
-  .logo__mark { display: none; }
 }
 @media (min-width: 1181px) { .mobile-nav { display: none; } }
 
 /* Desktop: menu links + icons sit in the emerald bar on top, logo on its own row below */
 @media (min-width: 1181px) {
-  html { scroll-padding-top: 118px; }
+  html { scroll-padding-top: 142px; }
   .header { --bar-h: 52px; background: linear-gradient(var(--emerald-900) var(--bar-h), transparent var(--bar-h)) no-repeat; }
   .header.is-scrolled { background: linear-gradient(var(--emerald-900) var(--bar-h), var(--emerald-800) var(--bar-h)) no-repeat border-box; }
   .header__inner { height: auto; grid-template-columns: 1fr 1fr; grid-template-rows: var(--bar-h) 100px; row-gap: 0; }
@@ -783,7 +781,7 @@ p { margin: 0 0 1.1em; }
   transition: background-size .4s var(--ease), color .3s;
 }
 .footer__grid > div:not(.footer__brand) a:hover { color: var(--cream); background-size: 100% 1px; }
-.logo--footer { justify-items: start; text-align: left; color: var(--cream); margin-bottom: 22px; }
+.logo--footer { display: inline-grid; justify-items: center; text-align: center; color: var(--cream); margin-bottom: 22px; }
 .logo--footer .logo__sub { color: var(--gold-soft); }
 .footer__brand p { max-width: 34ch; }
 .footer__hours { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-soft); }
@@ -831,10 +829,10 @@ p { margin: 0 0 1.1em; }
   background:
     radial-gradient(60% 50% at 50% 45%, var(--mint-glow), transparent 70%),
     radial-gradient(closest-side, var(--emerald-700), var(--emerald-900) 120%);
-  /* full screen with a diamond-shaped hole of size 0 */
-  clip-path: polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
   transition: clip-path 1.3s cubic-bezier(.75,0,.2,1);
 }
+/* full screen with a diamond-shaped hole of size 0: only set as it opens (a resting 0-size hole leaves a speck) */
+.intro.is-arming { clip-path: polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%); }
 .intro.is-opening {
   /* the diamond hole grows until the whole site shows through it */
   clip-path: polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, 50% -70%, 170% 50%, 50% 170%, -70% 50%, 50% -70%);
@@ -1316,21 +1314,6 @@ body.is-locked { overflow: hidden; }
 .on-dark .field--area textarea:focus, .field--area textarea:focus { border-color: var(--gold); }
 .field--area textarea:focus-visible { box-shadow: 0 0 0 1px var(--gold); }
 
-/* ---- Welcome page: jewelry + clothing in two arches (replaces the diamond) ---- */
-.intro__duo { position: relative; display: flex; justify-content: center; align-items: flex-end; margin-bottom: 26px; height: clamp(200px, min(42vh, 64vw), 420px); }
-.intro__arch {
-  position: relative; margin: 0; height: 100%; aspect-ratio: 3 / 4.4; overflow: hidden;
-  border-radius: 999px 999px 6px 6px; border: 1px solid color-mix(in srgb, var(--gold-soft) 70%, transparent);
-  box-shadow: 0 30px 60px -30px var(--shadow); opacity: 0;
-}
-.intro__arch::after { content: ""; position: absolute; inset: 8px; border: 1px solid color-mix(in srgb, var(--gold-soft) 40%, transparent); border-radius: 999px 999px 3px 3px; pointer-events: none; }
-.intro__arch picture, .intro__arch img { display: block; width: 100%; height: 100%; }
-.intro__arch img { object-fit: cover; }
-.intro__arch--jewel { z-index: 2; margin-right: -9%; transform: translateY(18px) rotate(-4deg); animation: archInL 1.3s cubic-bezier(.2,.7,.2,1) .2s forwards; }
-.intro__arch--cloth { height: 88%; border-color: color-mix(in srgb, var(--cloth-soft) 70%, transparent); transform: translateY(18px) rotate(5deg); animation: archInR 1.3s cubic-bezier(.2,.7,.2,1) .45s forwards; }
-.intro__arch--cloth img { object-position: 50% 20%; }
-@keyframes archInL { to { opacity: 1; transform: rotate(-4deg); } }
-@keyframes archInR { to { opacity: 1; transform: rotate(5deg); } }
 
 /* ---- One view at a time: the menu buttons open Jewelry, Clothing, New Arrivals or About ----
    Bridal, Instagram and the Enquire form are hidden for now (still in index.html).
@@ -1361,3 +1344,25 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 .mobile-nav a[aria-current="page"] { color: var(--gold-soft); }
 .mobile-nav a[aria-current="page"]::before { background: var(--gold-soft); }
 .mobile-nav a.mobile-nav__sub { padding-left: 26px; min-height: 48px; font-size: .85em; }
+
+/* ---- Zinorah crest: welcome page + above the name on every page ---- */
+.logo__mark { width: 30px; height: 39px; color: var(--gold); margin-bottom: 5px; overflow: visible; transition: width .4s var(--ease), height .4s var(--ease); }
+.header.is-scrolled .logo__mark, .header.menu-open .logo__mark { width: 27px; height: 35px; margin-bottom: 4px; color: var(--gold-soft); }
+.logo--footer .logo__mark { width: 34px; height: 44px; color: var(--gold-soft); margin-bottom: 10px; }
+@media (min-width: 1181px) {
+  .header__inner { grid-template-rows: var(--bar-h) 112px; }
+  .header.is-scrolled .header__inner { grid-template-rows: var(--bar-h) 90px; }
+}
+@media (max-width: 1180px) {
+  .logo__mark, .header.is-scrolled .logo__mark { width: 18px; height: 23px; margin-bottom: 3px; }
+  .header .logo__sub { margin-top: 5px; }
+}
+
+.intro__logo { width: clamp(150px, 24vh, 230px); height: auto; aspect-ratio: 100 / 130; margin-bottom: 26px; color: var(--gold-soft); overflow: visible;
+  filter: drop-shadow(0 10px 30px color-mix(in srgb, var(--gold) 35%, transparent)); }
+/* stroke-dash values inherit into the <use> copy, so the crest draws itself */
+.intro__logo { stroke-dasharray: 1; stroke-dashoffset: 1; animation: zlDraw 1.5s cubic-bezier(.6,0,.2,1) .15s forwards, zlGlow 3s ease-in-out 1.6s infinite alternate; }
+@keyframes zlDraw { to { stroke-dashoffset: 0; } }
+@keyframes zlGlow { from { filter: drop-shadow(0 10px 30px color-mix(in srgb, var(--gold) 25%, transparent)); } to { filter: drop-shadow(0 10px 40px color-mix(in srgb, var(--gold) 55%, transparent)); } }
+.nf svg { width: 72px; height: 94px; }
+.acct-card__mark--crest { width: 40px; height: 52px; }

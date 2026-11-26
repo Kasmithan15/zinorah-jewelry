@@ -37,7 +37,7 @@
   }
   </script>
 
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="images/favicon.svg?v=2" type="image/svg+xml" />
   <link rel="icon" href="images/favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,8 +48,8 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=28" />
-  <link rel="stylesheet" href="css/clothing.css?v=28" />
+  <link rel="stylesheet" href="css/style.css?v=31" />
+  <link rel="stylesheet" href="css/clothing.css?v=30" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -62,23 +62,10 @@
 <body>
   <a class="skip-link" href="#top">Skip to content</a>
 
-  <!-- ============ DIAMOND INTRO (opens into the site) ============ -->
+  <!-- ============ WELCOME PAGE: the Zinorah crest (opens into the site) ============ -->
   <div class="intro" id="intro" role="button" tabindex="0" aria-label="Enter the Zinorah website">
     <div class="intro__inner">
-      <div class="intro__duo" aria-hidden="true">
-        <figure class="intro__arch intro__arch--jewel">
-          <picture>
-            <source srcset="images/jewelry/s-crystal-leaf-set.avif" type="image/avif" />
-            <img src="images/jewelry/s-crystal-leaf-set.jpg" alt="" width="736" height="1104" fetchpriority="high" decoding="async" />
-          </picture>
-        </figure>
-        <figure class="intro__arch intro__arch--cloth">
-          <picture>
-            <source srcset="images/clothing/p-party-lehenga.avif" type="image/avif" />
-            <img src="images/clothing/p-party-lehenga.jpg" alt="" width="800" height="1000" fetchpriority="high" decoding="async" />
-          </picture>
-        </figure>
-      </div>
+      <svg class="intro__logo" viewBox="0 0 100 130" aria-hidden="true"><use href="#i-zlogo"/></svg>
       <p class="intro__word">ZINORAH</p>
       <p class="intro__sub">Jewelry · Clothing</p>
     </div>
@@ -89,6 +76,17 @@
   <!-- ============ SVG SPRITE (line-art used until real photos are added) ============ -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
+      <symbol id="i-zlogo" viewBox="0 0 100 130">
+        <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path pathLength="1" d="M22 30 Q28 47 36 24 Q43 45 50 15 Q57 45 64 24 Q72 47 78 30"/>
+          <path pathLength="1" d="M11 42 C26 53 39 40 50 45 C61 40 74 53 89 42 L88 80 C87 102 69 115 50 126 C31 115 13 102 12 80 Z"/>
+          <path pathLength="1" d="M19 53 C31 61 41 51 50 55 C59 51 69 61 81 53" stroke-width="1.8"/>
+          <path pathLength="1" d="M34 69 A24 24 0 1 1 32 102"/>
+          <path pathLength="1" d="M24 96 C30 83 43 86 50 89 C57 92 66 91 74 81" stroke-width="2.4"/>
+        </g>
+        <g class="zl-fill" fill="currentColor"><circle cx="22" cy="28.5" r="3"/><circle cx="36" cy="22" r="3"/><circle cx="50" cy="13" r="3.4"/><circle cx="64" cy="22" r="3"/><circle cx="78" cy="28.5" r="3"/>
+          <path d="M38 66 H66 V69 L48.5 99 H67 V103.5 H36 V100.5 L53.5 70.5 H38 Z"/></g>
+      </symbol>
       <symbol id="i-diamond" viewBox="0 0 100 100">
         <path d="M28 40 40 26h20l12 14-22 34z M28 40h44 M40 26l6 14 4 34 4-34 6-14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
       </symbol>
@@ -190,7 +188,7 @@
       </nav>
 
       <a href="#top" class="logo" aria-label="ZINORAH · Jewelry · Clothing · Trincomalee, home">
-        <svg class="logo__mark"><use href="#i-diamond"/></svg>
+        <svg class="logo__mark" viewBox="0 0 100 130" aria-hidden="true"><use href="#i-zlogo"/></svg>
         <span class="logo__word">ZINORAH</span>
         <span class="logo__sub">Jewelry · Clothing<span class="logo__place"> · Trincomalee</span></span>
       </a>
@@ -845,7 +843,7 @@
     <div class="container footer__grid">
       <div class="footer__brand">
         <a href="#top" class="logo logo--footer">
-          <svg class="logo__mark"><use href="#i-diamond"/></svg>
+          <svg class="logo__mark" viewBox="0 0 100 130" aria-hidden="true"><use href="#i-zlogo"/></svg>
           <span class="logo__word">ZINORAH</span>
           <span class="logo__sub">Jewelry · Clothing · Trincomalee</span>
         </a>
@@ -901,7 +899,7 @@
   <script type="module" src="js/backend.js?v=21"></script>
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=28" defer></script>
-  <script src="js/main.js?v=28" defer></script>
-  <script src="js/showcase.js?v=28" defer></script>
+  <script src="js/main.js?v=30" defer></script>
+  <script src="js/showcase.js?v=30" defer></script>
 </body>
 </html>

@@ -121,10 +121,11 @@ if (intro && root.classList.contains("intro-on")) {
   try { sessionStorage.setItem("zinIntro", "1"); } catch (e) {} // skip it for the rest of this visit
   let autoOpen;
   const openIntro = () => {
-    if (intro.classList.contains("is-opening")) return;
+    if (intro.classList.contains("is-arming")) return;
     clearTimeout(autoOpen);
     document.removeEventListener("keydown", onKey);
-    intro.classList.add("is-opening");
+    intro.classList.add("is-arming"); // place the 0-size hole, then grow it next frame
+    requestAnimationFrame(() => requestAnimationFrame(() => intro.classList.add("is-opening")));
     setTimeout(startReveals, 300); // hero appears as the diamond opens
     setTimeout(() => { root.classList.remove("intro-on"); intro.remove(); }, 1450);
   };
