@@ -14,10 +14,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" />
-  <link rel="stylesheet" href="css/style.css?v=16" />
+  <link rel="stylesheet" href="css/style.css?v=19" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
-<body class="acct-page">
+<body class="acct-page on-dark">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -183,9 +183,9 @@
               <input id="p-style" name="style" type="text" placeholder=" " maxlength="300" />
               <label for="p-style">Favourite colours &amp; style (optional): e.g. maroon, temple jewelry</label>
             </div>
-            <div class="field">
-              <textarea id="p-meas" name="measurements" rows="4" placeholder=" " maxlength="1000"></textarea>
+            <div class="field field--area">
               <label for="p-meas">Measurements for stitching (optional): bust, waist, blouse length, sleeve…</label>
+              <textarea id="p-meas" name="measurements" rows="4" maxlength="1000"></textarea>
             </div>
             <button type="submit" class="btn btn--gold">Save profile</button>
             <p class="form__status" role="status" aria-live="polite"></p>
@@ -258,9 +258,9 @@
     </div>
   </main>
 
-  <script src="js/db.js?v=16" defer></script>
-  <script src="js/firebase-config.js?v=16" defer></script>
-  <script type="module" src="js/backend.js?v=16"></script>
-  <script src="js/account.js?v=16" defer></script>
+  <script src="js/db.js?v=19" defer></script>
+  <script src="js/firebase-config.js?v=19" defer></script>
+  <script type="module" src="js/backend.js?v=19"></script>
+  <script src="js/account.js?v=19" defer></script>
 </body>
 </html>

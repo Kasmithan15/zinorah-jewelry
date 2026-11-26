@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=18" />
+  <link rel="stylesheet" href="css/style.css?v=19" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -217,7 +217,7 @@
   </header>
 
   <!-- ============ SEARCH ============ -->
-  <div class="search" id="searchPanel" role="dialog" aria-modal="true" aria-label="Search the collection" hidden>
+  <div class="search on-cream" id="searchPanel" role="dialog" aria-modal="true" aria-label="Search the collection" hidden>
     <div class="search__backdrop" data-close></div>
     <div class="search__box">
       <div class="container">
@@ -242,7 +242,7 @@
   </div>
 
   <!-- ============ ENQUIRY BAG (no online payment: the list goes to WhatsApp) ============ -->
-  <div class="bag" id="bagPanel" hidden>
+  <div class="bag on-cream" id="bagPanel" hidden>
     <div class="bag__backdrop" data-close></div>
     <aside class="bag__panel" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
       <header class="bag__head">
@@ -261,7 +261,7 @@
   <main id="top">
 
     <!-- ============ HERO: two worlds, one Zinorah ============ -->
-    <section class="hero">
+    <section class="hero on-cream">
       <div class="container hero__head">
         <p class="eyebrow eyebrow--center reveal">Jewelry · Clothing · Trincomalee</p>
         <h1 class="hero__title reveal">Two worlds, one <em>Zinorah</em></h1>
@@ -291,7 +291,7 @@
     </section>
 
     <!-- ============ TRUST STRIP ============ -->
-    <section class="trust" aria-label="Why Zinorah">
+    <section class="trust on-cream" aria-label="Why Zinorah">
       <div class="container trust__grid">
         <div class="trust__item"><strong>Quality Gold</strong><span>22K &amp; 18K pieces</span></div>
         <div class="trust__item"><strong>Silk &amp; Bridal Wear</strong><span>Sarees · Lehengas</span></div>
@@ -301,7 +301,7 @@
     </section>
 
     <!-- ============ DEPARTMENT 01 · JEWELRY ============ -->
-    <section class="section section--navy" id="jewelry">
+    <section class="section section--navy on-dark" id="jewelry">
       <div class="container">
         <header class="section__head section__head--row reveal">
           <div>
@@ -351,7 +351,7 @@
     <!-- ============ DEPARTMENT 02 · CLOTHING ============ -->
     <!-- TODO (clothing): the 5 photos below are free Unsplash placeholders. Replace with Zinorah's own photos
          in images/clothing/ (same file names), and edit the names / descriptions to match what the shop sells. -->
-    <section class="section dept--clothing has-ornament" id="clothing">
+    <section class="section dept--clothing on-maroon has-ornament" id="clothing">
       <div class="container">
         <header class="section__head section__head--row reveal">
           <div>
@@ -412,7 +412,7 @@
     </section>
 
     <!-- ============ FEATURED PIECES / NEW ARRIVALS ============ -->
-    <section class="section has-ornament" id="new-arrivals">
+    <section class="section on-cream has-ornament" id="new-arrivals">
       <div class="container">
         <header class="section__head section__head--row reveal">
           <div>
@@ -596,7 +596,7 @@
           </figure>
         </div>
 
-        <div class="look__copy reveal">
+        <div class="look__copy on-dark reveal">
           <p class="eyebrow eyebrow--light">Signature · Bridal</p>
           <h2 class="section__title section__title--light">Complete the<br /><em>bridal look</em></h2>
           <p>Choose your bridal saree or lehenga and the jewelry to match it, together in one place. Our clothing and jewelry departments work side by side, so colour, zari and gold come together beautifully on your day.</p>
@@ -613,7 +613,7 @@
 
     <!-- ============ ABOUT ============ -->
     <!-- TODO: add the shop's real story here (year founded, founder, what makes Zinorah special). -->
-    <section class="section heritage" id="about">
+    <section class="section heritage on-cream" id="about">
       <div class="container heritage__grid">
         <div class="heritage__visual reveal">
           <div class="arch arch--story" data-img="images/jewelry/about.jpg">
@@ -644,7 +644,7 @@
     </section>
 
     <!-- ============ BRIDAL & CUSTOM JEWELRY ============ -->
-    <section class="bridal" id="custom" data-img="images/jewelry/bridal.jpg">
+    <section class="bridal on-dark" id="custom" data-img="images/jewelry/bridal.jpg">
       <div class="container bridal__inner">
         <div class="bridal__card reveal">
           <p class="eyebrow eyebrow--light">Bridal &amp; Custom Jewelry</p>
@@ -661,7 +661,7 @@
     </section>
 
     <!-- ============ INSTAGRAM ============ -->
-    <section class="section" id="instagram">
+    <section class="section on-cream" id="instagram">
       <div class="container">
         <header class="section__head section__head--center reveal">
           <p class="eyebrow">Follow Our Latest</p>
@@ -684,7 +684,7 @@
     </section>
 
     <!-- ============ ENQUIRY ============ -->
-    <section class="section section--dark" id="appointment">
+    <section class="section section--dark on-dark" id="appointment">
       <div class="container appt">
         <div class="appt__copy reveal">
           <p class="eyebrow eyebrow--light">Enquire / Order</p>
@@ -759,7 +759,7 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section visit has-ornament" id="visit">
+    <section class="section visit on-cream has-ornament" id="visit">
       <div class="container visit__grid">
         <div class="visit__info reveal">
           <p class="eyebrow">Contact</p>
@@ -807,7 +807,7 @@
   </main>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="footer">
+  <footer class="footer on-dark">
     <div class="container footer__grid">
       <div class="footer__brand">
         <a href="#top" class="logo logo--footer">
@@ -861,9 +861,9 @@
     <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/db.js?v=16" defer></script>
-  <script src="js/firebase-config.js?v=16" defer></script>
-  <script type="module" src="js/backend.js?v=16"></script>
-  <script src="js/main.js?v=18" defer></script>
+  <script src="js/db.js?v=19" defer></script>
+  <script src="js/firebase-config.js?v=19" defer></script>
+  <script type="module" src="js/backend.js?v=19"></script>
+  <script src="js/main.js?v=19" defer></script>
 </body>
 </html>
