@@ -8,7 +8,7 @@ const SHOP = {
   whatsapp: "94767667028",
   name: "Zinorah",
   // Shop address shown in Contact (and the map). The admin can change it in account.html → Shop info.
-  address: "Trincomalee, Sri Lanka",
+  address: "No. 119 Sea View Road, Trincomalee 31000, Sri Lanka",
   // Optional exact pin: Google Maps → find the shop → Share → Copy link. Empty = search for the address.
   mapLink: "",
 };
