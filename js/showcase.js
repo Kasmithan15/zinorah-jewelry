@@ -16,6 +16,7 @@
   const WA = "94767667028";
   const pad = (n) => String(n).padStart(2, "0");
   const mod = (a, n) => ((a % n) + n) % n;
+  const altFor = (p, i) => (p.alts && p.alts[i]) || (i === 0 ? p.name : `${p.name}, photo ${i + 1}`);
   const priceText = (p) => (p == null || p === "" ? "Price on request" : "Rs. " + Number(p).toLocaleString("en-LK"));
 
   // cubic-bezier easing (same curve as the CSS)
@@ -99,8 +100,9 @@
       $("#pdDetails").textContent = p.details || "";
       $("#pdPrice").textContent = priceText(p.price);
 
-      const imgs = p.images && p.images.length ? p.images : [""];
-      slides.replaceChildren(...imgs.map((src, i) => { const s = el("div", "pdetail__slide" + (p.cutout ? " is-cutout" : "")); s.append(media(p, src, ctx, { eager: i === 0, alt: i === 0 ? p.name : `${p.name}, photo ${i + 1}` })); return s; }));
+      const imgs = p.images && p.images.length ? [...p.images] : [""];
+      (p.colours || []).forEach((c) => { if (c.image && !imgs.includes(c.image)) imgs.push(c.image); });
+      slides.replaceChildren(...imgs.map((src, i) => { const s = el("div", "pdetail__slide" + (p.cutout ? " is-cutout" : "")); s.append(media(p, src, ctx, { eager: i === 0, alt: altFor(p, i) })); return s; }));
       slides.scrollLeft = 0;
       thumbs.hidden = imgs.length < 2;
       thumbs.replaceChildren(...(imgs.length < 2 ? [] : imgs.map((src, i) => {
@@ -116,7 +118,11 @@
       cBox.hidden = !(p.colours && p.colours.length);
       if (!cBox.hidden) {
         const pickC = radioGroup($("#pdSwatches"), p.colours, (c) => { const b = el("button", "swatch"); b.style.setProperty("--sw", c.hex); return b; },
-          (c) => { choice.colour = c.name; $("#pdColourName").textContent = c.name; updateWa(); }, (c) => c.name);
+          (c) => {
+            choice.colour = c.name; $("#pdColourName").textContent = c.name; updateWa();
+            const i = c.image ? imgs.indexOf(c.image) : -1; // show this colour's own photo
+            if (i >= 0) slides.scrollTo({ left: slides.clientWidth * i, behavior: flat() ? "auto" : "smooth" });
+          }, (c) => c.name);
         pickC(0);
       }
       const sBox = $("#pdSizesBox");
@@ -395,7 +401,7 @@
         fig.setAttribute("aria-roledescription", "slide");
         fig.setAttribute("aria-label", `${i + 1} of ${list.length}: ${p.name}`);
         const frame = el("div", "orbit__frame" + (p.cutout ? " is-cutout" : ""));
-        frame.append(media(p, p.images && p.images[0], ctx, { eager: i < 3, alt: p.name }));
+        frame.append(media(p, p.images && p.images[0], ctx, { eager: i < 3, alt: altFor(p, 0) }));
         if (p.isNew) frame.append(el("span", "orbit__new", "New"));
         fig.append(frame, el("span", "orbit__shadow"));
         return fig;

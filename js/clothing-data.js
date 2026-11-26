@@ -15,8 +15,9 @@
      details   one short line (fabric · detail)
      price     a number in rupees (e.g. 45000) or null  → shows "Price on request"
      images    list of photos; the first is the main one. [] shows the line drawing.
+     alts      describes each photo for screen readers and search, in the same order as images
      cutout    true when the images are transparent cut-outs (no frame behind them)
-     colours   list of { name, hex }   ([] hides the colour picker)
+     colours   list of { name, hex, image }  (image: that colour's photo; [] hides the colour picker)
      sizes     list of sizes, e.g. ["XS","S","M","L","XL"], ["Free size"], or add "Custom stitching"
      isNew     true shows a "New" label
    ========================================================= */
@@ -54,6 +55,7 @@ window.ZIN_CLOTHING = {
       id: "kanchipuram-silk", gender: "women", category: "sarees",
       name: "Kanchipuram Silk", details: "Pure silk · Gold zari border", price: null,
       images: ["images/clothing/p-silk-saree.jpg", "images/clothing/col-sarees.jpg"], cutout: false,
+      alts: ["Woman in a blue printed silk saree with an orange border, standing on painted steps", "Woman in a green silk saree with flowers in her braided hair"],
       colours: [{ name: "Maroon", hex: "#6E2232" }, { name: "Emerald", hex: "#0F3B2E" }, { name: "Mustard", hex: "#C9962E" }],
       sizes: ["Free size", "Custom stitching"], isNew: true,
     },
@@ -61,6 +63,7 @@ window.ZIN_CLOTHING = {
       id: "banarasi-festive", gender: "women", category: "sarees",
       name: "Banarasi Festive", details: "Silk blend · Woven motifs", price: null,
       images: ["images/clothing/p-festive-saree.jpg"], cutout: false,
+      alts: ["Festive orange and blue silk sarees draped on mannequins in a shop window"],
       colours: [{ name: "Rani pink", hex: "#B0305A" }, { name: "Royal blue", hex: "#24407A" }],
       sizes: ["Free size", "Custom stitching"], isNew: false,
     },
@@ -68,6 +71,7 @@ window.ZIN_CLOTHING = {
       id: "bridal-lehenga", gender: "women", category: "bridal",
       name: "Embroidered Bridal Lehenga", details: "Velvet · Zari & stone work", price: null,
       images: ["images/clothing/p-bridal-lehenga.jpg", "images/clothing/bridal-look.jpg"], cutout: false,
+      alts: ["Bride in a deep red embroidered lehenga standing on palace steps", "Bride in a red and gold lehenga with heavy gold jewelry and red bangles"],
       colours: [{ name: "Bridal red", hex: "#8E1B26" }, { name: "Wine", hex: "#5A1A2B" }],
       sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
     },
@@ -75,6 +79,7 @@ window.ZIN_CLOTHING = {
       id: "bridal-silk-saree", gender: "women", category: "bridal",
       name: "Bridal Silk Saree", details: "Kanchipuram silk · Temple border", price: null,
       images: ["images/clothing/col-bridal-wear.jpg"], cutout: false,
+      alts: ["Smiling bride under a red embroidered veil with a gold maang tikka"],
       colours: [{ name: "Red & gold", hex: "#9C2230" }, { name: "Maroon", hex: "#6E2232" }],
       sizes: ["Free size", "Custom stitching"], isNew: false,
     },
@@ -82,6 +87,7 @@ window.ZIN_CLOTHING = {
       id: "party-lehenga", gender: "women", category: "lehengas",
       name: "Party Lehenga Set", details: "Georgette · Sequin work", price: null,
       images: ["images/clothing/p-party-lehenga.jpg", "images/clothing/col-lehenga.jpg"], cutout: false,
+      alts: ["Woman in an ivory and red embroidered lehenga with emerald jewelry against a brick wall", "Close-up of red lehenga fabric with gold embroidery"],
       colours: [{ name: "Blush", hex: "#D9A3A0" }, { name: "Teal", hex: "#1F6B6B" }],
       sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
     },
@@ -89,6 +95,7 @@ window.ZIN_CLOTHING = {
       id: "chikankari-kurti", gender: "women", category: "kurtis",
       name: "Chikankari Kurti", details: "Cotton · Hand embroidery", price: null,
       images: ["images/clothing/p-chikankari-kurti.jpg"], cutout: false,
+      alts: ["Woman in a white chikankari embroidered cotton kurti with a matching dupatta"],
       colours: [{ name: "White", hex: "#F2EEE6" }, { name: "Mint", hex: "#A9CDB8" }],
       sizes: ["XS", "S", "M", "L", "XL"], isNew: false,
     },
@@ -96,6 +103,7 @@ window.ZIN_CLOTHING = {
       id: "kurti-set", gender: "women", category: "kurtis",
       name: "Festive Kurti Set", details: "Silk blend · Dupatta included", price: null,
       images: ["images/clothing/p-kurti-set.jpg", "images/clothing/col-kurtis.jpg"], cutout: false,
+      alts: ["Woman in a white and pink floral kurti set with a printed dupatta", "Woman in a wine and gold silk kurti set in a heritage hallway"],
       colours: [{ name: "Wine", hex: "#6E2232" }, { name: "Gold", hex: "#B08D57" }],
       sizes: ["S", "M", "L", "XL"], isNew: false,
     },
@@ -103,38 +111,44 @@ window.ZIN_CLOTHING = {
       id: "evening-gown", gender: "women", category: "party",
       name: "Evening Party Gown", details: "Net · Hand-beaded bodice", price: null,
       images: ["images/clothing/col-lehenga.jpg"], cutout: false,
+      alts: ["Close-up of a red party gown with gold hand-beaded detail"],
       colours: [{ name: "Champagne", hex: "#D6B88A" }],
       sizes: ["XS", "S", "M", "L", "XL"], isNew: false,
     },
 
-    /* ---------------- MEN ---------------- */
-    { // TODO: add photo images/clothing/men-veshti.webp
+    /* ---------------- MEN ----------------
+       Each colour points to its own photo with "image". Add a colour only when you have its photo
+       (file name: images/clothing/men/<product>-<colour>.jpg). */
+    { // stock photo (Unsplash sLRFg-VC2FY) until Zinorah's own shot
+      id: "men-kurta", gender: "men", category: "kurta",
+      name: "Festive Kurta Set", details: "Cotton silk · Pyjama included", price: null,
+      images: ["images/clothing/men/kurta-set-royal-blue.jpg"], cutout: false,
+      alts: ["Man in a royal blue kurta and pyjama set with embroidered loafers"],
+      colours: [{ name: "Royal blue", hex: "#1F4E9C", image: "images/clothing/men/kurta-set-royal-blue.jpg" }],
+      sizes: ["S", "M", "L", "XL", "XXL", "Custom stitching"], isNew: false,
+    },
+    { // stock photos (Unsplash dF3nzZ8ZZK4, iiVy7LJvBnw, cUuWmT8G0MI)
+      id: "men-sherwani", gender: "men", category: "sherwani",
+      name: "Wedding Sherwani", details: "Ivory brocade · Hand embroidery", price: null,
+      images: ["images/clothing/men/sherwani-ivory.jpg", "images/clothing/men/sherwani-ivory-2.jpg", "images/clothing/men/sherwani-ivory-3.jpg"], cutout: false,
+      alts: ["White embroidered wedding sherwani with a red turban, pearl mala and red dupatta on display", "Cream sherwani on a hanger in front of a golden door with pink flowers", "Groom in an ivory sherwani with a white stole at a garden wedding"],
+      colours: [{ name: "Ivory & gold", hex: "#E9DCC0", image: "images/clothing/men/sherwani-ivory.jpg" }],
+      sizes: ["S", "M", "L", "XL", "Custom stitching"], isNew: true,
+    },
+    { // stock photo (Unsplash 4aTO4nORYgI)
+      id: "men-bandhgala", gender: "men", category: "party",
+      name: "Navy Bandhgala Set", details: "Jacquard · Churidar included", price: null,
+      images: ["images/clothing/men/bandhgala-navy.jpg"], cutout: false,
+      alts: ["Man in a navy jacquard bandhgala with white churidar beside a decorated wedding car"],
+      colours: [{ name: "Navy", hex: "#1D2A4A", image: "images/clothing/men/bandhgala-navy.jpg" }],
+      sizes: ["S", "M", "L", "XL", "XXL"], isNew: false,
+    },
+    { // TODO: add photo images/clothing/men/veshti-shirt-cream.jpg (then add the colour back)
       id: "men-veshti", gender: "men", category: "veshti",
       name: "Silk Veshti & Shirt", details: "Silk veshti · Gold border · Matching shirt", price: null,
       images: [], cutout: false,
-      colours: [{ name: "Cream", hex: "#F2EADB" }, { name: "White", hex: "#FAFAF7" }],
+      colours: [],
       sizes: ["S", "M", "L", "XL", "XXL"], isNew: true,
-    },
-    { // TODO: add photo images/clothing/men-kurta.webp
-      id: "men-kurta", gender: "men", category: "kurta",
-      name: "Festive Kurta Set", details: "Cotton silk · Churidar included", price: null,
-      images: [], cutout: false,
-      colours: [{ name: "Maroon", hex: "#6E2232" }, { name: "Navy", hex: "#1D2A4A" }, { name: "Ivory", hex: "#EFE6D4" }],
-      sizes: ["S", "M", "L", "XL", "XXL", "Custom stitching"], isNew: false,
-    },
-    { // TODO: add photo images/clothing/men-sherwani.webp
-      id: "men-sherwani", gender: "men", category: "sherwani",
-      name: "Wedding Sherwani", details: "Brocade · Hand embroidery", price: null,
-      images: [], cutout: false,
-      colours: [{ name: "Ivory & gold", hex: "#E9DCC0" }, { name: "Emerald", hex: "#0F3B2E" }],
-      sizes: ["S", "M", "L", "XL", "Custom stitching"], isNew: true,
-    },
-    { // TODO: add photo images/clothing/men-bandhgala.webp
-      id: "men-bandhgala", gender: "men", category: "party",
-      name: "Bandhgala Party Suit", details: "Jacquard · Slim fit", price: null,
-      images: [], cutout: false,
-      colours: [{ name: "Black", hex: "#1C1C1C" }, { name: "Wine", hex: "#5A1A2B" }],
-      sizes: ["S", "M", "L", "XL", "XXL"], isNew: false,
     },
   ],
 };

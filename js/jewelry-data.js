@@ -15,6 +15,7 @@
      details   one short line (metal · stones · weight)
      price     a number in rupees (e.g. 185000) or null → "Price on request"
      images    list of photos; the first is the main one. [] shows a line drawing.
+     alts      describes each photo for screen readers and search, in the same order as images
      art       line drawing when there is no photo: necklace, earring, ring, bangle, pendant
      colours   metal options: list of { name, hex }   ([] hides the picker)
      sizes     ring sizes, bangle sizes, chain lengths…  ([] = no size needed)
@@ -45,55 +46,79 @@ window.ZIN_JEWELRY = {
       id: "crystal-leaf-set", category: "bridal",
       name: "Crystal Leaf Bridal Set", details: "Necklace, drop earrings & bracelet · Gold finish", price: null,
       images: ["images/jewelry/s-crystal-leaf-set.jpg"], art: "necklace",
+      alts: ["Crystal leaf necklace with a teardrop pendant on a cream bust, with matching drop earrings and bracelet"],
       colours: [{ name: "Yellow gold", hex: "#D4AF6A" }, { name: "Rose gold", hex: "#D9A48F" }, { name: "White gold", hex: "#DCDCD6" }],
       sizes: [], isNew: true,
     },
-    { // TODO: replace with a styled photo
+    { // stock photo (Unsplash vLIeyl_ml8s) until Zinorah's own shot
       id: "temple-necklace", category: "necklaces",
-      name: "Temple Gold Necklace", details: "22K gold · Lakshmi motifs", price: null,
-      images: ["images/jewelry/p-necklace.jpg", "images/jewelry/col-gold.jpg"], art: "necklace",
+      name: "Gold Lattice Necklace Set", details: "22K gold · Matching drop earrings", price: null,
+      images: ["images/jewelry/s-temple-necklace.jpg", "images/jewelry/p-necklace.jpg"], art: "necklace",
+      alts: ["Gold lattice necklace with matching drop earrings on a brown velvet display stand", "Gold mesh necklace and earrings on a white bust"],
       colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
       sizes: ["16 in", "18 in", "Custom length"], isNew: false,
     },
-    { // TODO: replace with a styled photo
-      id: "bridal-choker", category: "bridal",
-      name: "Kundan Bridal Choker", details: "Kundan & pearls · Matching earrings", price: null,
-      images: ["images/jewelry/col-bridal.jpg", "images/jewelry/bridal.jpg"], art: "necklace",
-      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
-      sizes: [], isNew: true,
-    },
-    { // TODO: replace with a styled photo
-      id: "diamond-solitaire", category: "rings",
-      name: "Diamond Solitaire Ring", details: "18K gold · Certified diamond", price: null,
-      images: ["images/jewelry/p-solitaire.jpg", "images/jewelry/col-diamond.jpg"], art: "ring",
-      colours: [{ name: "White gold", hex: "#DCDCD6" }, { name: "Yellow gold", hex: "#D4AF6A" }, { name: "Rose gold", hex: "#D9A48F" }],
-      sizes: ["6", "7", "8", "9", "10", "Custom size"], isNew: false,
-    },
-    { // TODO: replace with a styled photo
-      id: "emerald-ring", category: "rings",
-      name: "Emerald Cocktail Ring", details: "22K gold · Natural emerald", price: null,
-      images: ["images/jewelry/p-emerald-ring.jpg"], art: "ring",
-      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
-      sizes: ["6", "7", "8", "9", "10", "Custom size"], isNew: false,
-    },
-    { // TODO: replace with a styled photo
+    { // stock photo (Unsplash 0BppCezh81k)
       id: "gold-band", category: "rings",
-      name: "Classic Gold Band", details: "22K gold · Everyday wear", price: null,
-      images: ["images/jewelry/p-ring.jpg"], art: "ring",
-      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }, { name: "Rose gold", hex: "#D9A48F" }],
+      name: "Classic Gold Bands", details: "22K gold · Pair for couples", price: null,
+      images: ["images/jewelry/s-gold-bands.jpg", "images/jewelry/p-ring.jpg"], art: "ring",
+      alts: ["Two plain gold wedding bands in a cream ring box", "Hand holding a thin gold ring"],
+      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
       sizes: ["6", "7", "8", "9", "10", "Custom size"], isNew: false,
     },
-    { // TODO: replace with a styled photo
-      id: "gold-hoops", category: "earrings",
-      name: "Gold Hoop Earrings", details: "22K gold · Lightweight", price: null,
-      images: ["images/jewelry/p-hoops.jpg", "images/jewelry/col-everyday.jpg"], art: "earring",
-      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }, { name: "Rose gold", hex: "#D9A48F" }],
+    { // stock photo (Unsplash z6ESfwcmQhU)
+      id: "emerald-ring", category: "rings",
+      name: "Emerald Band Ring", details: "Gold · Emerald half-eternity", price: null,
+      images: ["images/jewelry/s-emerald-ring.jpg"], art: "ring",
+      alts: ["Gold ring set with a row of green emeralds in an open pink ring box"],
+      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
+      sizes: ["6", "7", "8", "9", "10", "Custom size"], isNew: true,
+    },
+    { // stock photos (Unsplash)
+      id: "diamond-solitaire", category: "rings",
+      name: "Diamond Solitaire Ring", details: "18K gold · Radiant-cut diamond", price: null,
+      images: ["images/jewelry/col-diamond.jpg", "images/jewelry/p-solitaire.jpg"], art: "ring",
+      alts: ["Radiant-cut diamond solitaire ring on a woman's hand", "A diamond ring being placed on a finger"],
+      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }, { name: "White gold", hex: "#DCDCD6" }],
+      sizes: ["6", "7", "8", "9", "10", "Custom size"], isNew: false,
+    },
+    { // stock photo (Unsplash mMY40tE1QG4)
+      id: "temple-jhumkas", category: "earrings",
+      name: "Temple Jhumka Earrings", details: "Gold · Ruby stones & gold bead drops", price: null,
+      images: ["images/jewelry/s-temple-jhumkas.jpg"], art: "earring",
+      alts: ["Pair of gold temple jhumka earrings with red stones on a carved wooden stand"],
+      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
       sizes: [], isNew: true,
     },
-    { // TODO: replace with a styled photo
+    { // stock photos (Unsplash 5S0IV03f0i8 and ZP7HXfjRVcY)
+      id: "gold-hoops", category: "earrings",
+      name: "Gold Teardrop Earrings", details: "Gold · Polished drop studs", price: null,
+      images: ["images/jewelry/s-teardrop-earrings.jpg", "images/jewelry/p-hoops.jpg"], art: "earring",
+      alts: ["Pair of polished gold teardrop stud earrings on cream silk", "Polished gold double hoop earring"],
+      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
+      sizes: [], isNew: false,
+    },
+    { // stock photo (Unsplash OExX5suedaA)
+      id: "rose-gold-drops", category: "earrings",
+      name: "Rose Gold Filigree Drops", details: "Rose gold · Hook earrings", price: null,
+      images: ["images/jewelry/s-rose-gold-drops.jpg"], art: "earring",
+      alts: ["Pair of rose gold filigree drop earrings with hooks on white fabric"],
+      colours: [{ name: "Rose gold", hex: "#D9A48F" }],
+      sizes: [], isNew: false,
+    },
+    { // stock photos (Unsplash ynts2uDw1ws, wreS7kv_tLE, itriu-lCKzs)
       id: "gold-bangles", category: "bangles",
-      name: "Carved Gold Bangles", details: "22K gold · Set of 2", price: null,
-      images: ["images/jewelry/p-bangles.jpg"], art: "bangle",
+      name: "Ruby Gold Bangles", details: "22K gold · Ruby accents · Set of 2", price: null,
+      images: ["images/jewelry/s-ruby-bangles.jpg", "images/jewelry/s-bangle-stack.jpg", "images/jewelry/p-bangles.jpg"], art: "bangle",
+      alts: ["Two carved gold bangles with ruby accents on dark red velvet", "Stack of textured gold bangles on a dark reflective surface", "Gold bangles set with round red stones"],
+      colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
+      sizes: ["2.2", "2.4", "2.6", "2.8", "Custom size"], isNew: false,
+    },
+    { // stock photo (Unsplash lwjBhbslaF4)
+      id: "bridal-bangle-set", category: "bridal",
+      name: "Bridal Bangle Set", details: "Gold & maroon · Full bridal set", price: null,
+      images: ["images/jewelry/col-bridal.jpg"], art: "bangle",
+      alts: ["Stack of gold and maroon bridal bangles on red embroidered fabric"],
       colours: [{ name: "Yellow gold", hex: "#D4AF6A" }],
       sizes: ["2.2", "2.4", "2.6", "2.8", "Custom size"], isNew: false,
     },
