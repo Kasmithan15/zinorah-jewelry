@@ -13,7 +13,10 @@ A fast, static one-page site (HTML + CSS + JavaScript). There's no database, no 
 |---|---|
 | `index.html` | The whole website: all text, products and contact details |
 | `css/style.css` | Design: colours, fonts and layout (brand colours are at the top) |
-| `js/main.js` | Menu, product filters, WhatsApp enquiry form. **WhatsApp number is at the top** |
+| `js/main.js` | Menu, product filters, WhatsApp enquiry form, wishlist hearts. **WhatsApp number is at the top** |
+| `account.html`, `js/account.js` | Login page with **Customer** and **Admin** tabs, customer panel and admin dashboard |
+| `js/db.js` | Demo data store (saves in the browser) |
+| `js/firebase-config.js`, `js/backend.js`, `firestore.rules`, `FIREBASE_SETUP.md` | Real secure logins + shared database with Firebase (see `FIREBASE_SETUP.md`) |
 | `images/jewelry/` | Jewelry photos (and the welcome-page diamond) |
 | `images/clothing/` | Clothing photos |
 | `images/` | Logo icons and the link-preview image (`og-cover.png`) |
@@ -26,8 +29,16 @@ A fast, static one-page site (HTML + CSS + JavaScript). There's no database, no 
 - Instagram: **@zinorah_jewelry_trinco**, **@zinorah_clothing_trinco**
 - Location: **Trincomalee, Sri Lanka**
 
+## Logins (customer + admin)
+One page: **`account.html`** (linked from the person icon in the header and from the footer).
+- **Customer** tab: create an account / sign in → **Wishlist** (♡ on products), **My enquiries**, **Profile & measurements**.
+- **Admin** tab (`account.html#admin`): **Enquiries** (status New / Replied / Done, department filter, Reply on WhatsApp), **Customers**, **Shop info** (opening hours and address shown on the website).
+
+It runs in **demo mode** until Firebase is connected: data is saved only in that browser. Demo admin: `admin@zinorah.com` / `Zinorah@2026`.
+To make it real (enquiries from every phone, secure passwords), follow **`FIREBASE_SETUP.md`** (about 10 minutes, free).
+
 ## How enquiries work
-Every "Enquire" button, the floating chat button and the enquiry form open **WhatsApp** with a ready-written message (product name or customer details) addressed to the shop's number. Nothing is stored on a server.
+Every "Enquire" button, the floating chat button and the enquiry form open **WhatsApp** with a ready-written message (product name or customer details) addressed to the shop's number. The enquiry form is also saved to the **admin dashboard** (in demo mode only in that browser; with Firebase from every phone).
 
 ---
 
@@ -84,7 +95,8 @@ Search `index.html` for `TODO` to find every placeholder.
 - [ ] Clothing product names and details (the 6 clothing products are examples: Kanchipuram Silk Saree, Embroidered Bridal Lehenga, Ivory & Red Lehenga, Festive Silk Saree, Floral Kurti Set, Chikankari Kurti)
 - [ ] Confirm the clothing categories: Sarees, Bridal Wear, Lehengas & Party Wear, Kurtis & Everyday Wear, Kids & Family
 - [ ] Real jewelry product photos and product names/details (current six use stock photos)
-- [ ] Opening hours (Contact section and footer currently say "Opening hours coming soon")
+- [ ] Opening hours (Contact section and footer currently say "Opening hours coming soon"); can be set in Admin → Shop info once Firebase is connected
+- [ ] Connect Firebase for real logins (`FIREBASE_SETUP.md`) and set a strong admin password
 - [ ] Full shop address (if customers can visit), plus the exact Google Maps pin
 - [ ] The shop's real story for the About section (only true facts)
 - [ ] Confirm services listed are accurate: "22K & 18K pieces", "Custom Designs", "Bridal Sets", bridal steps

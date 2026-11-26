@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account · ZINORAH Jewelry &amp; Clothing</title>
+  <meta name="description" content="Sign in to your ZINORAH account: wishlist, enquiries and measurements. Staff sign in to the admin dashboard." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0f3b2e" />
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="css/style.css?v=14" />
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="acct-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-diamond" viewBox="0 0 100 100">
+        <path d="M28 40 40 26h20l12 14-22 34z M28 40h44 M40 26l6 14 4 34 4-34 6-14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M4 12h15m-5-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6"/></g>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 3 5 6v5.5c0 4.4 3 7.9 7 9.5 4-1.6 7-5.1 7-9.5V6z M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Top bar -->
+  <header class="acct-top">
+    <div class="container acct-top__inner">
+      <a href="index.html" class="logo logo--footer" aria-label="ZINORAH · Jewelry · Clothing, back to the website">
+        <span class="logo__word">ZINORAH</span>
+        <span class="logo__sub">Jewelry · Clothing</span>
+      </a>
+      <a href="index.html" class="link-arrow">Back to website <svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </header>
+
+  <main id="main" class="acct">
+    <div class="container">
+
+      <!-- ============ SIGN IN (one page, two roles) ============ -->
+      <section class="acct-card" id="loginView" aria-labelledby="loginTitle">
+        <svg class="acct-card__mark" aria-hidden="true"><use href="#i-diamond"/></svg>
+        <p class="eyebrow eyebrow--light eyebrow--center">Welcome to Zinorah</p>
+        <h1 class="section__title section__title--light" id="loginTitle">Sign <em>in</em></h1>
+
+        <div class="role-tabs" role="tablist" aria-label="Sign in as">
+          <button class="role-tab is-active" id="tab-customer" role="tab" aria-selected="true" aria-controls="customerForm">
+            <svg aria-hidden="true"><use href="#i-user"/></svg> Customer
+          </button>
+          <button class="role-tab" id="tab-admin" role="tab" aria-selected="false" aria-controls="adminForm" tabindex="-1">
+            <svg aria-hidden="true"><use href="#i-shield"/></svg> Admin
+          </button>
+        </div>
+
+        <!-- Customer: sign in / create account -->
+        <form class="form acct-form" id="customerForm" role="tabpanel" aria-labelledby="tab-customer" novalidate>
+          <div class="mode-switch">
+            <button type="button" class="mode-btn is-active" data-mode="signin" aria-pressed="true">Sign in</button>
+            <button type="button" class="mode-btn" data-mode="signup" aria-pressed="false">Create account</button>
+          </div>
+          <div class="field signup-only" hidden>
+            <input id="c-name" name="name" type="text" placeholder=" " autocomplete="name" maxlength="100" />
+            <label for="c-name">Full name</label>
+          </div>
+          <div class="field signup-only" hidden>
+            <input id="c-phone" name="phone" type="tel" placeholder=" " autocomplete="tel" pattern="[0-9+\s\-]{9,15}" />
+            <label for="c-phone">Phone / WhatsApp</label>
+          </div>
+          <div class="field">
+            <input id="c-email" name="email" type="email" placeholder=" " required autocomplete="email" />
+            <label for="c-email">Email</label>
+          </div>
+          <div class="field">
+            <input id="c-pass" name="password" type="password" placeholder=" " required minlength="6" autocomplete="current-password" />
+            <label for="c-pass">Password (6+ characters)</label>
+          </div>
+          <button type="submit" class="btn btn--gold btn--block">Sign in</button>
+          <p class="form__status" role="status" aria-live="polite"></p>
+          <p class="acct-note demo-note"></p>
+        </form>
+
+        <!-- Admin -->
+        <form class="form acct-form" id="adminForm" role="tabpanel" aria-labelledby="tab-admin" hidden novalidate>
+          <p class="acct-lead">Staff only. Sign in to see enquiries, customers and shop info.</p>
+          <div class="field">
+            <input id="a-email" name="email" type="email" placeholder=" " required autocomplete="username" />
+            <label for="a-email">Admin email</label>
+          </div>
+          <div class="field">
+            <input id="a-pass" name="password" type="password" placeholder=" " required autocomplete="current-password" />
+            <label for="a-pass">Password</label>
+          </div>
+          <button type="submit" class="btn btn--gold btn--block">Sign in to dashboard</button>
+          <p class="form__status" role="status" aria-live="polite"></p>
+          <p class="acct-note demo-note"></p>
+        </form>
+      </section>
+
+      <!-- ============ CUSTOMER PANEL ============ -->
+      <section class="panel" id="customerView" hidden aria-labelledby="custTitle">
+        <header class="panel__head">
+          <div>
+            <p class="eyebrow eyebrow--light">My Zinorah</p>
+            <h1 class="section__title section__title--light" id="custTitle">Hello, <em class="js-cust-name">there</em></h1>
+            <p class="panel__sub js-cust-email"></p>
+          </div>
+          <button type="button" class="btn btn--outline btn--sm js-signout">Sign out</button>
+        </header>
+
+        <div class="panel-tabs" role="tablist" aria-label="My account">
+          <button class="panel-tab is-active" role="tab" aria-selected="true" aria-controls="c-wish" id="ct-wish">Wishlist</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="c-enq" id="ct-enq" tabindex="-1">My enquiries</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="c-prof" id="ct-prof" tabindex="-1">Profile &amp; measurements</button>
+        </div>
+
+        <div class="panel-body" id="c-wish" role="tabpanel" aria-labelledby="ct-wish">
+          <ul class="list js-wishlist"></ul>
+        </div>
+        <div class="panel-body" id="c-enq" role="tabpanel" aria-labelledby="ct-enq" hidden>
+          <ul class="list js-my-enquiries"></ul>
+        </div>
+        <div class="panel-body" id="c-prof" role="tabpanel" aria-labelledby="ct-prof" hidden>
+          <form class="form profile-form" id="profileForm" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <input id="p-name" name="name" type="text" placeholder=" " required maxlength="100" autocomplete="name" />
+                <label for="p-name">Full name</label>
+              </div>
+              <div class="field">
+                <input id="p-phone" name="phone" type="tel" placeholder=" " pattern="[0-9+\s\-]{9,15}" autocomplete="tel" />
+                <label for="p-phone">Phone / WhatsApp</label>
+              </div>
+            </div>
+            <div class="field">
+              <select id="p-dept" name="dept">
+                <option value="">No preference</option>
+                <option>Jewelry</option>
+                <option>Clothing</option>
+                <option>Both</option>
+              </select>
+              <label for="p-dept" class="is-fixed">I usually shop for</label>
+            </div>
+            <div class="field">
+              <textarea id="p-meas" name="measurements" rows="4" placeholder=" " maxlength="1000"></textarea>
+              <label for="p-meas">Measurements for stitching (optional): bust, waist, blouse length, sleeve…</label>
+            </div>
+            <button type="submit" class="btn btn--gold">Save profile</button>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============ ADMIN PANEL ============ -->
+      <section class="panel panel--admin" id="adminView" hidden aria-labelledby="adminTitle">
+        <header class="panel__head">
+          <div>
+            <p class="eyebrow eyebrow--light">Staff only</p>
+            <h1 class="section__title section__title--light" id="adminTitle">Admin <em>dashboard</em></h1>
+            <p class="panel__sub demo-note"></p>
+          </div>
+          <button type="button" class="btn btn--outline btn--sm js-signout">Sign out</button>
+        </header>
+
+        <dl class="stats">
+          <div><dt>New enquiries</dt><dd class="js-stat-new">0</dd></div>
+          <div><dt>All enquiries</dt><dd class="js-stat-all">0</dd></div>
+          <div><dt>Customers</dt><dd class="js-stat-cust">0</dd></div>
+        </dl>
+
+        <div class="panel-tabs" role="tablist" aria-label="Dashboard">
+          <button class="panel-tab is-active" role="tab" aria-selected="true" aria-controls="a-enq" id="at-enq">Enquiries</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-cust" id="at-cust" tabindex="-1">Customers</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-shop" id="at-shop" tabindex="-1">Shop info</button>
+        </div>
+
+        <div class="panel-body" id="a-enq" role="tabpanel" aria-labelledby="at-enq">
+          <div class="toolbar">
+            <label for="enqFilter">Show</label>
+            <select id="enqFilter" class="mini-select">
+              <option value="all">All</option>
+              <option value="new">New</option>
+              <option value="replied">Replied</option>
+              <option value="done">Done</option>
+            </select>
+            <select id="deptFilter" class="mini-select" aria-label="Department">
+              <option value="all">All departments</option>
+              <option>Jewelry</option>
+              <option>Clothing</option>
+              <option>Both: bridal look</option>
+            </select>
+            <button type="button" class="btn btn--outline btn--sm js-refresh">Refresh</button>
+          </div>
+          <ul class="list js-enquiries"></ul>
+        </div>
+        <div class="panel-body" id="a-cust" role="tabpanel" aria-labelledby="at-cust" hidden>
+          <ul class="list js-customers"></ul>
+        </div>
+        <div class="panel-body" id="a-shop" role="tabpanel" aria-labelledby="at-shop" hidden>
+          <form class="form profile-form" id="shopForm" novalidate>
+            <p class="acct-lead">These show on the website (Contact section and footer) for every visitor.</p>
+            <div class="field">
+              <input id="s-hours" name="hours" type="text" placeholder=" " maxlength="300" />
+              <label for="s-hours">Opening hours, e.g. Mon – Sat · 9.30am – 7.30pm</label>
+            </div>
+            <div class="field">
+              <input id="s-address" name="address" type="text" placeholder=" " maxlength="300" />
+              <label for="s-address">Shop address</label>
+            </div>
+            <button type="submit" class="btn btn--gold">Save shop info</button>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/db.js?v=14" defer></script>
+  <script src="js/firebase-config.js?v=14" defer></script>
+  <script type="module" src="js/backend.js?v=14"></script>
+  <script src="js/account.js?v=14" defer></script>
+</body>
+</html>

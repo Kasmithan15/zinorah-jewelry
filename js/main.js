@@ -247,6 +247,8 @@ form.addEventListener("submit", (e) => {
     (prettyDate ? `\nNeeded by: ${prettyDate}` : "") +
     (d.message ? `\nDetails: ${d.message}` : "");
   window.open(waUrl(msg), "_blank", "noopener");
+  // also save it to the admin dashboard (and the customer's "My enquiries")
+  window.DB?.addEnquiry({ name: d.name, phone: d.phone, department: d.department, interest: d.interest, neededBy: d.date || "", message: d.message || "" }).catch(() => {});
   status.textContent = "Thank you! Please press send in WhatsApp and we'll reply soon.";
   form.reset();
   showInterests("");
@@ -254,6 +256,60 @@ form.addEventListener("submit", (e) => {
 form.querySelectorAll("input, select").forEach((el) =>
   el.addEventListener("input", () => el.closest(".field")?.classList.remove("is-invalid"))
 );
+
+/* ---- Accounts: wishlist hearts, signed-in details, shop info from the admin ---- */
+const toast = (() => {
+  let box, timer;
+  return (text, link) => {
+    if (!box) { box = document.createElement("div"); box.className = "toast"; box.setAttribute("role", "status"); document.body.append(box); }
+    box.replaceChildren(document.createTextNode(text));
+    if (link) { const a = document.createElement("a"); a.href = link.href; a.textContent = link.text; box.append(a); }
+    requestAnimationFrame(() => box.classList.add("is-on"));
+    clearTimeout(timer); timer = setTimeout(() => box.classList.remove("is-on"), 4200);
+  };
+})();
+
+const wishButtons = [...document.querySelectorAll(".product")].map((p) => {
+  const name = p.querySelector(".enquire").dataset.item;
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "wish"; b.setAttribute("aria-pressed", "false");
+  b.setAttribute("aria-label", `Save ${name} to wishlist`);
+  b.innerHTML = '<svg aria-hidden="true"><use href="#i-heart"/></svg>';
+  b.dataset.item = name;
+  p.append(b); // on the card (not inside the photo, which screen readers treat as one image)
+  return b;
+});
+const markWishes = (list) => wishButtons.forEach((b) => b.setAttribute("aria-pressed", String((list || []).includes(b.dataset.item))));
+wishButtons.forEach((b) => b.addEventListener("click", async () => {
+  if (!window.DB) return;
+  try {
+    const me = await DB.customerCurrent();
+    if (!me) return toast("Sign in to save pieces to your wishlist.", { href: "account.html", text: "Sign in / create account" });
+    const list = await DB.wishlistToggle(b.dataset.item);
+    markWishes(list);
+    toast(list.includes(b.dataset.item) ? `Saved "${b.dataset.item}" to your wishlist.` : `Removed "${b.dataset.item}" from your wishlist.`, { href: "account.html", text: "View wishlist" });
+  } catch (e) { toast(e.message); }
+}));
+
+const syncAccount = async () => {
+  if (!window.DB) return;
+  try {
+    const shop = await DB.getShop();
+    if (shop && shop.hours) document.querySelectorAll('[data-shop="hours"]').forEach((n) => (n.textContent = shop.hours));
+    if (shop && shop.address) document.querySelectorAll('[data-shop="address"]').forEach((n) => (n.textContent = shop.address));
+  } catch (e) {}
+  try {
+    const me = await DB.customerCurrent();
+    markWishes(me && me.wishlist);
+    if (me) {
+      document.querySelectorAll(".nav-account").forEach((a) => a.setAttribute("aria-label", `My account (${me.name || me.email})`));
+      if (!form.elements.name.value) form.elements.name.value = me.name || "";
+      if (!form.elements.phone.value) form.elements.phone.value = me.phone || "";
+    }
+  } catch (e) {}
+};
+syncAccount();
+window.addEventListener("db-ready", syncAccount); // Firebase connected
 
 /* ---- Footer year ---- */
 document.getElementById("year").textContent = new Date().getFullYear();

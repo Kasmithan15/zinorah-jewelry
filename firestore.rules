@@ -1,0 +1,69 @@
+rules_version = '2';
+
+// Security rules for ZINORAH.
+// Paste this into Firebase console > Firestore Database > Rules > Publish.
+// Change the admin email below if you use a different admin account
+// (it must match ZIN_ADMIN_EMAIL in js/firebase-config.js).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'admin@zinorah.com';
+    }
+    function isSelf(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+    function shortText(v, max) {
+      return v is string && v.size() <= max;
+    }
+
+    // Shop info (opening hours, address): everyone can read, only the admin can change.
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin() && docId == 'shop'
+        && request.resource.data.keys().hasOnly(['hours', 'address', 'updated'])
+        && shortText(request.resource.data.hours, 300)
+        && shortText(request.resource.data.address, 300);
+    }
+
+    // Customer accounts: each customer reads and edits their own profile;
+    // the admin can see and remove all of them.
+    match /customers/{uid} {
+      function validCustomer(d) {
+        return d.keys().hasOnly(['name', 'email', 'phone', 'dept', 'measurements', 'wishlist', 'created', 'last'])
+          && shortText(d.name, 100) && shortText(d.phone, 30) && shortText(d.dept, 40)
+          && shortText(d.measurements, 1000)
+          && d.wishlist is list && d.wishlist.size() <= 100;
+      }
+      allow read: if isAdmin() || isSelf(uid);
+      allow create: if isSelf(uid) && validCustomer(request.resource.data)
+        && request.resource.data.email == request.auth.token.email;
+      allow update: if isSelf(uid) && validCustomer(request.resource.data)
+        && request.resource.data.email == resource.data.email;
+      allow delete: if isAdmin();
+    }
+
+    // Enquiries from the website form: anyone can send one (status starts as "new").
+    // A signed-in customer can see their own; only the admin can see all,
+    // change the status or delete.
+    match /enquiries/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'phone', 'department', 'interest', 'neededBy', 'message', 'uid', 'email', 'status', 'createdAt'])
+        && shortText(request.resource.data.name, 100) && request.resource.data.name.size() > 0
+        && shortText(request.resource.data.phone, 30) && request.resource.data.phone.size() > 0
+        && request.resource.data.department in ['Jewelry', 'Clothing', 'Both: bridal look']
+        && shortText(request.resource.data.interest, 100)
+        && shortText(request.resource.data.neededBy, 20)
+        && shortText(request.resource.data.message, 2000)
+        && shortText(request.resource.data.email, 200)
+        && (request.resource.data.uid == null || request.resource.data.uid == request.auth.uid)
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read: if isAdmin() || (request.auth != null && resource.data.uid == request.auth.uid);
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['new', 'replied', 'done'];
+      allow delete: if isAdmin();
+    }
+  }
+}
