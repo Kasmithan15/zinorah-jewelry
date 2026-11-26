@@ -537,3 +537,7 @@
 .pdetail__preview { position: absolute; left: 12px; bottom: 12px; padding: 5px 10px; border-radius: 999px; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; background: color-mix(in srgb, var(--cream) 88%, transparent); color: var(--ink); }
 /* behind a photo while it loads: sand, never a wine block */
 .pdetail__slide { background: var(--sand); }
+
+/* "Out of stock" tag on a card (set in the Admin dashboard) */
+.orbit__new.orbit__out, #clothing .orbit__new.orbit__out, .cshow--jewel .orbit__new.orbit__out { background: var(--muted); color: var(--cream); }
+#pdAdd:disabled { opacity: .55; cursor: not-allowed; }

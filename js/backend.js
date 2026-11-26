@@ -8,6 +8,7 @@
 //   customers/{uid}  { name, email, phone, dept, measurements, birthday, city, address, style, photo, wishlist[], created, last }
 //   enquiries/{id}   { name, phone, department, interest, neededBy, message, uid, email, status, createdAt }
 //   settings/shop    { hours, address, mapLink, updated }
+//   products/{dept:id} { the admin's edits to one product: stock, price, colours, photo… (see js/catalog.js) }
 // Who can do what is enforced by firestore.rules.
 // =====================================================================
 const config = window.ZIN_FIREBASE_CONFIG;
@@ -141,6 +142,14 @@ if (config) {
       const q = F.query(F.collection(db, "customers"), F.orderBy("created", "desc"), F.limit(500));
       return (await F.getDocs(q)).docs.map((d) => clean(d.data()));
     }),
+    /* ---------- product edits (everyone reads, only the admin writes) ---------- */
+    getProductEdits: guard(async () => {
+      const out = {};
+      (await F.getDocs(F.collection(db, "products"))).docs.forEach((d) => { out[d.id] = d.data(); });
+      return out;
+    }),
+    saveProductEdit: guard(async (key, data) => { await F.setDoc(F.doc(db, "products", key), JSON.parse(JSON.stringify(data))); }),
+    deleteProductEdit: guard(async (key) => { await F.deleteDoc(F.doc(db, "products", key)); }),
     saveShop: guard(async (s) => F.setDoc(F.doc(db, "settings", "shop"), {
       hours: String(s.hours || "").slice(0, 300), address: String(s.address || "").slice(0, 300), mapLink: String(s.mapLink || "").slice(0, 300), updated: F.serverTimestamp(),
     })),

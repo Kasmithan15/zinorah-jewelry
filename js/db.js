@@ -11,7 +11,7 @@
      (stored only as a hash; capital letters and stray spaces are forgiven) */
   const DEMO_ADMIN_HASH = "35eb03728b1445d04bcf10838f6b7f6c20b0d869ce39c1cbb02847c3dd606dd3";
 
-  const K = { users: "zin-users", me: "zin-me", enq: "zin-enquiries", shop: "zin-shop", admin: "zin-admin" };
+  const K = { users: "zin-users", me: "zin-me", enq: "zin-enquiries", shop: "zin-shop", admin: "zin-admin", products: "zin-product-edits" };
   const read = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
   const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
   const sha256 = async (s) => {
@@ -99,6 +99,15 @@
     async setEnquiryStatus(eid, status) { const l = read(K.enq, []); const e = l.find((x) => x.id === eid); if (e) e.status = status; write(K.enq, l); },
     async deleteEnquiry(eid) { write(K.enq, read(K.enq, []).filter((x) => x.id !== eid)); },
     async listCustomers() { return Object.values(users()).map(clean).sort((a, b) => (b.created || "").localeCompare(a.created || "")); },
+    /* ---------- product edits from the dashboard (see js/catalog.js) ---------- */
+    async getProductEdits() { return read(K.products, {}); },
+    async saveProductEdit(key, data) {
+      const all = read(K.products, {}); all[key] = data;
+      try { localStorage.setItem(K.products, JSON.stringify(all)); }
+      catch (e) { err("Not enough space in this browser for more photos. Use smaller photos or connect the shop's server (Firebase)."); }
+      return all;
+    },
+    async deleteProductEdit(key) { const all = read(K.products, {}); delete all[key]; write(K.products, all); return all; },
     async saveShop(s) { write(K.shop, { hours: String(s.hours || "").slice(0, 300), address: String(s.address || "").slice(0, 300), mapLink: String(s.mapLink || "").slice(0, 300), updated: new Date().toISOString() }); },
   };
 })();

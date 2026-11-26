@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" />
-  <link rel="stylesheet" href="css/style.css?v=53" />
+  <link rel="stylesheet" href="css/style.css?v=57" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body class="acct-page on-cream">
@@ -225,6 +225,7 @@
         <div class="panel-tabs" role="tablist" aria-label="Dashboard">
           <button class="panel-tab is-active" role="tab" aria-selected="true" aria-controls="a-enq" id="at-enq">Enquiries</button>
           <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-cust" id="at-cust" tabindex="-1">Customers</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-prod" id="at-prod" tabindex="-1">Products</button>
           <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-shop" id="at-shop" tabindex="-1">Shop info</button>
         </div>
 
@@ -249,6 +250,24 @@
         </div>
         <div class="panel-body" id="a-cust" role="tabpanel" aria-labelledby="at-cust" hidden>
           <ul class="list js-customers"></ul>
+        </div>
+        <div class="panel-body" id="a-prod" role="tabpanel" aria-labelledby="at-prod" hidden>
+          <p class="acct-lead js-prod-lead">Change what the website shows: stock, price, colours, sizes and photos. Hidden pieces stay here so you can show them again.</p>
+          <div class="toolbar">
+            <label for="prodDept">Department</label>
+            <select id="prodDept" class="mini-select">
+              <option value="jewelry">Jewelry</option>
+              <option value="clothing">Clothing</option>
+            </select>
+            <select id="prodShow" class="mini-select" aria-label="Show">
+              <option value="all">All pieces</option>
+              <option value="in">In stock</option>
+              <option value="out">Out of stock</option>
+              <option value="hidden">Hidden</option>
+            </select>
+            <button type="button" class="btn btn--gold btn--sm js-prod-add">Add new piece</button>
+          </div>
+          <ul class="list js-products"></ul>
         </div>
         <div class="panel-body" id="a-shop" role="tabpanel" aria-labelledby="at-shop" hidden>
           <form class="form profile-form" id="shopForm" novalidate>
@@ -275,9 +294,63 @@
     </div>
   </main>
 
-  <script src="js/db.js?v=22" defer></script>
+  <!-- Product editor (Admin → Products → Edit / Add new piece) -->
+  <dialog class="prod-dlg" id="prodDialog" aria-labelledby="prodDlgTitle">
+    <form class="prod-form" id="prodForm" novalidate>
+      <div class="prod-form__head">
+        <h2 class="prod-form__title" id="prodDlgTitle">Edit piece</h2>
+        <button type="button" class="prod-x js-prod-cancel" aria-label="Close without saving"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="prod-form__grid">
+        <div class="prod-form__photo">
+          <img class="js-prod-img" alt="" width="240" height="300" />
+          <label class="btn btn--outline btn--sm prod-upload">
+            <span class="js-prod-photo-label">Change photo</span>
+            <input type="file" accept="image/*" class="visually-hidden js-prod-photo" />
+          </label>
+          <p class="form__hint js-prod-photo-hint">Main photo. Portrait photos look best; it is cropped to 4:5.</p>
+        </div>
+        <div class="prod-form__fields">
+          <label class="pf"><span>Name</span><input name="name" type="text" maxlength="80" required /></label>
+          <label class="pf"><span>Details (one short line)</span><input name="details" type="text" maxlength="120" placeholder="e.g. Pure silk · Gold zari border" /></label>
+          <div class="pf-row">
+            <label class="pf"><span>Price in rupees</span><input name="price" type="number" min="0" step="1" inputmode="numeric" placeholder="Empty = Price on request" /></label>
+            <label class="pf"><span>Stock</span>
+              <select name="stock"><option value="in">In stock</option><option value="out">Out of stock</option></select>
+            </label>
+          </div>
+          <div class="pf-row">
+            <label class="pf"><span>For</span>
+              <select name="gender"><option value="women">Women</option><option value="men">Men</option><option value="both">Women &amp; Men</option></select>
+            </label>
+            <label class="pf"><span>Category</span><select name="category"></select></label>
+          </div>
+          <label class="pf"><span>Sizes (separate with commas; empty = no size)</span><input name="sizes" type="text" maxlength="200" placeholder="e.g. S, M, L, XL, Custom stitching" /></label>
+          <label class="pf-check"><input name="isNew" type="checkbox" /> <span>Show the “New” tag</span></label>
+          <label class="pf-check"><input name="hidden" type="checkbox" /> <span>Hide this piece from the website</span></label>
+
+          <fieldset class="pf-colours">
+            <legend class="js-prod-colour-legend">Available colours</legend>
+            <p class="form__hint">Remove colours you don't have, or add new ones. A colour with its own photo switches the photo on the website.</p>
+            <ul class="pf-colour-list js-prod-colours"></ul>
+            <button type="button" class="btn btn--outline btn--sm js-prod-colour-add">Add colour</button>
+          </fieldset>
+        </div>
+      </div>
+      <div class="prod-form__foot">
+        <p class="form__status" role="status" aria-live="polite"></p>
+        <button type="button" class="btn btn--outline btn--sm js-prod-cancel">Cancel</button>
+        <button type="submit" class="btn btn--gold btn--sm">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/db.js?v=23" defer></script>
   <script src="js/firebase-config.js?v=20" defer></script>
-  <script type="module" src="js/backend.js?v=22"></script>
-  <script src="js/account.js?v=22" defer></script>
+  <script type="module" src="js/backend.js?v=23"></script>
+  <script src="js/jewelry-data.js?v=35" defer></script>
+  <script src="js/clothing-data.js?v=27" defer></script>
+  <script src="js/catalog.js?v=1" defer></script>
+  <script src="js/account.js?v=23" defer></script>
 </body>
 </html>

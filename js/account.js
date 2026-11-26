@@ -1,7 +1,7 @@
 /* =========================================================
    ZINORAH · Account page: one sign-in form for everyone
    Customer → wishlist, my enquiries, profile & measurements
-   Admin    → enquiries, customers, shop info
+   Admin    → enquiries, customers, products (stock, colours, photos), shop info
    Data comes from window.DB (js/db.js demo, or Firebase via js/backend.js).
    Everything typed by visitors is shown with textContent (never as HTML).
    ========================================================= */
@@ -345,11 +345,217 @@
     finally { busy(form, false); }
   });
 
+  /* =========================================================
+     PRODUCTS: stock, price, colours, sizes, photos, hide / add pieces
+     Edits are saved through DB (demo: this browser; Firebase: everyone)
+     and laid over the product lists by js/catalog.js.
+     ========================================================= */
+  const DEPT = { jewelry: { data: () => window.ZIN_JEWELRY, label: "Jewelry", colourWord: "Metal" }, clothing: { data: () => window.ZIN_CLOTHING, label: "Clothing", colourWord: "Colour" } };
+  let edits = {};
+  const priceLabel = (p) => (p == null || p === "" ? "Price on request" : "Rs. " + Number(p).toLocaleString("en-LK"));
+  const catsFor = (dept, gender) => {
+    const c = (DEPT[dept].data() || {}).categories || {};
+    const lists = gender === "both" ? [c.women || [], c.men || []] : [c[gender] || c.all || []];
+    const seen = new Set(); const out = [];
+    lists.flat().forEach((x) => { if (x.id !== "all" && !seen.has(x.id)) { seen.add(x.id); out.push(x); } });
+    return out;
+  };
+  const catLabel = (dept, p) => (catsFor(dept, p.gender || "women").find((c) => c.id === p.category) || {}).label || p.category || "";
+  const firstPhoto = (p) => (p.images && p.images[0]) || ((p.colours || []).find((c) => c.image) || {}).image || "";
+
+  // any photo → 720 x 900 portrait JPEG (cropped to 4:5), small enough to save
+  const toPortraitJpeg = (file, w = 720, h = 900) => new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const r = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      const sw = w / r, sh = h / r;
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.78));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("That file could not be opened as a photo. Please try a JPG or PNG.")); };
+    img.src = url;
+  });
+
+  const saveEdit = async (key, patch) => {
+    const next = { ...(edits[key] || {}), ...patch };
+    await DB.saveProductEdit(key, next);
+    edits[key] = next; ZinCatalog.cache(edits);
+  };
+
+  const renderProducts = () => {
+    const list = $(".js-products");
+    const dept = $("#prodDept").value, filter = $("#prodShow").value;
+    const all = ZinCatalog.products(dept, edits, true);
+    const items = all.filter((p) => filter === "all" || (filter === "hidden" ? p.hidden : !p.hidden && (filter === "out" ? p.stock === "out" : p.stock !== "out")));
+    if (!items.length) return empty(list, all.length ? "No pieces match this filter." : "No pieces yet. Use “Add new piece”.");
+    list.replaceChildren(...items.map((p) => {
+      const key = ZinCatalog.key(dept, p.id), e = edits[key];
+      const li = el("li", "item item--product" + (p.hidden ? " is-hidden" : ""));
+      const th = el("div", "prod-thumb"); const src = firstPhoto(p);
+      if (src) { const img = el("img"); img.src = src; img.alt = ""; img.loading = "lazy"; th.append(img); }
+      li.append(th);
+      const body = el("div", "item__body");
+      const top = el("div", "item__top");
+      top.append(el("strong", "item__title", p.name));
+      if (p.hidden) top.append(el("span", "chip chip--muted", "Hidden"));
+      else if (p.stock === "out") top.append(el("span", "chip chip--out", "Out of stock"));
+      else top.append(el("span", "chip chip--in", "In stock"));
+      if (e && e.added) top.append(el("span", "chip chip--jewel", "Added here"));
+      else if (e) top.append(el("span", "chip chip--both", "Edited"));
+      body.append(top);
+      const g = { women: "Women", men: "Men", both: "Women & Men" }[p.gender] || "";
+      body.append(el("p", "item__meta", [g, catLabel(dept, p), priceLabel(p.price)].filter(Boolean).join(" · ")));
+      if (p.details) body.append(el("p", "item__meta", p.details));
+      const sw = el("p", "prod-swatches");
+      (p.colours || []).forEach((c) => { const d = el("span", "prod-sw"); d.style.setProperty("--sw", c.hex || "#ccc"); d.title = c.name; sw.append(d); });
+      if ((p.colours || []).length) { sw.append(el("span", "item__meta", (p.colours || []).map((c) => c.name).join(", "))); body.append(sw); }
+      li.append(body);
+
+      const actions = el("div", "item__actions");
+      const stock = el("select", "mini-select");
+      stock.setAttribute("aria-label", "Stock for " + p.name);
+      [["in", "In stock"], ["out", "Out of stock"]].forEach(([v, t]) => { const o = el("option", "", t); o.value = v; stock.append(o); });
+      stock.value = p.stock === "out" ? "out" : "in";
+      stock.addEventListener("change", async () => { try { await saveEdit(key, { stock: stock.value }); renderProducts(); } catch (err) { alert(err.message); stock.value = p.stock === "out" ? "out" : "in"; } });
+      const edit = el("button", "btn btn--outline btn--sm", "Edit"); edit.type = "button";
+      edit.addEventListener("click", () => openEditor(dept, p));
+      const hide = el("button", "text-btn", p.hidden ? "Show on website" : "Hide"); hide.type = "button";
+      hide.addEventListener("click", async () => { try { await saveEdit(key, { hidden: !p.hidden }); renderProducts(); } catch (err) { alert(err.message); } });
+      actions.append(stock, edit, hide);
+      if (e && e.added) {
+        const del = el("button", "text-btn", "Delete"); del.type = "button";
+        del.addEventListener("click", async () => {
+          if (!confirm(`Delete “${p.name}” completely?`)) return;
+          try { await DB.deleteProductEdit(key); delete edits[key]; ZinCatalog.cache(edits); renderProducts(); } catch (err) { alert(err.message); }
+        });
+        actions.append(del);
+      } else if (e) {
+        const undo = el("button", "text-btn", "Undo all changes"); undo.type = "button";
+        undo.addEventListener("click", async () => {
+          if (!confirm(`Put “${p.name}” back the way it was (stock, price, colours, photo)?`)) return;
+          try { await DB.deleteProductEdit(key); delete edits[key]; ZinCatalog.cache(edits); renderProducts(); } catch (err) { alert(err.message); }
+        });
+        actions.append(undo);
+      }
+      li.append(actions);
+      return li;
+    }));
+  };
+  const loadProducts = async () => {
+    try { edits = (await DB.getProductEdits()) || {}; ZinCatalog.cache(edits); } catch (e) { edits = ZinCatalog.cached(); }
+    renderProducts();
+  };
+  $("#prodDept").addEventListener("change", renderProducts);
+  $("#prodShow").addEventListener("change", renderProducts);
+
+  /* ---------- the editor ---------- */
+  const dlg = $("#prodDialog"), pform = $("#prodForm");
+  let editing = null; // { dept, p (null = new), photo, colours[] }
+  const fillCats = (dept, gender, value) => {
+    const sel = pform.elements.category;
+    sel.replaceChildren(...catsFor(dept, gender).map((c) => { const o = el("option", "", c.label); o.value = c.id; return o; }));
+    if (value && [...sel.options].some((o) => o.value === value)) sel.value = value;
+  };
+  pform.elements.gender.addEventListener("change", () => fillCats(editing.dept, pform.elements.gender.value, pform.elements.category.value));
+
+  const renderColours = () => {
+    const ul = $(".js-prod-colours");
+    if (!editing.colours.length) { ul.replaceChildren(el("li", "form__hint", "No colours: the colour buttons are hidden on the website.")); return; }
+    ul.replaceChildren(...editing.colours.map((c, i) => {
+      const li = el("li", "pf-colour");
+      const pick = el("input"); pick.type = "color"; pick.value = /^#[0-9a-f]{6}$/i.test(c.hex || "") ? c.hex : "#b08d57";
+      pick.setAttribute("aria-label", "Colour " + (i + 1) + " shade");
+      pick.addEventListener("input", () => { c.hex = pick.value; });
+      const name = el("input"); name.type = "text"; name.value = c.name || ""; name.maxLength = 40; name.placeholder = "Colour name";
+      name.setAttribute("aria-label", "Colour " + (i + 1) + " name");
+      name.addEventListener("input", () => { c.name = name.value; });
+      const ph = el("label", "text-btn pf-colour__photo", c.image ? "Change photo" : "Add photo");
+      const file = el("input"); file.type = "file"; file.accept = "image/*"; file.className = "visually-hidden";
+      file.addEventListener("change", async () => {
+        const f = file.files && file.files[0]; if (!f) return;
+        try { c.image = await toPortraitJpeg(f); c.preview = false; renderColours(); } catch (err) { say(pform, err.message, false); }
+      });
+      ph.append(file);
+      const thumb = el("span", "pf-colour__thumb");
+      if (c.image) { const im = el("img"); im.src = c.image; im.alt = ""; thumb.append(im); }
+      const rm = el("button", "text-btn", "Remove"); rm.type = "button"; rm.setAttribute("aria-label", "Remove colour " + (c.name || i + 1));
+      rm.addEventListener("click", () => { editing.colours.splice(i, 1); renderColours(); });
+      li.append(pick, name, thumb, ph, rm);
+      return li;
+    }));
+  };
+  $(".js-prod-colour-add").addEventListener("click", () => { editing.colours.push({ name: "", hex: "#b08d57" }); renderColours(); $(".js-prod-colours li:last-child input[type=text]")?.focus(); });
+
+  const showPhoto = (src) => {
+    const img = $(".js-prod-img"); img.hidden = !src; if (src) img.src = src;
+    $(".js-prod-photo-label").textContent = src ? "Change photo" : "Add photo";
+  };
+  $(".js-prod-photo").addEventListener("change", async (e) => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    try { editing.photo = await toPortraitJpeg(f); showPhoto(editing.photo); say(pform, "", true); } catch (err) { say(pform, err.message, false); }
+    e.target.value = "";
+  });
+
+  const openEditor = (dept, p) => {
+    editing = { dept, p, photo: "", colours: JSON.parse(JSON.stringify((p && p.colours) || [])) };
+    const f = pform.elements;
+    $("#prodDlgTitle").textContent = p ? "Edit " + p.name : "Add a new " + DEPT[dept].label.toLowerCase() + " piece";
+    $(".js-prod-colour-legend").textContent = "Available " + (DEPT[dept].colourWord === "Metal" ? "metals / colours" : "colours");
+    f.name.value = p ? p.name : ""; f.details.value = (p && p.details) || "";
+    f.price.value = p && p.price != null ? p.price : "";
+    f.stock.value = p && p.stock === "out" ? "out" : "in";
+    f.gender.value = (p && p.gender) || "women";
+    fillCats(dept, f.gender.value, p && p.category);
+    f.sizes.value = ((p && p.sizes) || []).join(", ");
+    f.isNew.checked = p ? !!p.isNew : true;
+    f.hidden.checked = !!(p && p.hidden);
+    showPhoto(p ? firstPhoto(p) : "");
+    renderColours();
+    say(pform, "", true);
+    dlg.showModal ? dlg.showModal() : dlg.setAttribute("open", "");
+    f.name.focus();
+  };
+  const closeEditor = () => { dlg.close ? dlg.close() : dlg.removeAttribute("open"); editing = null; };
+  $$(".js-prod-cancel").forEach((b) => b.addEventListener("click", closeEditor));
+  $(".js-prod-add").addEventListener("click", () => openEditor($("#prodDept").value, null));
+
+  const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 50) || "piece";
+  pform.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!editing) return;
+    const f = pform.elements, { dept, p } = editing;
+    const name = f.name.value.trim();
+    if (!name) { say(pform, "Please give the piece a name.", false); f.name.focus(); return; }
+    if (!p && !editing.photo) { say(pform, "Please add a photo for the new piece.", false); return; }
+    const colours = editing.colours.map((c) => ({ ...c, name: String(c.name || "").trim() })).filter((c) => c.name);
+    const data = {
+      name, details: f.details.value.trim(),
+      price: f.price.value === "" ? null : Math.max(0, Math.round(Number(f.price.value))),
+      stock: f.stock.value, gender: f.gender.value, category: f.category.value,
+      sizes: f.sizes.value.split(",").map((x) => x.trim()).filter(Boolean).slice(0, 20),
+      isNew: f.isNew.checked, hidden: f.hidden.checked, colours,
+    };
+    if (editing.photo) data.image = editing.photo;
+    const key = p ? ZinCatalog.key(dept, p.id) : ZinCatalog.key(dept, slug(name) + "-" + Date.now().toString(36).slice(-4));
+    if (!p) { data.added = true; data.order = Date.now(); data.images = [editing.photo]; data.alts = [name]; delete data.image; }
+    busy(pform, true);
+    try {
+      if (p && edits[key] && edits[key].added) { data.added = true; data.order = edits[key].order; data.images = data.image ? [data.image] : edits[key].images; data.alts = [name]; delete data.image; }
+      await saveEdit(key, data);
+      closeEditor();
+      renderProducts();
+    } catch (err) { say(pform, err.message, false); }
+    finally { busy(pform, false); }
+  });
+
   const openAdmin = () => {
     modeNote();
     selectAdminTab(adminTabs[0]);
     show(adminView);
-    loadEnquiries(); loadCustomers(); loadShop();
+    loadEnquiries(); loadCustomers(); loadShop(); loadProducts();
   };
 
   /* ---------- start: reopen whoever is already signed in ---------- */

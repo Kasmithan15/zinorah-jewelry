@@ -18,6 +18,7 @@
   const mod = (a, n) => ((a % n) + n) % n;
   const altFor = (p, i) => (p.alts && p.alts[i]) || (i === 0 ? p.name : `${p.name}, photo ${i + 1}`);
   const priceText = (p) => (p == null || p === "" ? "Price on request" : "Rs. " + Number(p).toLocaleString("en-LK"));
+  const isOut = (p) => p && p.stock === "out"; // set in the Admin dashboard
 
   // cubic-bezier easing (same curve as the CSS)
   const bezier = (x1, y1, x2, y2) => (t) => {
@@ -107,7 +108,10 @@
       $("#pdCat").textContent = ctx.eyebrow(p);
       $("#pdName").textContent = p.name;
       $("#pdDetails").textContent = p.details || "";
-      $("#pdPrice").textContent = priceText(p.price);
+      $("#pdPrice").textContent = isOut(p) ? "Out of stock" : priceText(p.price);
+      const add = $("#pdAdd");
+      add.disabled = isOut(p); add.textContent = isOut(p) ? "Out of stock" : "Add to bag";
+      if (isOut(p)) { msg.textContent = "This piece is out of stock right now. Ask us on WhatsApp: we can tell you when it is back or suggest something similar."; }
 
       const imgs = p.images && p.images.length ? [...p.images] : [""];
       (p.colours || []).forEach((c) => { if (c.image && !imgs.includes(c.image)) imgs.push(c.image); });
@@ -153,7 +157,7 @@
       sBox.hidden = !(p.sizes && p.sizes.length);
       if (!sBox.hidden) {
         radioGroup($("#pdSizes"), p.sizes, (v) => el("button", "size" + (v.length > 4 ? " size--wide" : ""), v),
-          (v) => { choice.size = v; msg.textContent = ""; msg.classList.remove("is-error"); showSizeNote(v); updateWa(); }, (v) => "Size " + v);
+          (v) => { choice.size = v; if (!isOut(p)) msg.textContent = ""; msg.classList.remove("is-error"); showSizeNote(v); updateWa(); }, (v) => "Size " + v);
         if (p.sizes.length === 1) $("#pdSizes button").click();
       }
       $("#pdGuide").hidden = !ctx.guideFor(p);
@@ -232,7 +236,7 @@
 
     /* add to bag */
     $("#pdAdd").addEventListener("click", async () => {
-      const p = current; if (!p) return;
+      const p = current; if (!p || isOut(p)) return;
       if (p.sizes && p.sizes.length && !choice.size) {
         msg.textContent = "Please choose a size."; msg.classList.add("is-error");
         $("#pdSizes button")?.focus();
@@ -413,7 +417,7 @@
       setWord(p.word || p.name);
       $(".js-orbit-name", root).textContent = p.name;
       $(".js-orbit-details", root).textContent = p.details || "";
-      $(".js-orbit-price", root).textContent = priceText(p.price);
+      $(".js-orbit-price", root).textContent = isOut(p) ? "Out of stock" : priceText(p.price);
       $(".js-orbit-now", root).textContent = pad(i + 1);
       if (announce) live.textContent = `Product ${i + 1} of ${list.length}: ${p.name}`;
       [i - 1, i + 1].forEach((j) => { const img = items[mod(j, items.length)]?.querySelector("img"); if (img) img.loading = "eager"; });
@@ -458,7 +462,8 @@
         fig.setAttribute("aria-label", `${i + 1} of ${list.length}: ${p.name}`);
         const frame = el("div", "orbit__frame" + (p.cutout ? " is-cutout" : ""));
         frame.append(media(p, p.images && p.images[0], ctx, { eager: i < 3, alt: altFor(p, 0) }));
-        if (p.isNew) frame.append(el("span", "orbit__new", "New"));
+        if (isOut(p)) frame.append(el("span", "orbit__new orbit__out", "Out of stock"));
+        else if (p.isNew) frame.append(el("span", "orbit__new", "New"));
         fig.append(frame, el("span", "orbit__shadow"));
         return fig;
       });
@@ -566,6 +571,8 @@
     markGender();
     buildCats();
     build();
+    // the admin changed products (stock, colours, new pieces…): redraw with the new list
+    window.addEventListener("catalog-updated", () => { if (!DATA.products.some((p) => p.id === (list[active] || {}).id)) cat = "all"; buildCats(); build(); });
     document.fonts?.ready.then(() => { measure(); layout(); moveLine(); }); // web fonts change text heights
 
     return {

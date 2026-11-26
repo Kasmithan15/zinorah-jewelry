@@ -28,6 +28,14 @@ service cloud.firestore {
         && (!('mapLink' in request.resource.data) || shortText(request.resource.data.mapLink, 300));
     }
 
+    // Product edits from the Admin dashboard (stock, price, colours, photos, new pieces):
+    // everyone can read them (the website shows them), only the admin can change them.
+    // Photos are small JPEGs made in the browser; a whole product stays under Firestore's 1 MB.
+    match /products/{key} {
+      allow read: if true;
+      allow write: if isAdmin() && key.matches('^(jewelry|clothing):[a-z0-9-]{1,80}$');
+    }
+
     // Customer accounts: each customer reads and edits their own profile;
     // the admin can see and remove all of them.
     match /customers/{uid} {
