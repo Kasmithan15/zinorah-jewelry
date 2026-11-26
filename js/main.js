@@ -49,9 +49,9 @@ if ("IntersectionObserver" in window) {
 
 /* ---- Header: shrink on scroll ---- */
 const header = document.getElementById("header");
-// solid header inside a view; transparent over the home hero until you scroll
-const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 40 || (document.documentElement.dataset.view || "home") !== "home");
-window.addEventListener("scroll", onScroll, { passive: true });
+// The header is always the solid emerald bar at one fixed height. (It used to change size at the top of
+// the Home page; the size change moved the page under it and made it flicker while scrolling.)
+const onScroll = () => header.classList.add("is-scrolled");
 onScroll();
 
 /* ---- Mobile menu ---- */
