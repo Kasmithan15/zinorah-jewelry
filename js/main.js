@@ -600,8 +600,37 @@ renderBag();
   if (!sec || !list.length) return; // stays hidden until there is a real review
   if (!(R.reviews || []).length) sec.querySelector(".reviews__note").hidden = false;
   const track = sec.querySelector(".reviews__track");
+  const dlg = document.getElementById("revDialog");
+  let opener = null, viaKey = false;
+  // click a card → the strip stops and the review opens bigger; closing it starts the strip again
+  const openReview = (r, from, key) => {
+    opener = from; viaKey = !!key;
+    sec.classList.add("is-paused");
+    const pic = r.photo || r.piece;
+    const box = dlg.querySelector(".revdlg__pic");
+    box.hidden = !pic;
+    if (pic) box.querySelector("img").src = pic;
+    const n = Math.max(1, Math.min(5, Math.round(r.stars || 5)));
+    const st = dlg.querySelector(".revdlg__stars");
+    st.textContent = "★".repeat(n) + "☆".repeat(5 - n); st.setAttribute("aria-label", `${n} out of 5 stars`);
+    dlg.querySelector(".revdlg__text").textContent = `“${r.text}”`;
+    dlg.querySelector(".revdlg__name").textContent = r.name;
+    dlg.querySelector(".revdlg__meta").textContent = [r.place, r.about].filter(Boolean).join(" · ");
+    dlg.showModal();
+  };
+  dlg.querySelector(".revdlg__close").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); }); // click outside the box
+  dlg.addEventListener("close", () => {
+    sec.classList.remove("is-paused");
+    if (viaKey) opener?.focus({ preventScroll: true }); // keyboard users land back on the card (strip stays paused while it has focus)
+    else opener?.blur(); // mouse / touch: the strip starts moving again straight away
+  });
+
   const card = (r) => {
     const c = document.createElement("figure"); c.className = "review";
+    c.tabIndex = 0; c.setAttribute("role", "button"); c.setAttribute("aria-label", `Read the review from ${r.name}`);
+    c.addEventListener("click", () => openReview(r, c));
+    c.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openReview(r, c, true); } });
     const n = Math.max(1, Math.min(5, Math.round(r.stars || 5)));
     const st = document.createElement("p"); st.className = "review__stars";
     st.setAttribute("aria-label", `${n} out of 5 stars`); st.textContent = "★".repeat(n) + "☆".repeat(5 - n);
@@ -625,7 +654,7 @@ renderBag();
   const reps = Math.max(1, Math.ceil(window.innerWidth / (list.length * 340)));
   const half = Array.from({ length: reps }, () => list).flat();
   const first = half.map(card);
-  const second = half.map((r) => { const c = card(r); c.setAttribute("aria-hidden", "true"); return c; });
+  const second = half.map((r) => { const c = card(r); c.setAttribute("aria-hidden", "true"); c.tabIndex = -1; return c; });
   track.replaceChildren(...first, ...second);
   track.style.setProperty("--rev-time", Math.max(20, half.length * 7) + "s");
   sec.hidden = false;
