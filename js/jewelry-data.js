@@ -45,7 +45,7 @@ window.ZIN_JEWELRY = {
 
   // Shown in the "Size guide" pop-up. TODO: replace with the shop's own chart.
   sizeGuide: {
-    rings: { unit: "Ring sizes", head: ["Size", "Inside diameter (mm)"], rows: [["6", "16.5"], ["7", "17.3"], ["8", "18.1"], ["9", "18.9"], ["10", "19.8"]] },
+    rings: { unit: "Ring sizes", head: ["Size", "Inside diameter (mm)"], rows: [["6", "16.5"], ["7", "17.3"], ["8", "18.1"], ["9", "18.9"], ["10", "19.8"], ["11", "20.6"], ["12", "21.4"]] },
     bangles: { unit: "Bangle sizes", head: ["Size", "Inside diameter (inches)"], rows: [["2.2", "2.13"], ["2.4", "2.25"], ["2.6", "2.38"], ["2.8", "2.50"]] },
     note: "Not sure? Choose \"Custom size\" and we will measure you in the shop or help you on WhatsApp.",
   },

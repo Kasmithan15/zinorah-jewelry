@@ -234,8 +234,10 @@
   .pdetail__panel { max-width: 1040px; max-height: 88vh; border-radius: 18px; display: grid; grid-template-columns: 1.05fr 1fr; overflow: hidden; }
   .pdetail__grab { display: none; }
   .pdetail__gallery { padding: 18px; overflow: hidden; }
-  .pdetail__slide { max-height: none; height: calc(88vh - 120px); aspect-ratio: auto; }
-  .pdetail__body { padding: 56px 40px 40px; overflow-y: auto; align-content: start; }
+  /* photo keeps the 4:5 shape of the product shots (nothing cropped); text is centred against it */
+  .pdetail__gallery { align-self: center; }
+  .pdetail__slide { aspect-ratio: 4 / 5; height: auto; max-height: calc(88vh - 36px); }
+  .pdetail__body { padding: 48px 44px; overflow-y: auto; align-content: center; }
   .pdetail__actions { grid-template-columns: 1fr 1fr; }
   .pdetail.is-fallback .pdetail__panel { animation: pdPop .5s cubic-bezier(.7,0,.2,1); }
   @keyframes pdPop { from { transform: translateY(40px) scale(.97); opacity: 0; } }
