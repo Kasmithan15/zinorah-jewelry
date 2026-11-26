@@ -342,7 +342,7 @@
       let itemW = phone ? Math.round(w * 0.74) : Math.round(Math.min(460, Math.max(280, w * 0.34)));
       // fit the whole showcase (heading → name) on one screen under the sticky header
       if (section) {
-        const headerH = matchMedia("(min-width: 1181px)").matches ? 142 : 68;
+        const headerH = matchMedia("(min-width: 1181px)").matches ? 148 : 80;
         const box = root.closest(".container") || section; // measured from the content, not the centring gap
         const above = stage.getBoundingClientRect().top - box.getBoundingClientRect().top + 14;
         const below = $(".orbit__nav", root).offsetHeight + $(".orbit__info", root).offsetHeight + 30 + 14;

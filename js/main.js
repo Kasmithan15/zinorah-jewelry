@@ -49,9 +49,9 @@ if ("IntersectionObserver" in window) {
 
 /* ---- Header: shrink on scroll ---- */
 const header = document.getElementById("header");
-// The header is always the solid emerald bar at one fixed height. (It used to change size at the top of
-// the Home page; the size change moved the page under it and made it flicker while scrolling.)
-const onScroll = () => header.classList.add("is-scrolled");
+// The header keeps one look and one height while scrolling: green menu bar + cream logo row.
+// (It used to shrink at the top of Home; the size change moved the page and made it flicker.)
+const onScroll = () => {};
 onScroll();
 
 /* ---- Mobile menu ---- */

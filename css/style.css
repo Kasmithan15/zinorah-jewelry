@@ -293,7 +293,7 @@ p { margin: 0 0 1.1em; }
 
 /* Desktop: menu links + icons sit in the emerald bar on top, logo on its own row below */
 @media (min-width: 1181px) {
-  html { scroll-padding-top: 142px; }
+  html { scroll-padding-top: 148px; }
   .header { --bar-h: 52px; background: linear-gradient(var(--emerald-900) var(--bar-h), transparent var(--bar-h)) no-repeat; }
   .header.is-scrolled { background: linear-gradient(var(--emerald-900) var(--bar-h), var(--emerald-800) var(--bar-h)) no-repeat border-box; }
   .header__inner { height: auto; grid-template-columns: 1fr 1fr; grid-template-rows: var(--bar-h) 100px; row-gap: 0; }
@@ -1437,3 +1437,10 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 
 /* header never animates its size or colours (no jumping while scrolling) */
 .header, .header__inner, .logo__mark { transition: none; }
+
+/* Header: dark green menu bar on top, cream logo row (dark ZINORAH, gold crest) under it. Fixed size. */
+.header { background: var(--cream); border-bottom-color: var(--line-gold); }
+@media (min-width: 1181px) {
+  .header { background: linear-gradient(var(--emerald-900) var(--bar-h), var(--cream) var(--bar-h)) no-repeat; }
+  .header__inner { grid-template-rows: var(--bar-h) 96px; }
+}
