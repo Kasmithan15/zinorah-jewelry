@@ -9,7 +9,7 @@
 
    Fields
      id        unique, lowercase-with-dashes (used in links and the bag)
-     gender    "women" or "men"  (decides which side of the Women / Men switch it shows on)
+     gender    "women", "men" or "both"  (which side of the Women / Men switch; "both" shows on each)
      category  one of the category ids listed in CATEGORIES below
      name      product name
      details   one short line (fabric · detail)
@@ -32,6 +32,7 @@ window.ZIN_CLOTHING = {
       { id: "lehengas", label: "Lehengas" },
       { id: "kurtis", label: "Kurtis" },
       { id: "party", label: "Party Wear" },
+      { id: "family", label: "Family Sets" },
     ],
     men: [
       { id: "all", label: "All" },
@@ -39,6 +40,7 @@ window.ZIN_CLOTHING = {
       { id: "kurta", label: "Kurta Sets" },
       { id: "sherwani", label: "Sherwani" },
       { id: "party", label: "Party Wear" },
+      { id: "family", label: "Family Sets" },
     ],
   },
 
@@ -51,6 +53,54 @@ window.ZIN_CLOTHING = {
 
   products: [
     /* ---------------- WOMEN ---------------- */
+    { // new photo (2026-11-27)
+      id: "royal-blue-banarasi", gender: "women", category: "sarees",
+      name: "Royal Blue Banarasi Silk", details: "Silk · Silver zari paisley weave", price: null,
+      images: ["images/clothing/v-royal-blue-banarasi.jpg"], cutout: false,
+      alts: ["Woman in a royal blue Banarasi silk saree with silver zari paisley weave and a matching blouse"],
+      colours: [],
+      sizes: ["Free size", "Custom stitching"], isNew: true,
+    },
+    { // new photo (2026-11-27)
+      id: "emerald-kanjivaram", gender: "women", category: "sarees",
+      name: "Emerald Kanjivaram Silk", details: "Pure silk · Gold zari border and pallu", price: null,
+      images: ["images/clothing/v-emerald-kanjivaram.jpg"], cutout: false,
+      alts: ["Woman in an emerald green Kanjivaram silk saree with a wide gold zari border and pallu"],
+      colours: [],
+      sizes: ["Free size", "Custom stitching"], isNew: true,
+    },
+    { // new photo (2026-11-27)
+      id: "kerala-kasavu-saree", gender: "women", category: "sarees",
+      name: "Kerala Kasavu Saree", details: "Cotton tissue · Gold kasavu border, green blouse", price: null,
+      images: ["images/clothing/v-kerala-kasavu-saree.jpg"], cutout: false,
+      alts: ["Woman in an off-white Kerala kasavu saree with a gold and green border and a green silk blouse, with jasmine in her hair"],
+      colours: [],
+      sizes: ["Free size", "Custom stitching"], isNew: true,
+    },
+    { // new photo (2026-11-27)
+      id: "asymmetric-kurti-set", gender: "women", category: "kurtis",
+      name: "Asymmetric Embroidered Kurti Set", details: "Cotton · Floral embroidery, wide-leg pants", price: null,
+      images: ["images/clothing/v-asymmetric-kurti-set.jpg"], cutout: false,
+      alts: ["Woman in an ivory asymmetric strappy kurti with small floral embroidery and tassels, worn over grey-blue wide-leg pants"],
+      colours: [],
+      sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
+    },
+    { // new photo (2026-11-27)
+      id: "block-print-kurti", gender: "women", category: "kurtis",
+      name: "Block-Print Short Kurti", details: "Cotton · Printed, tassel tie neck", price: null,
+      images: ["images/clothing/v-block-print-kurti.jpg"], cutout: false,
+      alts: ["Woman in a short pink and white block-print kurti with a maroon tassel tie neck, worn with white leggings"],
+      colours: [],
+      sizes: ["XS", "S", "M", "L", "XL", "Custom stitching"], isNew: true,
+    },
+    { // new photo (2026-11-27)
+      id: "kasavu-family", gender: "both", category: "family",
+      name: "Kasavu Family Collection", details: "Kasavu sarees, set mundu & kids wear · Gold border", price: null,
+      images: ["images/clothing/v-kasavu-family.jpg"], cutout: false,
+      alts: ["Collection of cream kasavu sarees, a set mundu and veshti with gold borders, and a girl and boy in matching cream and gold outfits"],
+      colours: [],
+      sizes: [], isNew: true,
+    },
     { // TODO: replace placeholder photo with a cut-out (images/clothing/kanchipuram-silk.webp)
       id: "kanchipuram-silk", gender: "women", category: "sarees",
       name: "Kanchipuram Silk", details: "Pure silk · Gold zari border", price: null,
@@ -119,6 +169,14 @@ window.ZIN_CLOTHING = {
     /* ---------------- MEN ----------------
        Each colour points to its own photo with "image". Add a colour only when you have its photo
        (file name: images/clothing/men/<product>-<colour>.jpg). */
+    { // new photo (2026-11-27)
+      id: "ivory-sherwani", gender: "men", category: "sherwani",
+      name: "Ivory Sherwani", details: "Raw silk · Gold embroidered collar and cuffs, churidar included", price: null,
+      images: ["images/clothing/v-ivory-sherwani.jpg"], cutout: false,
+      alts: ["Man in an ivory sherwani with gold embroidery on the collar and cuffs, matching churidar and gold mojari shoes"],
+      colours: [],
+      sizes: ["S", "M", "L", "XL", "XXL", "Custom stitching"], isNew: true,
+    },
     { // stock photo (Unsplash sLRFg-VC2FY) until Zinorah's own shot
       id: "men-kurta", gender: "men", category: "kurta",
       name: "Festive Kurta Set", details: "Cotton silk · Pyjama included", price: null,
