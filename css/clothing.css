@@ -1,11 +1,16 @@
 /* =========================================================
-   ZINORAH · Clothing showcase, product detail, bag drawer
+   ZINORAH · Clothing & Jewelry showcases, product detail, bag drawer
    Colours come from the tokens in style.css (:root).
    Mobile first: 375–430px, then wider screens.
    ========================================================= */
 
 /* ---------- Showcase shell (inside the maroon #clothing section) ---------- */
-.cshow { position: relative; margin-top: clamp(8px, 2vw, 20px); }
+.cshow {
+  position: relative; margin-top: clamp(8px, 2vw, 20px);
+  --acc: var(--cloth-soft); --body: var(--cloth-body); --frame-a: var(--cloth); --frame-b: var(--cloth-900);
+}
+/* jewelry: emerald + gold instead of maroon */
+.cshow--jewel { --acc: var(--gold-soft); --body: var(--cream-text); --frame-a: var(--emerald-700); --frame-b: var(--emerald-900); }
 .cshow__controls { display: grid; justify-items: center; gap: 18px; margin-bottom: clamp(18px, 3vw, 30px); }
 .cshow__noscript { text-align: center; color: var(--cloth-body); }
 .cshow__noscript a { color: var(--cloth-soft); text-decoration: underline; }
@@ -41,7 +46,7 @@
   color: var(--cream-tab); transition: color .35s;
 }
 .cats__btn:hover { color: var(--cream); }
-.cats__btn[aria-pressed="true"] { color: var(--cloth-soft); }
+.cats__btn[aria-pressed="true"] { color: var(--acc); }
 .cats__line {
   position: absolute; left: 0; bottom: 8px; height: 1px; width: 0; background: var(--gold); pointer-events: none;
   transition: transform .5s cubic-bezier(.7,0,.2,1), width .5s cubic-bezier(.7,0,.2,1);
@@ -55,13 +60,13 @@
 }
 .orbit::before { /* cinematic spotlight */
   content: ""; position: absolute; z-index: -2; left: 50%; top: 42%; width: min(900px, 140vw); aspect-ratio: 1; transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--cloth-soft) 22%, transparent), color-mix(in srgb, var(--cloth-soft) 6%, transparent) 55%, transparent 72%);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--acc) 22%, transparent), color-mix(in srgb, var(--acc) 6%, transparent) 55%, transparent 72%);
   pointer-events: none;
 }
 .orbit__word {
   position: absolute; z-index: -1; left: 0; right: 0; top: clamp(70px, 14vw, 120px); text-align: center; white-space: nowrap; pointer-events: none;
   font-family: var(--serif); font-style: italic; font-weight: 400; line-height: .9; letter-spacing: -.02em;
-  font-size: clamp(64px, 17vw, 210px); color: color-mix(in srgb, var(--cloth-soft) 25%, transparent);
+  font-size: clamp(64px, 17vw, 210px); color: color-mix(in srgb, var(--acc) 25%, transparent);
 }
 .orbit__ch { display: inline-block; transform: translateY(105%); opacity: 0; }
 .orbit__word.is-in .orbit__ch { animation: chUp .8s cubic-bezier(.2,.7,.2,1) calc(var(--i) * 28ms) forwards; }
@@ -84,8 +89,8 @@
 }
 .orbit__frame {
   position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 14px;
-  background: linear-gradient(165deg, var(--cloth), var(--cloth-900));
-  box-shadow: 0 40px 70px -36px color-mix(in srgb, var(--ink) 80%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--cloth-soft) 30%, transparent);
+  background: linear-gradient(165deg, var(--frame-a), var(--frame-b));
+  box-shadow: 0 40px 70px -36px color-mix(in srgb, var(--ink) 80%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent);
 }
 .orbit__frame::after { /* thin gold hairline inside the frame */
   content: ""; position: absolute; inset: 10px; border: 1px solid color-mix(in srgb, var(--gold-soft) 45%, transparent); border-radius: 8px; pointer-events: none;
@@ -108,9 +113,9 @@
 }
 
 /* line art when a product has no photo yet */
-.cs-art { width: 100%; height: 100%; display: grid; place-items: center; align-content: center; gap: 12px; color: color-mix(in srgb, var(--cloth-soft) 80%, transparent); }
+.cs-art { width: 100%; height: 100%; display: grid; place-items: center; align-content: center; gap: 12px; color: color-mix(in srgb, var(--acc, var(--cloth-soft)) 80%, transparent); }
 .cs-art svg { width: 52%; aspect-ratio: 1; }
-.cs-art__note { font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--cloth-soft); }
+.cs-art__note { font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--acc, var(--cloth-soft)); }
 
 .orbit__nav { display: flex; align-items: center; gap: 18px; margin-top: 6px; }
 .orbit__btn {
@@ -122,13 +127,13 @@
 .orbit__btn:hover { background: var(--gold); color: var(--emerald-900); }
 .orbit__btn:active { transform: scale(.94); }
 .orbit__btn:disabled { opacity: .35; pointer-events: none; }
-.orbit__count { margin: 0; min-width: 76px; text-align: center; font-size: 12px; letter-spacing: .22em; font-variant-numeric: tabular-nums; color: var(--cloth-body); }
+.cshow .orbit__count { margin: 0; min-width: 76px; text-align: center; font-size: 12px; letter-spacing: .22em; font-variant-numeric: tabular-nums; color: var(--body); }
 .orbit__count .js-orbit-now { color: var(--cream); }
 
 .orbit__info { display: grid; justify-items: center; gap: 2px; text-align: center; padding: 14px var(--gutter) 0; max-width: 560px; }
-.on-maroon .orbit__name { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); line-height: 1.1; color: var(--cream); margin: 0; }
-.on-maroon .orbit__details { margin: 4px 0 0; font-size: 14.5px; color: var(--cloth-body); }
-.on-maroon .orbit__price { margin: 2px 0 0; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--cloth-soft); }
+.cshow .orbit__name { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); line-height: 1.1; color: var(--cream); margin: 0; }
+.cshow .orbit__details { margin: 4px 0 0; font-size: 14.5px; color: var(--body); }
+.cshow .orbit__price { margin: 2px 0 0; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--acc); }
 .orbit__open { margin-top: 6px; }
 .orbit--empty .orbit__stage { height: 120px; }
 .orbit--empty .orbit__nav, .orbit--empty .orbit__open { display: none; }
@@ -171,7 +176,8 @@
 .pdetail__slide { flex: 0 0 100%; scroll-snap-align: center; aspect-ratio: 4 / 5; max-height: 56vh; background: linear-gradient(165deg, var(--cloth), var(--cloth-900)); border-radius: 14px; overflow: hidden; }
 .pdetail__slide picture, .pdetail__slide img { display: block; width: 100%; height: 100%; }
 .pdetail__slide img { object-fit: cover; object-position: 50% 25%; }
-.pdetail__slide.is-cutout { background: var(--cream-2); }
+.pdetail__slide.is-cutout, .pdetail[data-dept="Jewelry"] .pdetail__slide { background: var(--cream-2); }
+.pdetail[data-dept="Jewelry"] .pdetail__thumb .cs-art, .pdetail[data-dept="Jewelry"] .pdetail__slide .cs-art { background: var(--emerald-800); color: var(--gold-soft); }
 .pdetail__slide.is-cutout img { object-fit: contain; }
 .pdetail__thumbs { display: flex; gap: 8px; margin-top: 10px; }
 .pdetail__thumb { width: 52px; height: 64px; flex: none; border-radius: 8px; overflow: hidden; border: 1px solid var(--line-gold); opacity: .7; transition: opacity .3s, border-color .3s; }

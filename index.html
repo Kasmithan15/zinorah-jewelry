@@ -48,8 +48,8 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=20" />
-  <link rel="stylesheet" href="css/clothing.css?v=20" />
+  <link rel="stylesheet" href="css/style.css?v=21" />
+  <link rel="stylesheet" href="css/clothing.css?v=21" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -278,7 +278,7 @@
         <p class="pdetail__details" id="pdDetails"></p>
         <p class="pdetail__price" id="pdPrice"></p>
         <fieldset class="pd-opt" id="pdColours">
-          <legend>Colour: <span id="pdColourName"></span></legend>
+          <legend><span id="pdColourLabel">Colour</span>: <span id="pdColourName"></span></legend>
           <div class="swatches" id="pdSwatches"></div>
         </fieldset>
         <fieldset class="pd-opt" id="pdSizesBox">
@@ -300,7 +300,7 @@
       <h2 id="sgTitle">Size guide</h2>
       <button type="button" class="search__close" id="sgClose" aria-label="Close size guide"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
     </div>
-    <p class="sizeguide__unit">Measurements in inches</p>
+    <p class="sizeguide__unit" id="sgUnit">Measurements in inches</p>
     <table class="sizeguide__table" id="sgTable"></table>
     <p class="sizeguide__note" id="sgNote"></p>
   </dialog>
@@ -358,39 +358,32 @@
           <p class="section__intro">Gold, diamond, bridal and everyday pieces. Find the piece that speaks to you, or let us make one just for you.</p>
         </header>
 
-        <div class="collections">
-          <a href="#new-arrivals" data-jump="jewelry" class="collection collection--tall reveal" data-img="images/jewelry/col-gold.jpg">
-            <svg class="collection__art"><use href="#i-necklace"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Necklaces · Chains · Bangles</span>
-              <h3>Gold Collection</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+        <!-- ============ JEWELRY SHOWCASE (pieces come from js/jewelry-data.js) ============ -->
+        <div class="cshow cshow--jewel" id="jshow">
+          <div class="cshow__controls">
+            <nav class="cats" aria-label="Jewelry categories">
+              <div class="cats__track"></div>
+              <span class="cats__line" aria-hidden="true"></span>
+            </nav>
+          </div>
+
+          <div class="orbit" role="region" aria-roledescription="carousel" aria-label="Jewelry collection">
+            <div class="orbit__word" aria-hidden="true"></div>
+            <div class="orbit__stage" tabindex="0" aria-label="Use the left and right arrow keys to browse. Press Enter to see details."></div>
+            <div class="orbit__nav">
+              <button type="button" class="orbit__btn" data-dir="-1" aria-label="Previous piece"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <p class="orbit__count" aria-hidden="true"><span class="js-orbit-now">01</span> / <span class="js-orbit-total">08</span></p>
+              <button type="button" class="orbit__btn" data-dir="1" aria-label="Next piece"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
-          </a>
-          <a href="#new-arrivals" data-jump="jewelry" class="collection reveal" data-img="images/jewelry/col-diamond.jpg">
-            <svg class="collection__art"><use href="#i-ring"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Rings · Studs · Pendants</span>
-              <h3>Diamond</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
+            <div class="orbit__info">
+              <h3 class="orbit__name js-orbit-name"></h3>
+              <p class="orbit__details js-orbit-details"></p>
+              <p class="orbit__price js-orbit-price"></p>
+              <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
-          </a>
-          <a href="#custom" class="collection reveal" data-img="images/jewelry/col-bridal.jpg">
-            <svg class="collection__art"><use href="#i-bangle"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Made to order</span>
-              <h3>Bridal Jewelry</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
-            </div>
-          </a>
-          <a href="#new-arrivals" data-jump="jewelry" class="collection collection--wide reveal" data-img="images/jewelry/col-everyday.jpg">
-            <svg class="collection__art"><use href="#i-earring"/></svg>
-            <div class="collection__body">
-              <span class="collection__count">Lightweight · Everyday</span>
-              <h3>Daily Wear</h3>
-              <span class="link-arrow">Discover <svg><use href="#i-arrow"/></svg></span>
-            </div>
-          </a>
+            <p class="visually-hidden js-orbit-live" aria-live="polite"></p>
+          </div>
+          <noscript><p class="cshow__noscript">Please turn on JavaScript to browse the jewelry collection, or <a href="https://wa.me/94767667028">ask us on WhatsApp</a>.</p></noscript>
         </div>
       </div>
     </section>
@@ -436,7 +429,7 @@
               <p class="orbit__price js-orbit-price"></p>
               <button type="button" class="link-arrow orbit__open js-orbit-open">View details <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
             </div>
-            <p class="visually-hidden" aria-live="polite" id="orbitLive"></p>
+            <p class="visually-hidden js-orbit-live" aria-live="polite"></p>
           </div>
           <noscript><p class="cshow__noscript">Please turn on JavaScript to browse the clothing collection, or <a href="https://wa.me/94767667028">ask us on WhatsApp</a>.</p></noscript>
         </div>
@@ -893,11 +886,12 @@
     <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/db.js?v=20" defer></script>
-  <script src="js/firebase-config.js?v=20" defer></script>
-  <script type="module" src="js/backend.js?v=20"></script>
-  <script src="js/clothing-data.js?v=20" defer></script>
-  <script src="js/main.js?v=20" defer></script>
-  <script src="js/clothing.js?v=20" defer></script>
+  <script src="js/db.js?v=21" defer></script>
+  <script src="js/firebase-config.js?v=21" defer></script>
+  <script type="module" src="js/backend.js?v=21"></script>
+  <script src="js/clothing-data.js?v=21" defer></script>
+  <script src="js/jewelry-data.js?v=21" defer></script>
+  <script src="js/main.js?v=21" defer></script>
+  <script src="js/showcase.js?v=21" defer></script>
 </body>
 </html>

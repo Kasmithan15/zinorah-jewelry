@@ -369,10 +369,16 @@ const collections = [...document.querySelectorAll(".collection")].map((c) => ({
   cloth: !!c.closest("#clothing"),
 }));
 // clothing showcase products (js/clothing-data.js) are searchable too
-const clothes = ((window.ZIN_CLOTHING && window.ZIN_CLOTHING.products) || []).map((c) => ({
-  cid: c.id, name: c.name, detail: c.details, img: (c.images && c.images[0]) || "", cloth: true,
-  tags: `clothing ${c.gender} ${c.gender === "men" ? "mens gents" : "womens ladies"} ${c.category}`,
-}));
+const clothes = [
+  ...((window.ZIN_CLOTHING && window.ZIN_CLOTHING.products) || []).map((c) => ({
+    cid: c.id, sec: "clothing", name: c.name, detail: c.details, img: (c.images && c.images[0]) || "", cloth: true,
+    tags: `clothing ${c.gender} ${c.gender === "men" ? "mens gents" : "womens ladies"} ${c.category}`,
+  })),
+  ...((window.ZIN_JEWELRY && window.ZIN_JEWELRY.products) || []).map((c) => ({
+    cid: c.id, sec: "jewelry", name: c.name, detail: c.details, img: (c.images && c.images[0]) || "", cloth: false,
+    tags: `jewelry jewellery ${c.category} ${(c.colours || []).map((x) => x.name).join(" ")}`,
+  })),
+];
 const thumb = (item) => {
   const t = document.createElement("span");
   t.className = "search__thumb" + (item.cloth ? " search__thumb--cloth" : "");
@@ -395,7 +401,7 @@ const searchStatus = document.getElementById("searchStatus");
 const findPiece = (item) => {
   closePanel(searchPanel);
   if (item.cid) {
-    document.getElementById("clothing").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    document.getElementById(item.sec).scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     window.ZinOrbit?.show(item.cid);
   } else if (item.el.classList.contains("product")) {
     applyFilter("all");
@@ -413,14 +419,14 @@ const runSearch = () => {
   if (!words.length) { searchStatus.textContent = ""; return; }
   const hit = (it, extra = "") => words.every((w) => (it.name + " " + it.detail + " " + extra).toLowerCase().includes(w.replace(/s$/, "")));
   const found = [
-    ...clothes.filter((c) => hit(c, c.tags)).map((c) => ({ item: c, sub: "Clothing · " + c.detail })),
+    ...clothes.filter((c) => hit(c, c.tags)).map((c) => ({ item: c, sub: (c.cloth ? "Clothing · " : "Jewelry · ") + c.detail })),
     ...pieces.filter((p) => hit(p, p.tags)).map((p) => ({ item: p, sub: p.detail })),
     ...collections.filter((c) => hit(c, c.cloth ? "clothing collection" : "jewelry jewellery collection")).map((c) => ({ item: c, sub: "Collection · " + c.detail })),
   ].slice(0, 12);
   found.forEach(({ item, sub }) => {
     const li = document.createElement("li");
     const a = document.createElement("a");
-    a.href = item.cid ? "#clothing" : item.el.classList.contains("product") ? "#new-arrivals" : item.el.getAttribute("href");
+    a.href = item.cid ? "#" + item.sec : item.el.classList.contains("product") ? "#new-arrivals" : item.el.getAttribute("href");
     a.append(thumb(item), label(item, sub));
     a.addEventListener("click", (e) => { e.preventDefault(); findPiece(item); });
     li.append(a); searchResults.append(li);
