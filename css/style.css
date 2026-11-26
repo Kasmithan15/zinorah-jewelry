@@ -1349,3 +1349,32 @@ body.is-locked { overflow: hidden; }
 .intro__arch--cloth img { object-position: 50% 20%; }
 @keyframes archInL { to { opacity: 1; transform: rotate(-4deg); } }
 @keyframes archInR { to { opacity: 1; transform: rotate(5deg); } }
+
+/* ---- One view at a time: the menu buttons open Jewelry, Clothing, New Arrivals or About ----
+   Bridal, Instagram, Enquire and Contact are hidden for now (still in index.html).
+   To bring one back, give it a menu button and add it here, in VIEWS (js/main.js) and the <head> script. */
+html[data-view="home"] main > section:not(.hero, .trust),
+html[data-view="jewelry"] main > section:not(#jewelry),
+html[data-view="clothing"] main > section:not(#clothing),
+html[data-view="new-arrivals"] main > section:not(#new-arrivals),
+html[data-view="about"] main > section:not(#about) { display: none !important; }
+
+/* Clothing button with New Arrivals inside it */
+.nav__drop { position: relative; display: inline-flex; align-items: center; }
+.nav__drop > a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 0; }
+.nav__drop > a::after { content: ""; width: 5px; height: 5px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+.nav__sub {
+  position: absolute; top: 100%; left: -20px; z-index: 60; min-width: 200px; padding: 6px 0;
+  background: var(--emerald-900); border: 1px solid var(--line-gold); box-shadow: 0 18px 40px -20px var(--shadow);
+  opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .25s ease, transform .25s ease, visibility .25s;
+}
+.nav__drop:hover .nav__sub, .nav__drop:focus-within .nav__sub { opacity: 1; visibility: visible; transform: none; }
+.nav__sub a { display: flex; align-items: center; min-height: 44px; padding: 0 20px; color: var(--cream); }
+.nav__sub a:hover { color: var(--gold-soft); }
+
+/* the open view's button stays lit */
+.nav a[aria-current="page"], .nav__drop:has([aria-current="page"]) > a { color: var(--gold-soft); }
+.nav > a[aria-current="page"]::after { transform: scaleX(1); }
+.mobile-nav a[aria-current="page"] { color: var(--gold-soft); }
+.mobile-nav a[aria-current="page"]::before { background: var(--gold-soft); }
+.mobile-nav a.mobile-nav__sub { padding-left: 26px; min-height: 48px; font-size: .85em; }

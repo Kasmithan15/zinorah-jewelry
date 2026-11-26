@@ -48,11 +48,13 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=24" />
-  <link rel="stylesheet" href="css/clothing.css?v=24" />
+  <link rel="stylesheet" href="css/style.css?v=25" />
+  <link rel="stylesheet" href="css/clothing.css?v=25" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
+      /* Menu buttons open one view at a time (same list as VIEWS in js/main.js) */
+      var v = location.hash.slice(1); d.dataset.view = ["jewelry", "clothing", "new-arrivals", "about"].indexOf(v) > -1 ? v : "home";
       try { if (!sessionStorage.getItem("zinIntro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("intro-on"); } catch (e) { d.classList.add("intro-on"); }
     })(document.documentElement);
   </script>
@@ -83,16 +85,6 @@
   </div>
 
   <!-- ============ DIAMOND MENU (side navigation, desktop) ============ -->
-  <nav class="gem-nav" aria-label="Page sections">
-    <a href="#top" data-label="Home"></a>
-    <a href="#jewelry" data-label="Jewelry"></a>
-    <a href="#clothing" data-label="Clothing"></a>
-    <a href="#new-arrivals" data-label="New Arrivals"></a>
-    <a href="#bridal" data-label="Bridal"></a>
-    <a href="#about" data-label="About"></a>
-    <a href="#appointment" data-label="Enquire"></a>
-    <a href="#visit" data-label="Contact"></a>
-  </nav>
 
   <!-- ============ SVG SPRITE (line-art used until real photos are added) ============ -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -185,11 +177,15 @@
         <span></span><span></span>
       </button>
 
+      <!-- MENU BUTTONS: each opens its own view. New Arrivals sits inside Clothing. -->
       <nav class="nav nav--left" aria-label="Primary">
-        <a href="#top">Home</a>
-        <a href="#clothing">Clothing</a>
         <a href="#jewelry">Jewelry</a>
-        <a href="#new-arrivals">Collections</a>
+        <div class="nav__drop">
+          <a href="#clothing">Clothing</a>
+          <div class="nav__sub">
+            <a href="#new-arrivals">New Arrivals</a>
+          </div>
+        </div>
       </nav>
 
       <a href="#top" class="logo" aria-label="ZINORAH · Jewelry · Clothing · Trincomalee, home">
@@ -201,7 +197,6 @@
       <div class="header__right">
         <nav class="nav nav--right" aria-label="Secondary">
           <a href="#about">About</a>
-          <a href="#visit">Contact</a>
         </nav>
         <div class="header__icons">
           <button type="button" class="hicon hicon--search" id="searchOpen" aria-label="Search" aria-expanded="false" aria-controls="searchPanel"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
@@ -213,15 +208,12 @@
     </div>
 
     <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
-      <a href="#top">Home</a>
-      <a href="#clothing">Clothing</a>
       <a href="#jewelry">Jewelry</a>
-      <a href="#new-arrivals">Collections</a>
+      <a href="#clothing">Clothing</a>
+      <a href="#new-arrivals" class="mobile-nav__sub">New Arrivals</a>
       <a href="#about">About</a>
-      <a href="#visit">Contact</a>
       <a href="account.html">My Account</a>
       <a href="account.html">Wishlist</a>
-      <a href="#appointment" class="btn btn--gold">Enquire Now</a>
       <p class="mobile-nav__foot">Jewelry · Clothing · Trincomalee</p>
     </nav>
   </header>
@@ -858,22 +850,23 @@
         <h3 class="label-h">Jewelry</h3>
         <a href="#jewelry">Gold</a>
         <a href="#jewelry">Diamond</a>
-        <a href="#custom">Bridal</a>
+        <a href="#jewelry">Bridal</a>
         <a href="#jewelry">Daily Wear</a>
       </div>
       <div>
         <h3 class="label-h">Clothing</h3>
         <a href="#clothing">Sarees</a>
-        <a href="#bridal">Bridal Wear</a>
+        <a href="#clothing">Bridal Wear</a>
         <a href="#clothing">Lehengas</a>
         <a href="#clothing">Kurtis</a>
         <a href="#clothing">Kids &amp; Family</a>
+        <a href="#new-arrivals">New Arrivals</a>
       </div>
       <div>
         <h3 class="label-h">Contact</h3>
         <a href="tel:+94767667028">+94 76 766 7028</a>
         <a href="https://wa.me/94767667028" class="wa-link" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="#appointment">Custom Orders</a>
+        <a href="https://wa.me/94767667028" class="wa-link" target="_blank" rel="noopener">Custom Orders</a>
         <a href="account.html">Customer login</a>
         <a href="account.html">Staff login</a>
         <a href="https://www.google.com/maps/search/?api=1&query=Trincomalee,+Sri+Lanka" target="_blank" rel="noopener">Google Maps</a>
@@ -901,7 +894,7 @@
   <script type="module" src="js/backend.js?v=21"></script>
   <script src="js/clothing-data.js?v=22" defer></script>
   <script src="js/jewelry-data.js?v=24" defer></script>
-  <script src="js/main.js?v=24" defer></script>
-  <script src="js/showcase.js?v=24" defer></script>
+  <script src="js/main.js?v=25" defer></script>
+  <script src="js/showcase.js?v=25" defer></script>
 </body>
 </html>

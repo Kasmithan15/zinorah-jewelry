@@ -49,7 +49,8 @@ if ("IntersectionObserver" in window) {
 
 /* ---- Header: shrink on scroll ---- */
 const header = document.getElementById("header");
-const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 40);
+// solid header inside a view; transparent over the home hero until you scroll
+const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 40 || (document.documentElement.dataset.view || "home") !== "home");
 window.addEventListener("scroll", onScroll, { passive: true });
 onScroll();
 
@@ -139,19 +140,6 @@ if (intro && root.classList.contains("intro-on")) {
   startReveals();
 }
 
-/* ---- Diamond menu: highlight the section in view ---- */
-const gemLinks = [...document.querySelectorAll(".gem-nav a")];
-const gemTargets = gemLinks.map((a) => document.querySelector(a.getAttribute("href") === "#top" ? ".hero" : a.getAttribute("href")));
-const gemObserver = new IntersectionObserver(
-  (entries) => entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    const i = gemTargets.indexOf(entry.target);
-    gemLinks.forEach((a, j) => a.classList.toggle("is-active", j === i));
-  }),
-  { rootMargin: "-45% 0px -50% 0px" }
-);
-gemTargets.forEach((t) => t && gemObserver.observe(t));
-
 /* ---- Product filters ---- */
 const filters = document.querySelectorAll(".filter");
 const products = document.querySelectorAll(".product");
@@ -172,6 +160,35 @@ filters.forEach((f) => f.addEventListener("click", () => applyFilter(f.dataset.f
 document.querySelectorAll("[data-jump]").forEach((a) =>
   a.addEventListener("click", () => applyFilter(a.dataset.jump))
 );
+
+/* ---- Menu buttons: each opens its own view (Home, Jewelry, Clothing, New Arrivals, About) ----
+   The view comes from the link's #hash, so Back / Forward and shared links work.
+   To add a view: add its section id here, in the <head> script of index.html and in style.css. */
+const VIEWS = ["jewelry", "clothing", "new-arrivals", "about"];
+const navLinks = [...document.querySelectorAll(".nav a, .mobile-nav a")];
+let currentView = null;
+const showView = () => {
+  const id = location.hash.slice(1);
+  const view = VIEWS.includes(id) ? id : "home";
+  const changed = currentView !== view;
+  currentView = root.dataset.view = view;
+  navLinks.forEach((a) => (a.getAttribute("href") === "#" + view ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
+  if (view === "new-arrivals" && changed) applyFilter("clothing"); // New Arrivals lives under Clothing
+  window.scrollTo({ top: 0, behavior: "instant" });
+  onScroll();
+  window.dispatchEvent(new Event("resize")); // the showcase re-measures now that its section is visible
+};
+const goView = (id) => {
+  if (location.hash !== "#" + id) history.pushState(null, "", "#" + id);
+  showView();
+};
+window.addEventListener("hashchange", showView);
+// clicking the button of the view you are already on takes you back to its top
+document.addEventListener("click", (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (a && a.getAttribute("href") === location.hash) { e.preventDefault(); showView(); }
+});
+showView();
 
 /* ---- "Plan your bridal look" etc. pre-select the department in the form ---- */
 document.querySelectorAll("a[data-dept]").forEach((a) =>
@@ -401,9 +418,11 @@ const searchStatus = document.getElementById("searchStatus");
 const findPiece = (item) => {
   closePanel(searchPanel);
   if (item.cid) {
+    goView(item.sec);
     document.getElementById(item.sec).scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     window.ZinOrbit?.show(item.cid);
   } else if (item.el.classList.contains("product")) {
+    goView("new-arrivals");
     applyFilter("all");
     item.el.classList.add("is-visible");
     item.el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
@@ -527,7 +546,7 @@ const renderBag = () => {
     const t = document.createElement("p"); t.className = "bag__empty-title"; t.textContent = "Your bag is empty";
     const s2 = document.createElement("p"); s2.textContent = "Find a piece you love and tap “Add to bag”.";
     const go = document.createElement("button"); go.type = "button"; go.className = "btn btn--outline btn--sm"; go.textContent = "Explore clothing";
-    go.addEventListener("click", () => { closePanel(bagPanel); document.getElementById("clothing")?.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth" }); });
+    go.addEventListener("click", () => { closePanel(bagPanel); goView("clothing"); });
     li.append(t, s2, go);
     return bagList.replaceChildren(li);
   }
