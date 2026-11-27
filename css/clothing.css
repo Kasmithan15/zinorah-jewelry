@@ -550,3 +550,8 @@
 #clothing.is-unveiling .cshow { animation: unveil 1.5s cubic-bezier(.2,.7,.2,1) .2s both; }
 @keyframes unveil { from { opacity: .4; transform: scale(.97) translateY(-20px); } }
 @media (prefers-reduced-motion: reduce) { .saree-open { display: none; } #clothing.is-unveiling .cshow { animation: none; } }
+
+/* Opening Jewelry like a jewelry box (js/jewelopen.js) */
+.jewel-open { position: fixed; inset: 0; z-index: 300; width: 100vw; height: 100vh; cursor: pointer; }
+#jewelry.is-unveiling .cshow { animation: unveil 1.5s cubic-bezier(.2,.7,.2,1) .2s both; }
+@media (prefers-reduced-motion: reduce) { .jewel-open { display: none; } #jewelry.is-unveiling .cshow { animation: none; } }

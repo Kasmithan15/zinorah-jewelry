@@ -52,10 +52,10 @@
       vio.observe(video.parentElement);
     } else load();
   }
-  document.querySelector("[data-reel-shop]")?.addEventListener("click", (e) => {
+  document.querySelectorAll("[data-reel-shop]").forEach((a) => a.addEventListener("click", (e) => {
     e.preventDefault();
-    document.getElementById("clothing")?.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "start" });
-  });
+    document.getElementById(a.dataset.reelShop || "clothing")?.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth", block: "start" });
+  }));
 
   // category tiles: show that category in the carousel above, then scroll up to it
   document.querySelectorAll(".more-tile[data-filter-dept]").forEach((a) => a.addEventListener("click", (e) => {

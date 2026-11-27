@@ -49,7 +49,7 @@
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
   <link rel="stylesheet" href="css/style.css?v=74" />
-  <link rel="stylesheet" href="css/clothing.css?v=62" />
+  <link rel="stylesheet" href="css/clothing.css?v=63" />
   <link rel="stylesheet" href="css/more.css?v=4" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
@@ -400,6 +400,50 @@
     <!-- ============ JEWELRY: MORE (shown under the Jewelry carousel; css/more.css, js/more.js) ============ -->
     <section class="more" id="jewelry-more" aria-label="More about our jewelry">
       <div class="container">
+        <!-- Bridal jewelry playing like a film in the middle, jewelry running up (left) and down (right), softly blurred -->
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Jewelry</p>
+            <h2 class="more__title">Made to <em>shine</em></h2>
+          </header>
+          <div class="reel mo">
+            <div class="reel__col reel__col--up" aria-hidden="true">
+              <div class="reel__track">
+                <img src="images/jewelry/v-amethyst-leaf-set.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-aquamarine-chandeliers.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/s-emerald-royal-set.jpg" alt="" width="736" height="920" loading="lazy" />
+                <img src="images/jewelry/v-turquoise-kundan-cuff.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-ruby-pearl-bangles.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-meenakari-bangles.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-kundan-flower-brooch.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/s-crystal-leaf-display.jpg" alt="" width="614" height="768" loading="lazy" />
+              </div>
+            </div>
+            <figure class="reel__main">
+              <div class="reel__film" role="img" aria-label="Brides wearing Zinorah bridal jewelry, and bridal necklace sets">
+                <img src="images/jewelry/hero.jpg" alt="" width="1000" height="1500" />
+                <img src="images/jewelry/v-ruby-polki-bridal-set.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/bridal.jpg" alt="" width="1600" height="1067" loading="lazy" />
+                <img src="images/jewelry/v-pearl-polki-rani-haar.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/hero-2.jpg" alt="" width="1000" height="665" loading="lazy" />
+              </div>
+            </figure>
+            <div class="reel__col reel__col--down" aria-hidden="true">
+              <div class="reel__track">
+                <img src="images/jewelry/s-emerald-halo-necklace.jpg" alt="" width="734" height="912" loading="lazy" />
+                <img src="images/jewelry/v-cuban-chain-onyx-ring.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-hexagon-diamond-ring.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/s-temple-necklace.jpg" alt="" width="900" height="1125" loading="lazy" />
+                <img src="images/jewelry/v-jade-signet-ring.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-moonstone-cufflinks.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/v-opal-eagle-brooch.jpg" alt="" width="842" height="1054" loading="lazy" />
+                <img src="images/jewelry/s-diamond-trio.jpg" alt="" width="900" height="1125" loading="lazy" />
+              </div>
+            </div>
+          </div>
+          <p class="reel__cta mo"><a class="more-band__btn reel__btn" href="#jewelry" data-reel-shop="jewelry">Shop the collection <span aria-hidden="true">&rarr;</span></a></p>
+        </div>
+
         <div class="more__block">
           <header class="more__head mo">
             <p class="more__label">Jewelry</p>
@@ -1140,7 +1184,8 @@
   <script src="js/main.js?v=50" defer></script>
   <script src="js/showcase.js?v=51" defer></script>
   <script src="js/split3d.js?v=5" defer></script>
-  <script src="js/more.js?v=3" defer></script>
+  <script src="js/more.js?v=4" defer></script>
   <script src="js/clothopen.js?v=3" defer></script>
+  <script src="js/jewelopen.js?v=1" defer></script>
 </body>
 </html>
