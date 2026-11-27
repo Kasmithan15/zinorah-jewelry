@@ -1,8 +1,8 @@
 /* =========================================================
    ZINORAH · Opening the Clothing page with a flowing bridal saree
    A maroon silk saree with a gold zari temple border and gold buttis
-   covers the screen; its edge ripples like fabric in the wind and it
-   sweeps away, revealing the collection. Drawn on a canvas.
+   covers the screen; its edge is a wave that rolls from the top down,
+   revealing the collection as the saree flows off the bottom. Drawn on a canvas.
    Plays when you go to Clothing from another page. Tap to skip.
    Nothing moves for visitors who turn on "reduce motion".
    ========================================================= */
@@ -40,12 +40,12 @@
     const t0 = performance.now();
     let raf = 0, done = false;
 
-    // the free edge of the saree: sweeps from beyond the right side to beyond the left, rippling
-    const edge = (y, p, time) => {
-      const lean = (y / H - 0.5) * W * 0.22 * (1 - p);              // the fabric leans as it is pulled
-      const amp = 26 + 30 * Math.sin(Math.PI * Math.min(1, p * 1.2));
-      const ripple = amp * Math.sin(y * 0.011 + time * 7) + amp * 0.45 * Math.sin(y * 0.027 - time * 11);
-      return W * 1.15 - p * (W * 1.15 + BORDER + 220) + lean + ripple;
+    // the free edge of the saree: a wave that rolls from above the top to below the bottom
+    const edge = (x, p, time) => {
+      const lean = (x / W - 0.5) * H * 0.2 * (1 - p);               // one side falls a little ahead
+      const amp = 22 + 26 * Math.sin(Math.PI * Math.min(1, p * 1.2));
+      const ripple = amp * Math.sin(x * 0.009 + time * 7) + amp * 0.45 * Math.sin(x * 0.023 - time * 11);
+      return -(BORDER + 220) + p * (H * 1.15 + BORDER + 220) + lean + ripple;
     };
 
     const draw = () => {
@@ -54,59 +54,54 @@
       const p = ease(raw), time = (now - t0) / 1000;
       ctx.clearRect(0, 0, W, H);
       const pts = [];
-      for (let y = -step; y <= H + step; y += step) pts.push([edge(y, p, time), y]);
+      for (let x = -step; x <= W + step; x += step) pts.push([x, edge(x, p, time)]);
+      const below = () => { ctx.lineTo(W + 10, H + 10); ctx.lineTo(-10, H + 10); ctx.closePath(); };
 
-      // soft shadow the cloth casts on the page
+      // soft shadow the cloth casts on the page just above its edge
       ctx.save();
-      ctx.beginPath(); ctx.moveTo(-10, -10);
-      pts.forEach(([x, y]) => ctx.lineTo(x + 26, y));
-      ctx.lineTo(-10, H + 10); ctx.closePath();
+      ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y - 26) : ctx.moveTo(x, y - 26))); below();
       ctx.fillStyle = "rgba(8,38,29,0.22)"; ctx.filter = "blur(14px)"; ctx.fill();
       ctx.restore();
 
-      // the silk: folds as light and dark bands that travel with the ripple
+      // the silk (everything below the edge): drape folds as light and dark bands that drift sideways
       ctx.save();
-      ctx.beginPath(); ctx.moveTo(-10, -10);
-      pts.forEach(([x, y]) => ctx.lineTo(x, y));
-      ctx.lineTo(-10, H + 10); ctx.closePath(); ctx.clip();
-      const period = 170, off = (time * 120) % period;
-      const g = ctx.createLinearGradient(-period + off, 0, W + period + off, H * 0.18);
+      ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); below(); ctx.clip();
+      const period = 170, off = (time * 90) % period;
+      const g = ctx.createLinearGradient(-period + off, 0, W + period + off, H * 0.12);
       const n = Math.ceil((W + 2 * period) / period);
       for (let i = 0; i <= n; i++) {
-        const s = i / n, d = 1 / n;
-        g.addColorStop(s, mix(SILK, -0.25));
-        g.addColorStop(Math.min(1, s + d * 0.35), mix(SILK, 0.18));
-        g.addColorStop(Math.min(1, s + d * 0.6), mix(SILK, 0));
+        const s0 = i / n, d = 1 / n;
+        g.addColorStop(s0, mix(SILK, -0.25));
+        g.addColorStop(Math.min(1, s0 + d * 0.35), mix(SILK, 0.18));
+        g.addColorStop(Math.min(1, s0 + d * 0.6), mix(SILK, 0));
       }
       ctx.fillStyle = g; ctx.fillRect(-10, -10, W + 20, H + 20);
-      // gold buttis (small motifs) scattered on the silk
+      // gold buttis (small motifs) that bob with the wave
       ctx.fillStyle = "rgba(214,184,138,0.55)";
-      for (let y = 18; y < H; y += 46) {
-        for (let x = ((y / 46) % 2) * 23 + 12; x < W; x += 46) {
-          const sway = Math.sin(y * 0.011 + time * 7) * 6;
-          ctx.beginPath(); ctx.arc(x + sway, y, 2.1, 0, Math.PI * 2); ctx.fill();
-        }
+      for (let x = 12; x < W; x += 46) {
+        const bob = Math.sin(x * 0.009 + time * 7) * 6;
+        for (let y = ((x / 46) % 2) * 23 + 18; y < H; y += 46) { ctx.beginPath(); ctx.arc(x, y + bob, 2.1, 0, Math.PI * 2); ctx.fill(); }
       }
       ctx.restore();
 
-      // the zari border along the free edge
+      // the zari border along the wave edge (on the saree side)
       ctx.save();
       ctx.beginPath();
       pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-      for (let i = pts.length - 1; i >= 0; i--) ctx.lineTo(pts[i][0] - BORDER, pts[i][1]);
+      for (let i = pts.length - 1; i >= 0; i--) ctx.lineTo(pts[i][0], pts[i][1] + BORDER);
       ctx.closePath(); ctx.clip();
-      const zg = ctx.createLinearGradient(0, 0, 0, H);
-      for (let i = 0; i <= 8; i++) zg.addColorStop(i / 8, GOLD[(i + Math.floor(time * 6)) % 3]);
-      ctx.fillStyle = zg; ctx.fillRect(-BORDER - 300, -10, W + BORDER + 600, H + 20);
-      // temple-border triangles and thin woven lines
+      const zg = ctx.createLinearGradient(0, 0, W, 0);
+      for (let i = 0; i <= 10; i++) zg.addColorStop(i / 10, GOLD[(i + Math.floor(time * 6)) % 3]);
+      ctx.fillStyle = zg; ctx.fillRect(-10, -BORDER - 400, W + 20, H + BORDER + 800);
+      // temple-border triangles pointing down, and thin woven lines
       ctx.fillStyle = mix(SILK, -0.15);
       for (let i = 0; i < pts.length - 1; i += 5) {
         const [x, y] = pts[i];
-        ctx.beginPath(); ctx.moveTo(x - BORDER * 0.62, y); ctx.lineTo(x - BORDER * 0.36, y + 14); ctx.lineTo(x - BORDER * 0.62, y + 28); ctx.closePath(); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(x, y + BORDER * 0.38); ctx.lineTo(x + 14, y + BORDER * 0.64); ctx.lineTo(x + 28, y + BORDER * 0.38); ctx.closePath(); ctx.fill();
       }
       ctx.restore();
       ctx.strokeStyle = "rgba(92,58,22,0.55)"; ctx.lineWidth = 1;
-      [2, BORDER * 0.3, BORDER - 3].forEach((dx) => { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x - dx, y) : ctx.moveTo(x - dx, y))); ctx.stroke(); });
+      [2, BORDER * 0.3, BORDER - 3].forEach((dy) => { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y + dy) : ctx.moveTo(x, y + dy))); ctx.stroke(); });
 
       if (raw < 1 && !done) raf = requestAnimationFrame(draw);
       else stop();
