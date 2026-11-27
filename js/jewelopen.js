@@ -1,9 +1,9 @@
 /* =========================================================
-   ZINORAH · Opening the Jewelry page like a jewelry box
-   Emerald velvet (the lining of a jewelry box) covers the screen with soft
-   sparkles. Its edge is a gold necklace in festoons, with pearls along the
-   chain and gemstone drops hanging from it. The necklace rolls down from
-   the top like a wave, revealing the collection. Drawn on a canvas.
+   ZINORAH · Opening the Jewelry page like a window of hanging jewelry
+   Two emerald velvet curtains fill the screen, hung with strands of gold
+   chain, pearls and gemstone drops that sway. Then the curtains part
+   from the middle like a window, carrying the jewelry to the sides,
+   and the collection is revealed. Drawn on a canvas.
    Plays when you go to Jewelry from another page. Tap to skip.
    Nothing moves for visitors who turn on "reduce motion".
    ========================================================= */
@@ -12,9 +12,10 @@
   const section = document.getElementById("jewelry");
   if (!section) return;
 
-  const DURATION = 1800;
-  const VELVET = [15, 59, 46];                         // emerald #0F3B2E
-  const GEMS = [["#1E8A5E", "#0B4A31"], ["#B8283A", "#6E1020"], ["#2F5FB0", "#14306A"]]; // emerald, ruby, sapphire
+  const DURATION = 2000;     // ms in total
+  const HOLD = 0.24;         // part of the time the window stays closed, jewelry swaying
+  const VELVET = [15, 59, 46];
+  const GEMS = [["#1E8A5E", "#0B4A31"], ["#B8283A", "#6E1020"], ["#2F5FB0", "#14306A"], ["#F2EFE6", "#BFB6A2"]]; // emerald, ruby, sapphire, pearl
   const viewOf = (h) => (h || "").replace("#", "") || "home";
   let last = viewOf(location.hash);
   let stopCurrent = null;
@@ -31,90 +32,91 @@
     const ctx = canvas.getContext("2d");
     if (!ctx) { canvas.remove(); return; }
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const W = innerWidth, H = innerHeight;
+    const W = innerWidth, H = innerHeight, HALF = W / 2;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     section.classList.add("is-unveiling");
 
-    const FEST = Math.max(150, Math.min(240, W / 6));   // width of one festoon of the necklace
-    const DROP = 34;                                     // how deep each festoon hangs
-    const step = 5;
-    // sparkles on the velvet (fixed spots that twinkle)
-    const sparkles = Array.from({ length: Math.round((W * H) / 26000) }, (_, i) => ({ x: (i * 197.3) % W, y: (i * 131.7) % H, p: i * 1.7, s: 3 + (i % 3) }));
+    // strands of jewelry on each curtain: position across the half, length, which gem, sway phase
+    const GAP = Math.max(34, Math.min(54, W / 26));
+    const strands = [];
+    for (let x = GAP / 2, i = 0; x < HALF; x += GAP, i++) {
+      strands.push({ u: x / HALF, len: H * (0.42 + 0.5 * ((Math.sin(i * 2.17) + 1) / 2)), gem: i % GEMS.length, ph: i * 0.9, pearls: i % 2 === 0 });
+    }
     const t0 = performance.now();
     let raf = 0, done = false;
 
-    // the necklace line: festoons (scallops) + a gentle wave, rolling from above the top to below the bottom
-    const edge = (x, p, time) => {
-      const scallop = Math.pow(Math.sin((Math.PI * x) / FEST), 2) * DROP;
-      const wave = 18 * Math.sin(x * 0.006 + time * 5) * Math.sin(Math.PI * Math.min(1, p * 1.2));
-      const lean = (x / W - 0.5) * H * 0.12 * (1 - p);
-      return -(DROP + 160) + p * (H * 1.12 + DROP + 260) + scallop + wave + lean;
-    };
-    const star = (x, y, r, a) => {
-      ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = "#F4E3BC"; ctx.beginPath();
-      ctx.moveTo(x, y - r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.quadraticCurveTo(x, y, x, y + r); ctx.quadraticCurveTo(x, y, x - r, y); ctx.quadraticCurveTo(x, y, x, y - r);
-      ctx.fill(); ctx.restore();
-    };
-    const gem = (x, y, i) => {
-      const [light, dark] = GEMS[i % GEMS.length];
-      // gold link and setting
-      ctx.strokeStyle = "#C9A063"; ctx.lineWidth = 1.6;
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + 12); ctx.stroke();
-      ctx.beginPath(); ctx.ellipse(x, y + 24, 9.5, 12.5, 0, 0, Math.PI * 2);
-      ctx.fillStyle = "#C9A063"; ctx.fill();
-      // the stone
-      const g = ctx.createRadialGradient(x - 2, y + 20, 1, x, y + 24, 10);
+    const gem = (x, y, k) => {
+      const [light, dark] = GEMS[k];
+      ctx.strokeStyle = "#C9A063"; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + 9); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x, y + 9); ctx.quadraticCurveTo(x + 10, y + 20, x, y + 34); ctx.quadraticCurveTo(x - 10, y + 20, x, y + 9);
+      ctx.fillStyle = "#C9A063"; ctx.fill();                                     // gold setting (teardrop)
+      const g = ctx.createRadialGradient(x - 2, y + 17, 1, x, y + 21, 10);
       g.addColorStop(0, light); g.addColorStop(1, dark);
-      ctx.beginPath(); ctx.ellipse(x, y + 24, 7, 10, 0, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
-      ctx.beginPath(); ctx.ellipse(x - 2.4, y + 20, 1.6, 2.6, -0.4, 0, Math.PI * 2); ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(x, y + 12); ctx.quadraticCurveTo(x + 7.5, y + 21, x, y + 31); ctx.quadraticCurveTo(x - 7.5, y + 21, x, y + 12);
+      ctx.fillStyle = g; ctx.fill();
+      ctx.beginPath(); ctx.ellipse(x - 2, y + 18, 1.3, 2.4, -0.4, 0, Math.PI * 2); ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.fill();
+    };
+    const pearl = (x, y, r) => {
+      const pg = ctx.createRadialGradient(x - r * 0.4, y - r * 0.4, 0.4, x, y, r);
+      pg.addColorStop(0, "#FFFFFF"); pg.addColorStop(1, "#CFC3A8");
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = pg; ctx.fill();
+    };
+
+    // one curtain: side = -1 (left) or 1 (right); width = how much of the half it still covers
+    const curtain = (side, width, time, open) => {
+      if (width <= 0.5) return;
+      const x0 = side < 0 ? 0 : W - width, x1 = side < 0 ? width : W;
+      const edgeX = side < 0 ? x1 : x0;
+      // the free edge billows a little as it moves
+      const bil = (y) => Math.sin(y * 0.012 + time * 6) * 10 * Math.sin(Math.PI * Math.min(1, open * 1.3));
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(side < 0 ? -10 : W + 10, -10);
+      for (let y = -10; y <= H + 10; y += 8) ctx.lineTo(edgeX + bil(y) * -side * -1, y);
+      ctx.lineTo(side < 0 ? -10 : W + 10, H + 10); ctx.closePath();
+      ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = 30; ctx.shadowOffsetX = side < 0 ? 10 : -10;
+      ctx.fillStyle = rgb(VELVET, -0.3); ctx.fill(); ctx.shadowColor = "transparent";
+      ctx.clip();
+      // velvet folds: bunch up towards the outer side as the curtain opens
+      const folds = 9;
+      for (let i = 0; i < folds; i++) {
+        const a = x0 + (width * i) / folds, b = x0 + (width * (i + 1)) / folds;
+        const fg = ctx.createLinearGradient(a, 0, b, 0);
+        fg.addColorStop(0, rgb(VELVET, -0.42)); fg.addColorStop(0.5, rgb(VELVET, 0.08)); fg.addColorStop(1, rgb(VELVET, -0.42));
+        ctx.fillStyle = fg; ctx.fillRect(a, -10, b - a + 1, H + 20);
+      }
+      // the strands of jewelry, squeezed together as the curtain gathers
+      strands.forEach((s) => {
+        const sx = side < 0 ? x0 + s.u * width : x1 - s.u * width;
+        const sway = Math.sin(time * 3.2 + s.ph) * (6 + 16 * open) * -side;
+        const endX = sx + sway, endY = s.len;
+        ctx.strokeStyle = "#B08D57"; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(sx, -4); ctx.quadraticCurveTo(sx + sway * 0.3, endY * 0.55, endX, endY); ctx.stroke();
+        ctx.strokeStyle = "rgba(241,221,174,.8)"; ctx.lineWidth = 0.6;
+        ctx.beginPath(); ctx.moveTo(sx - 0.6, -4); ctx.quadraticCurveTo(sx + sway * 0.3 - 0.6, endY * 0.55, endX - 0.6, endY); ctx.stroke();
+        if (s.pearls) for (let t = 0.12; t < 0.98; t += 0.09) {
+          const px = (1 - t) * (1 - t) * sx + 2 * (1 - t) * t * (sx + sway * 0.3) + t * t * endX;
+          pearl(px, t * endY, 3);
+        }
+        gem(endX, endY, s.gem);
+      });
+      ctx.restore();
+      // gold trim along the free edge, with a tassel hook at the top
+      ctx.strokeStyle = "#C9A063"; ctx.lineWidth = 3;
+      ctx.beginPath(); for (let y = -10; y <= H + 10; y += 8) { const x = edgeX + bil(y) * side; y === -10 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke();
     };
 
     const draw = () => {
       const now = performance.now();
       const raw = Math.min(1, (now - t0) / DURATION);
-      const p = ease(raw), time = (now - t0) / 1000;
+      const time = (now - t0) / 1000;
+      const open = raw < HOLD ? 0 : ease((raw - HOLD) / (1 - HOLD));
+      const width = HALF * (1 - open) + 1;       // each curtain shrinks to its side
       ctx.clearRect(0, 0, W, H);
-      const pts = [];
-      for (let x = -step; x <= W + step; x += step) pts.push([x, edge(x, p, time)]);
-      const below = () => { ctx.lineTo(W + 10, H + 10); ctx.lineTo(-10, H + 10); ctx.closePath(); };
-
-      // soft shadow on the page just above the velvet
-      ctx.save(); ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y - 20) : ctx.moveTo(x, y - 20))); below();
-      ctx.fillStyle = "rgba(8,38,29,0.25)"; ctx.filter = "blur(14px)"; ctx.fill(); ctx.restore();
-
-      // the velvet, with a slow sheen and twinkling sparkles
-      ctx.save(); ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); below(); ctx.clip();
-      const sheenX = ((time * 160) % (W + 600)) - 300;
-      const g = ctx.createLinearGradient(sheenX - 300, 0, sheenX + 300, H * 0.4);
-      g.addColorStop(0, rgb(VELVET, -0.35)); g.addColorStop(0.5, rgb(VELVET, 0.1)); g.addColorStop(1, rgb(VELVET, -0.35));
-      ctx.fillStyle = rgb(VELVET, -0.3); ctx.fillRect(-10, -10, W + 20, H + 20);
-      ctx.fillStyle = g; ctx.globalAlpha = 0.9; ctx.fillRect(-10, -10, W + 20, H + 20); ctx.globalAlpha = 1;
-      const vg = ctx.createRadialGradient(W / 2, H * 0.6, H * 0.1, W / 2, H * 0.6, H);
-      vg.addColorStop(0, "rgba(255,255,255,0.05)"); vg.addColorStop(1, "rgba(0,0,0,0.35)");
-      ctx.fillStyle = vg; ctx.fillRect(-10, -10, W + 20, H + 20);
-      sparkles.forEach((s) => { const a = 0.15 + 0.85 * Math.max(0, Math.sin(time * 4 + s.p)); if (a > 0.2) star(s.x, s.y, s.s * a, a * 0.9); });
-      ctx.restore();
-
-      // the gold chain along the edge
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "#8E6A34"; ctx.lineWidth = 6;
-      ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke();
-      const cg = ctx.createLinearGradient(0, 0, W, 0);
-      for (let i = 0; i <= 10; i++) cg.addColorStop(i / 10, ["#C9A063", "#F1DDAE", "#B08D57"][(i + Math.floor(time * 5)) % 3]);
-      ctx.strokeStyle = cg; ctx.lineWidth = 3.4;
-      ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke();
-      // pearls along the chain
-      for (let x = FEST / 8; x < W + FEST; x += FEST / 4) {
-        if (Math.abs(((x / FEST) % 1) - 0.5) < 0.05) continue; // leave room for the drop
-        const y = edge(x, p, time);
-        const pg = ctx.createRadialGradient(x - 1.5, y - 1.5, 0.5, x, y, 5);
-        pg.addColorStop(0, "#FFFFFF"); pg.addColorStop(1, "#D9CDB4");
-        ctx.beginPath(); ctx.arc(x, y, 4.2, 0, Math.PI * 2); ctx.fillStyle = pg; ctx.fill();
-      }
-      // gemstone drops at the bottom of each festoon
-      for (let k = 0, x = FEST / 2; x < W + FEST; x += FEST, k++) gem(x, edge(x, p, time), k);
-
+      curtain(-1, width, time, open);
+      curtain(1, width, time, open);
       if (raw < 1 && !done) raf = requestAnimationFrame(draw);
       else stop();
     };
