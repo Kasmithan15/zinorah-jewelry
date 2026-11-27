@@ -50,7 +50,7 @@
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
   <link rel="stylesheet" href="css/style.css?v=69" />
   <link rel="stylesheet" href="css/clothing.css?v=62" />
-  <link rel="stylesheet" href="css/more.css?v=2" />
+  <link rel="stylesheet" href="css/more.css?v=3" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -499,6 +499,46 @@
     <!-- ============ CLOTHING: MORE (shown under the Clothing carousel; css/more.css, js/more.js) ============ -->
     <section class="more" id="clothing-more" aria-label="More about our clothing">
       <div class="container">
+        <!-- Video in the middle, dresses running up (left) and down (right).
+             To show a real video: save it as videos/clothing.mp4 (portrait, short, muted). Until then the bridal photos play as a slow film. -->
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Clothing</p>
+            <h2 class="more__title">Feel the <em>drape</em></h2>
+          </header>
+          <div class="reel mo">
+            <div class="reel__col reel__col--up" aria-hidden="true">
+              <div class="reel__track">
+                <img src="images/clothing/v-royal-blue-banarasi.jpg" alt="" width="920" height="1150" loading="lazy" />
+                <img src="images/clothing/bridal-look.jpg" alt="" width="900" height="1126" loading="lazy" />
+                <img src="images/clothing/v-emerald-kanjivaram.jpg" alt="" width="920" height="1150" loading="lazy" />
+                <img src="images/clothing/col-sarees.jpg" alt="" width="900" height="1126" loading="lazy" />
+                <img src="images/clothing/v-kerala-kasavu-saree.jpg" alt="" width="920" height="1150" loading="lazy" />
+              </div>
+            </div>
+            <figure class="reel__main">
+              <div class="reel__film" role="img" aria-label="Brides and models in Zinorah silk sarees and lehengas">
+                <img src="images/clothing/bridal-look.jpg" alt="" width="900" height="1126" />
+                <img src="images/clothing/col-bridal-wear.jpg" alt="" width="900" height="1126" loading="lazy" />
+                <img src="images/clothing/p-bridal-lehenga.jpg" alt="" width="800" height="1000" loading="lazy" />
+                <img src="images/clothing/col-sarees.jpg" alt="" width="900" height="1126" loading="lazy" />
+                <img src="images/clothing/v-emerald-kanjivaram.jpg" alt="" width="920" height="1150" loading="lazy" />
+              </div>
+              <video class="reel__video" muted loop playsinline preload="none" hidden data-src="videos/clothing.mp4" aria-label="Zinorah clothing video"></video>
+            </figure>
+            <div class="reel__col reel__col--down" aria-hidden="true">
+              <div class="reel__track">
+                <img src="images/clothing/v-asymmetric-kurti-set.jpg" alt="" width="920" height="1150" loading="lazy" />
+                <img src="images/clothing/p-bridal-lehenga.jpg" alt="" width="800" height="1000" loading="lazy" />
+                <img src="images/clothing/v-ivory-sherwani.jpg" alt="" width="920" height="1150" loading="lazy" />
+                <img src="images/clothing/v-block-print-kurti.jpg" alt="" width="920" height="1150" loading="lazy" />
+                <img src="images/clothing/v-kasavu-family.jpg" alt="" width="920" height="1150" loading="lazy" />
+              </div>
+            </div>
+          </div>
+          <p class="reel__cta mo"><a class="more-band__btn reel__btn" href="#clothing" data-reel-shop>Shop the collection <span aria-hidden="true">&rarr;</span></a></p>
+        </div>
+
         <div class="more__block">
           <header class="more__head mo">
             <p class="more__label">Clothing</p>
@@ -1034,7 +1074,7 @@
   <script src="js/main.js?v=48" defer></script>
   <script src="js/showcase.js?v=51" defer></script>
   <script src="js/split3d.js?v=5" defer></script>
-  <script src="js/more.js?v=2" defer></script>
+  <script src="js/more.js?v=3" defer></script>
   <script src="js/clothopen.js?v=3" defer></script>
 </body>
 </html>
