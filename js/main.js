@@ -374,6 +374,29 @@ wishButtons.forEach((b) => b.addEventListener("click", async () => {
   } catch (e) { toast(e.message); }
 }));
 
+// greeting at the top of the home page for a signed-in customer
+const greet = (me) => {
+  const box = document.querySelector(".greet");
+  if (!box) return;
+  if (!me) { box.hidden = true; return; }
+  const first = String(me.name || me.email.split("@")[0]).trim().split(/\s+/)[0];
+  const h = new Date().getHours();
+  box.querySelector(".js-greet-time").textContent = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  box.querySelector(".js-greet-name").textContent = first;
+  const n = (me.wishlist || []).length;
+  let fresh = "";
+  try { fresh = sessionStorage.getItem("zin-welcome") || ""; sessionStorage.removeItem("zin-welcome"); } catch (e) {}
+  box.querySelector(".js-greet-sub").textContent =
+    fresh === "new" ? "Welcome to the Zinorah family" :
+    n ? `Welcome back · ${n} piece${n > 1 ? "s" : ""} in your wishlist` : "Welcome back to Zinorah";
+  const img = box.querySelector(".greet__avatar img"), ini = box.querySelector(".greet__initial");
+  if (me.photo) { img.src = me.photo; img.hidden = false; ini.textContent = ""; }
+  else { img.hidden = true; ini.textContent = first.charAt(0).toUpperCase(); }
+  box.setAttribute("aria-label", `${box.querySelector(".greet__hello").textContent}. Open my account`);
+  box.hidden = false;
+  if (fresh) { box.classList.remove("is-fresh"); void box.offsetWidth; box.classList.add("is-fresh"); }
+};
+
 const syncAccount = async () => {
   if (!window.DB) return;
   try {
@@ -384,6 +407,7 @@ const syncAccount = async () => {
   try {
     const me = await DB.customerCurrent();
     markWishes(me && me.wishlist);
+    greet(me);
     if (me) {
       document.querySelectorAll(".nav-account").forEach((a) => a.setAttribute("aria-label", `My account (${me.name || me.email})`));
       if (!form.elements.name.value) form.elements.name.value = me.name || "";

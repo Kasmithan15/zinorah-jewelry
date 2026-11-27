@@ -93,6 +93,9 @@
         ? await DB.customerSignUp({ name: f.name.value, email: f.email.value, phone: f.phone.value, password: f.password.value })
         : await DB.customerSignIn(f.email.value, f.password.value);
       custForm.reset(); hidePasswords(); say(custForm, "", true);
+      // go to the home page, which greets the customer by name
+      try { sessionStorage.setItem("zin-welcome", mode === "signup" ? "new" : "back"); } catch (e) {}
+      if (u) { say(custForm, `Welcome, ${String(u.name || "").split(" ")[0] || "back"}! Taking you home…`, true); setTimeout(() => location.assign("index.html"), 700); return; }
       openCustomer(u);
     } catch (err) { say(custForm, err.message, false); }
     finally { busy(custForm, false); }

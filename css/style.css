@@ -1955,3 +1955,39 @@ html { overflow-x: clip; }
   .acct-page .stats dd { font-size: 30px; }
   .acct-page .panel-body { border-radius: 0 0 14px 14px; }
 }
+
+/* Greeting for a signed-in customer, at the top of the home page */
+.greet {
+  display: flex; width: fit-content; align-items: center; gap: 14px; margin: 0 auto 26px; padding: 9px 20px 9px 9px; max-width: 100%;
+  text-align: left; text-decoration: none; color: var(--cream); border-radius: 999px;
+  background: radial-gradient(120% 160% at 0% 0%, var(--emerald-700), transparent 60%), linear-gradient(120deg, var(--emerald-800), var(--emerald-900));
+  border: 1px solid color-mix(in srgb, var(--gold) 60%, transparent);
+  box-shadow: 0 18px 40px -24px rgba(8, 38, 29, .6);
+  position: relative; overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s;
+}
+.greet[hidden] { display: none; }
+.greet:hover { transform: translateY(-2px); box-shadow: 0 24px 48px -24px rgba(8, 38, 29, .7); }
+.greet:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.greet__avatar { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; overflow: hidden;
+  background: linear-gradient(150deg, var(--gold-soft), var(--gold)); border: 1px solid var(--gold-soft); }
+.greet__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.greet__initial { font-family: var(--serif); font-size: 22px; color: var(--emerald-900); }
+.greet__text { display: grid; gap: 1px; min-width: 0; }
+.greet__hello { font-family: var(--serif); font-size: clamp(19px, 2.2vw, 23px); line-height: 1.15; color: var(--cream); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.greet__hello em { color: var(--gold-soft); }
+.greet__sub { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--cream-dim); }
+.greet__arrow { flex: none; width: 18px; height: 18px; color: var(--gold-soft); margin-left: 4px; transition: transform .3s; }
+.greet:hover .greet__arrow { transform: translateX(3px); }
+/* just signed in: the pill drops in and a gold shine sweeps across */
+.greet.is-fresh { animation: greetIn .8s cubic-bezier(.2, .8, .2, 1) both; }
+.greet.is-fresh::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--gold-soft) 45%, transparent) 50%, transparent 65%);
+  transform: translateX(-100%); animation: greetShine 1.4s .6s ease-out both; }
+@keyframes greetIn { from { opacity: 0; transform: translateY(-14px) scale(.96); } }
+@keyframes greetShine { to { transform: translateX(100%); } }
+@media (max-width: 600px) {
+  .greet { gap: 11px; padding: 7px 16px 7px 7px; margin-bottom: 20px; }
+  .greet__avatar { width: 40px; height: 40px; }
+  .greet__sub { font-size: 9.5px; letter-spacing: .12em; }
+}
+@media (prefers-reduced-motion: reduce) { .greet.is-fresh, .greet.is-fresh::after { animation: none; } .greet.is-fresh::after { display: none; } }
