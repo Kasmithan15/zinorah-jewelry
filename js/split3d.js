@@ -4,7 +4,7 @@
    - tilt towards the pointer with depth: photo and text move at different depths
    - a soft cream light follows the pointer
    - "Explore": the chosen panel comes forward, the other folds back,
-     then the collection swings into place
+     then the piece's photo fills the screen and zooms out into the collection (js/viewzoom.js)
    Colours are the existing ones; nothing moves with "reduce motion".
    ========================================================= */
 (function () {
@@ -48,11 +48,11 @@
       p.classList.add("is-launching");
       panels.forEach((o) => o !== p && o.classList.add("is-folding"));
       setTimeout(() => {
-        root.dataset.arrive = href.slice(1);
-        location.hash = href; // opens the Jewelry / Clothing view (js/main.js)
-        panels.forEach((o) => o.classList.remove("is-launching", "is-folding", "is-tilting"));
-        setTimeout(() => delete root.dataset.arrive, 1100);
-      }, 560);
+        // full-screen zoom into the collection (js/viewzoom.js); plain switch if it isn't there
+        if (window.ZinZoom) window.ZinZoom.go(href.slice(1));
+        else { root.dataset.arrive = href.slice(1); location.hash = href; setTimeout(() => delete root.dataset.arrive, 1100); }
+        setTimeout(() => panels.forEach((o) => o.classList.remove("is-launching", "is-folding", "is-tilting")), 400);
+      }, 420);
     });
   });
 })();
