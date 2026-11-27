@@ -1838,26 +1838,31 @@ html { overflow-x: clip; }
 #revDialog .revdlg__close { background: color-mix(in srgb, var(--cream) 92%, transparent); color: var(--ink); border: 1px solid rgba(176, 141, 87, .45); }
 #revDialog :focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 2px; }
 
-/* Shop highlights in the reviews band (only until the first real review) */
-.reviews__highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2vw, 24px); max-width: 1040px; }
+/* Promise band in the reviews section (only until the first real review): cards running left → right */
+.reviews__highlights { overflow: hidden; padding: 6px 0 44px; margin-bottom: -18px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .reviews__highlights[hidden] { display: none; }
-.rh { padding: 28px 24px; text-align: center; background: color-mix(in srgb, #fff 60%, var(--cream)); border: 1px solid rgba(176, 141, 87, .35); border-radius: 14px; box-shadow: 0 22px 44px -30px rgba(8, 38, 29, .35); transition: transform .4s var(--ease), border-color .3s; }
+.promise-band__track { --g: 22px; display: flex; gap: var(--g); width: max-content; animation: promiseSlide 46s linear infinite reverse; }
+@keyframes promiseSlide { from { transform: translateX(0); } to { transform: translateX(calc(-50% - var(--g) / 2)); } }
+.reviews__highlights:hover .promise-band__track { animation-play-state: paused; }
+.rh { flex: none; width: clamp(260px, 26vw, 320px); padding: 28px 24px; text-align: center; background: color-mix(in srgb, #fff 60%, var(--cream)); border: 1px solid rgba(176, 141, 87, .35); border-radius: 14px; box-shadow: 0 22px 44px -30px rgba(8, 38, 29, .35); transition: transform .4s var(--ease), border-color .3s; }
 .rh:hover { transform: translateY(-4px); border-color: var(--gold); }
 .rh__icon { display: block; width: 44px; height: 44px; color: var(--gold); margin: 0 auto 12px; }
 #reviews .rh h3 { margin: 0 0 6px; font-family: var(--serif); font-weight: 400; font-size: 23px; color: var(--ink); }
 #reviews .rh p { margin: 0; font-size: 14.5px; color: var(--muted); }
 @media (max-width: 760px) {
-  /* phones: the cards become a row you swipe sideways (each snaps into place, the next one peeks in) */
-  .reviews__highlights {
-    display: flex; gap: 12px; max-width: none; margin: 0; padding: 6px 16px 18px;
-    overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  }
-  .reviews__highlights::-webkit-scrollbar { display: none; }
-  .reviews__highlights .rh { flex: 0 0 80%; scroll-snap-align: center; padding: 24px 20px; }
-  .reviews__highlights .rh:hover { transform: none; }
+  .promise-band__track { --g: 12px; animation-duration: 36s; }
+  .rh { width: 74vw; max-width: 300px; padding: 24px 20px; }
+  .rh:hover { transform: none; }
   /* buttons: full width, one under the other, easy to tap */
   .reviews__write { flex-direction: column; align-items: stretch; padding: 0 16px; max-width: 420px; margin-left: auto; margin-right: auto; }
   .reviews__write .reviews__btn { width: 100%; min-height: 50px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reviews__highlights { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .promise-band__track { animation: none; padding: 0 16px; }
+  .promise-band__track > [aria-hidden="true"] { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .rh { transition: none; } .rh:hover { transform: none; } }
 /* Google reviews button next to "Write a review" */

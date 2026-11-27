@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=76" />
+  <link rel="stylesheet" href="css/style.css?v=77" />
   <link rel="stylesheet" href="css/clothing.css?v=63" />
   <link rel="stylesheet" href="css/more.css?v=5" />
   <script>
@@ -996,22 +996,39 @@
       <div class="reviews__marquee" hidden>
         <div class="reviews__track"></div>
       </div>
-      <!-- shown only until the first real review: true facts about the shop -->
-      <div class="container reviews__highlights" hidden>
-        <div class="rh">
-          <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M24 43s-13-12.6-13-23a13 13 0 0 1 26 0c0 10.4-13 23-13 23z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="20" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-          <h3>Visit us in Trincomalee</h3>
-          <p data-shop="address">No. 119 Sea View Road, Trincomalee 31000, Sri Lanka</p>
-        </div>
-        <div class="rh">
-          <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M8 40l2.6-7.6A16 16 0 1 1 16 37.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18 18c0 6 6 12 12 12l2-3-4-2-2 2c-2-1-4-3-5-5l2-2-2-4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-          <h3>Order on WhatsApp</h3>
-          <p>Send us a piece you like and we reply with photos, videos and the price.</p>
-        </div>
-        <div class="rh">
-          <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M12 36 34 14" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="36" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M30 10l8 8M26 22l4 4M20 28l4 4" stroke="currentColor" stroke-width="1.6"/></svg>
-          <h3>Custom stitching &amp; sizing</h3>
-          <p>Blouses and outfits stitched to your measurements, and jewelry in your size.</p>
+      <!-- shown only until the first real review: true promises from the shop, running like the review cards -->
+      <div class="reviews__highlights promise-band" hidden>
+        <div class="promise-band__track">
+          <div class="rh">
+            <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M24 43s-13-12.6-13-23a13 13 0 0 1 26 0c0 10.4-13 23-13 23z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="20" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>Visit us in Trincomalee</h3>
+            <p data-shop="address">No. 119 Sea View Road, Trincomalee 31000, Sri Lanka</p>
+          </div>
+          <div class="rh">
+            <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M8 40l2.6-7.6A16 16 0 1 1 16 37.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18 18c0 6 6 12 12 12l2-3-4-2-2 2c-2-1-4-3-5-5l2-2-2-4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            <h3>Order on WhatsApp</h3>
+            <p>Send us a piece you like and we reply with photos, videos and the price.</p>
+          </div>
+          <div class="rh">
+            <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M12 36 34 14" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="36" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M30 10l8 8M26 22l4 4M20 28l4 4" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>Custom stitching &amp; sizing</h3>
+            <p>Blouses and outfits stitched to your measurements, and jewelry in your size.</p>
+          </div>
+          <div class="rh">
+            <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M10 20 24 8l14 12-14 20z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20h28M19 20l5 20 5-20M17 8l2 12M31 8l-2 12" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+            <h3>Bridal looks, head to toe</h3>
+            <p>Bridal jewelry sets and sarees chosen together for your big day.</p>
+          </div>
+          <div class="rh">
+            <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M8 16h32l-3 24H11z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 16a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>Jewelry &amp; clothing together</h3>
+            <p>Match your outfit and your jewelry in one shop, in one visit.</p>
+          </div>
+          <div class="rh">
+            <svg class="rh__icon" aria-hidden="true" viewBox="0 0 48 48"><rect x="8" y="12" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M21 19v10l8-5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <h3>See it before you buy</h3>
+            <p>Ask for photos and videos of any piece before you decide.</p>
+          </div>
         </div>
       </div>
       <p class="reviews__write">
@@ -1184,7 +1201,7 @@
   <script src="js/jewelry-data.js?v=35" defer></script>
   <script src="js/catalog.js?v=1" defer></script>
   <script src="js/reviews-data.js?v=4" defer></script>
-  <script src="js/main.js?v=51" defer></script>
+  <script src="js/main.js?v=52" defer></script>
   <script src="js/showcase.js?v=51" defer></script>
   <script src="js/split3d.js?v=5" defer></script>
   <script src="js/more.js?v=4" defer></script>

@@ -702,6 +702,12 @@ renderBag();
     c.append(st, q, by);
     return c;
   };
+  // promise band: copy the cards once so the strip loops without a gap
+  const ptrack = sec.querySelector(".promise-band__track");
+  if (ptrack && !ptrack.dataset.looped) {
+    ptrack.dataset.looped = "1";
+    [...ptrack.children].forEach((c) => { const k = c.cloneNode(true); k.setAttribute("aria-hidden", "true"); ptrack.append(k); });
+  }
   const render = (approved) => {
     const real = [...(R.reviews || []), ...(approved || [])];
     const list = real.length ? real : preview ? (R.samples || []).map((r) => ({ ...r, about: [r.about, "Sample"].filter(Boolean).join(" · ") })) : [];
@@ -711,6 +717,10 @@ renderBag();
     marquee.hidden = !list.length;
     const facts = sec.querySelector(".reviews__highlights"); // true shop facts, only until the first review
     if (facts) facts.hidden = !!list.length;
+    // until there are real reviews, the heading talks about the shop's promises instead
+    const eb = sec.querySelector(".reviews__head .eyebrow"), ti = sec.querySelector(".reviews__title");
+    if (eb) eb.textContent = list.length ? "Customer reviews" : "Why shop with us";
+    if (ti) ti.innerHTML = list.length ? "Loved by our <em>customers</em>" : "Our promise to <em>you</em>";
     if (!list.length) return track.replaceChildren();
     // one "half" is wide enough to fill the screen; two identical halves loop without a jump
     const reps = Math.max(1, Math.ceil(window.innerWidth / (list.length * 340)));
