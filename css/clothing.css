@@ -551,7 +551,20 @@
 @keyframes unveil { from { opacity: .4; transform: scale(.97) translateY(-20px); } }
 @media (prefers-reduced-motion: reduce) { .saree-open { display: none; } #clothing.is-unveiling .cshow { animation: none; } }
 
-/* Opening Jewelry like a jewelry box (js/jewelopen.js) */
-.jewel-open { position: fixed; inset: 0; z-index: 300; width: 100vw; height: 100vh; cursor: pointer; }
-#jewelry.is-unveiling .cshow { animation: unveil 1.5s cubic-bezier(.2,.7,.2,1) .2s both; }
-@media (prefers-reduced-motion: reduce) { .jewel-open { display: none; } #jewelry.is-unveiling .cshow { animation: none; } }
+/* Opening Jewelry: zoom out with blur (js/jewelopen.js) */
+.jewel-zoom { position: fixed; inset: 0; z-index: 300; overflow: hidden; cursor: pointer; background: #08261D;
+  animation: jzVeil 1.5s cubic-bezier(.4, 0, .2, 1) both; }
+.jewel-zoom img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%;
+  animation: jzPhoto 1.5s cubic-bezier(.3, 0, .2, 1) both; will-change: transform, filter, opacity; }
+.jewel-zoom::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 70% at 50% 45%, transparent 40%, rgba(8, 38, 29, .55)); animation: jzFade 1.5s ease-in both; }
+@keyframes jzFade { 0%, 35% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes jzPhoto {
+  0%   { transform: scale(1.45); filter: blur(0); opacity: 1; }
+  35%  { transform: scale(1.2);  filter: blur(0); opacity: 1; }
+  100% { transform: scale(.92);  filter: blur(22px); opacity: 0; }
+}
+@keyframes jzVeil { 0%, 40% { background-color: #08261D; } 100% { background-color: transparent; } }
+#jewelry.is-zooming .cshow { animation: jzPage 1.25s cubic-bezier(.2, .7, .2, 1) .3s both; transform-origin: 50% 40%; }
+@keyframes jzPage { from { opacity: 0; transform: scale(1.12); filter: blur(14px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@media (prefers-reduced-motion: reduce) { .jewel-zoom { display: none; } #jewelry.is-zooming .cshow { animation: none; } }
