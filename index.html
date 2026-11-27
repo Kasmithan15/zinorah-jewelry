@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=69" />
+  <link rel="stylesheet" href="css/style.css?v=70" />
   <link rel="stylesheet" href="css/clothing.css?v=62" />
   <link rel="stylesheet" href="css/more.css?v=4" />
   <script>
@@ -941,6 +941,30 @@
       </div>
     </section>
 
+    <!-- CUSTOMER REVIEWS on the home page: slide left → right. Add real reviews in js/reviews-data.js (hidden until there is one). -->
+    <section class="reviews reviews--home on-dark" id="reviews" aria-labelledby="reviewsTitle" hidden>
+      <div class="container reviews__head">
+        <p class="eyebrow">Customer reviews</p>
+        <h2 class="reviews__title" id="reviewsTitle">Loved by our <em>customers</em></h2>
+        <p class="reviews__note" hidden>Preview with sample text. Customers don't see this until real reviews are added.</p>
+      </div>
+      <div class="reviews__marquee">
+        <div class="reviews__track"></div>
+      </div>
+    </section>
+
+    <!-- one review, opened by clicking a card (the strip stops while it is open) -->
+    <dialog class="revdlg on-dark" id="revDialog" aria-labelledby="revName">
+      <button type="button" class="search__close revdlg__close" aria-label="Close review"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+      <div class="revdlg__pic" hidden><img src="" alt="" /></div>
+      <div class="revdlg__body">
+        <p class="review__stars revdlg__stars"></p>
+        <blockquote class="revdlg__text"></blockquote>
+        <p class="revdlg__name" id="revName"></p>
+        <p class="revdlg__meta"></p>
+      </div>
+    </dialog>
+
     <!-- ============ CONTACT ============ -->
     <section class="section visit on-cream has-ornament" id="visit">
       <div class="container visit__grid">
@@ -992,30 +1016,6 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer on-dark">
-    <!-- CUSTOMER REVIEWS: slide right → left. Add real reviews in js/reviews-data.js (hidden until there is one). -->
-    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle" hidden>
-      <div class="container reviews__head">
-        <p class="eyebrow">Customer reviews</p>
-        <h2 class="reviews__title" id="reviewsTitle">Loved by our <em>customers</em></h2>
-        <p class="reviews__note" hidden>Preview with sample text. Customers don't see this until real reviews are added.</p>
-      </div>
-      <div class="reviews__marquee">
-        <div class="reviews__track"></div>
-      </div>
-    </section>
-
-    <!-- one review, opened by clicking a card (the strip stops while it is open) -->
-    <dialog class="revdlg on-dark" id="revDialog" aria-labelledby="revName">
-      <button type="button" class="search__close revdlg__close" aria-label="Close review"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
-      <div class="revdlg__pic" hidden><img src="" alt="" /></div>
-      <div class="revdlg__body">
-        <p class="review__stars revdlg__stars"></p>
-        <blockquote class="revdlg__text"></blockquote>
-        <p class="revdlg__name" id="revName"></p>
-        <p class="revdlg__meta"></p>
-      </div>
-    </dialog>
-
     <div class="container footer__grid">
       <div class="footer__brand">
         <a href="#top" class="logo logo--footer">

@@ -1324,7 +1324,7 @@ body.is-locked { overflow: hidden; }
 /* ---- One view at a time: the menu buttons open Jewelry, Clothing, New Arrivals or About ----
    Home shows the banner, Bridal look, About, Instagram and Contact. The Enquire form is hidden for now.
    To bring one back, give it a menu button and add it here, in VIEWS (js/main.js) and the <head> script. */
-html[data-view="home"] main > section:not(.hero, .trust, #bridal, #about, #instagram, #visit),
+html[data-view="home"] main > section:not(.hero, .trust, #bridal, #about, #instagram, #reviews, #visit),
 html[data-view="jewelry"] main > section:not(#jewelry, #jewelry-more),
 html[data-view="clothing"] main > section:not(#clothing, #clothing-more),
 html[data-view="new-arrivals"] main > section:not(#new-arrivals),
@@ -1745,3 +1745,15 @@ html { overflow-x: clip; }
   .split__shine { display: none; }
   .split__panel.is-tilting.has-photo::before, .split__panel.is-tilting > .split__body { transform: none; }
 }
+
+/* Customer reviews on the home page: emerald band, cards slide left → right */
+.reviews--home {
+  position: relative; isolation: isolate; margin: 0; border: 0;
+  padding: clamp(56px, 8vw, 96px) 0;
+  background:
+    radial-gradient(70% 60% at 85% 0%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 65%),
+    var(--emerald-800);
+  border-top: 1px solid rgba(214, 184, 138, .35);
+}
+.reviews--home .reviews__track { animation-direction: reverse; }
+.reviews--home[hidden] { display: none; }
