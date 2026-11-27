@@ -1762,24 +1762,3 @@ html[data-arrive="jewelry"] #jewelry .cshow, html[data-arrive="clothing"] #cloth
   html[data-arrive] .cshow { animation: none !important; }
   .split__panel.is-tilting.has-photo::before, .split__panel.is-tilting > .split__body { transform: none; }
 }
-
-/* =========================================================
-   Opening Jewelry / Clothing: full-screen photo that zooms out into its card (js/viewzoom.js)
-   ========================================================= */
-.vz { position: fixed; inset: 0; z-index: 300; pointer-events: none; opacity: 0; transition: opacity .28s ease; }
-.vz--jewelry { background: var(--emerald-900); }
-.vz--clothing { background: var(--sand); }
-.vz.is-in { opacity: 1; }
-.vz.is-landing { background: transparent; transition: background-color .7s ease, opacity .28s ease; }
-.vz.is-out { opacity: 0; transition: opacity .3s ease; }
-.vz__pic {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-  background-size: cover; background-position: 50% 25%; background-repeat: no-repeat;
-  transform: scale(1.45); transform-origin: 50% 40%;
-}
-.vz.is-in .vz__pic { transform: scale(1); transition: transform 1.05s cubic-bezier(.2,.7,.2,1); }
-.vz__pic.is-landing {
-  border-radius: 12px; box-shadow: 0 30px 60px rgba(8, 38, 29, .25);
-  transition: left .7s cubic-bezier(.7,0,.2,1), top .7s cubic-bezier(.7,0,.2,1), width .7s cubic-bezier(.7,0,.2,1), height .7s cubic-bezier(.7,0,.2,1), border-radius .7s ease;
-}
-@media (prefers-reduced-motion: reduce) { .vz { display: none; } }
