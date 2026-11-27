@@ -1326,7 +1326,7 @@ body.is-locked { overflow: hidden; }
    To bring one back, give it a menu button and add it here, in VIEWS (js/main.js) and the <head> script. */
 html[data-view="home"] main > section:not(.hero, .trust, #bridal, #about, #instagram, #visit),
 html[data-view="jewelry"] main > section:not(#jewelry),
-html[data-view="clothing"] main > section:not(#clothing, #explore-sarees),
+html[data-view="clothing"] main > section:not(#clothing),
 html[data-view="new-arrivals"] main > section:not(#new-arrivals),
 html[data-view="about"] main > section:not(#about),
 html[data-view="visit"] main > section:not(#visit) { display: none !important; }
@@ -1744,46 +1744,4 @@ html { overflow-x: clip; }
   .js .split__panel.reveal, .js .split__panel.reveal.is-visible { transform: none; transition: opacity .4s; }
   .split__shine { display: none; }
   .split__panel.is-tilting.has-photo::before, .split__panel.is-tilting > .split__body { transform: none; }
-}
-
-/* =========================================================
-   Explore Sarees: silk ribbons (js/silk.js)
-   ========================================================= */
-.silk { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; padding: clamp(48px, 7vh, 80px) 0; background: var(--cream); overflow: hidden; }
-.silk__head { text-align: center; }
-.silk__label { margin: 0 0 12px; font-family: var(--sans); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--jewel-deep); }
-.silk__title { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 56px; line-height: 1.1; color: var(--ink); }
-.silk__title em { color: var(--jewel-deep); }
-.silk__stage { display: grid; place-items: center; margin: clamp(22px, 4vh, 40px) 0; padding: 0 16px; }
-.silk__photo {
-  position: relative; margin: 0; width: min(380px, 78vw); aspect-ratio: 4 / 5; border-radius: 12px; overflow: hidden;
-  background: var(--sand); box-shadow: 0 30px 60px rgba(8, 38, 29, .22);
-}
-.silk__photo::after { content: ""; position: absolute; inset: 12px; border: 1px solid var(--card-frame); border-radius: 6px; pointer-events: none; }
-.silk__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; transition: opacity .45s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); }
-.silk__photo img.is-fading { opacity: 0; transform: scale(1.04); }
-.silk__tag { position: absolute; left: 22px; bottom: 22px; padding: 5px 10px; border-radius: 999px; font-family: var(--sans); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; background: color-mix(in srgb, var(--cream) 88%, transparent); color: var(--ink); }
-.silk__foot { display: grid; justify-items: center; gap: 14px; text-align: center; }
-.silk__swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 100%; }
-.silk__sw { position: relative; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; }
-.silk__sw::before { content: ""; width: 32px; height: 32px; border-radius: 50%; background: var(--sw); box-shadow: 0 0 0 1px var(--gold); transition: transform .25s ease; }
-.silk__sw:hover::before { transform: scale(1.08); }
-.silk__sw.is-new-saree { margin-left: 14px; }
-@media (max-width: 700px) { .silk__sw.is-new-saree { margin-left: 0; } }
-.silk__sw[aria-pressed="true"]::before { box-shadow: 0 0 0 3px var(--cream), 0 0 0 5px var(--emerald-800); }
-.silk__sw:focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 2px; }
-.silk__info { min-height: 64px; transition: opacity .3s ease; }
-.silk__info.is-fading { opacity: 0; }
-.silk__name { margin: 4px 0 2px; font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--ink); }
-.silk__details { margin: 0; font-family: var(--sans); font-size: 14px; color: var(--muted); }
-.silk__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px; margin: 0; }
-.silk__price, .silk__link { font-family: var(--sans); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--jewel-deep); }
-.silk__link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 6px; }
-.silk__link:hover { color: var(--ink); }
-.silk__link:focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 2px; }
-@media (max-width: 700px) {
-  .silk { min-height: auto; }
-  .silk__title { font-size: 36px; }
-  .silk__photo { width: min(300px, 76vw); }
-  .silk__swatches { gap: 4px; max-width: 340px; }
 }
