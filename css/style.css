@@ -1486,6 +1486,33 @@ html[data-view="visit"] main > section:not(#visit) { display: none !important; }
 .acct-page .mode-btn { color: var(--ink-tab); }
 .acct-page .mode-btn.is-active { color: var(--jewel-deep); border-bottom-color: var(--jewel-deep); }
 
+/* sign-in card: deep emerald with gold, like the header and footer */
+.acct-page .acct-card {
+  background: radial-gradient(120% 70% at 50% 0%, var(--emerald-700), transparent 70%), linear-gradient(170deg, var(--emerald-800), var(--emerald-900));
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent); color: var(--cream);
+  box-shadow: 0 40px 90px -40px color-mix(in srgb, var(--emerald-900) 70%, transparent);
+}
+.acct-page .acct-card::after { border-color: color-mix(in srgb, var(--gold-soft) 30%, transparent); }
+.acct-page .acct-card .acct-card__mark, .acct-page .acct-card .eyebrow { color: var(--gold-soft); }
+.acct-page .acct-card .eyebrow::before, .acct-page .acct-card .eyebrow::after { background: var(--gold-soft); }
+.acct-page .acct-card .section__title { color: var(--cream); }
+.acct-page .acct-card .section__title em { color: var(--gold-soft); }
+.acct-page .acct-card .mode-switch { border-bottom-color: color-mix(in srgb, var(--gold-soft) 25%, transparent); }
+.acct-page .acct-card .mode-btn { color: var(--cream-dim); }
+.acct-page .acct-card .mode-btn:hover { color: var(--cream); }
+.acct-page .acct-card .mode-btn.is-active { color: var(--gold-soft); border-bottom-color: var(--gold-soft); }
+.acct-page .acct-card .field label { color: var(--gold-soft); }
+.acct-page .acct-card .field input, .acct-page .acct-card .field select { color: var(--cream); border-bottom-color: color-mix(in srgb, var(--gold-soft) 35%, transparent); }
+.acct-page .acct-card .field input:focus { border-bottom-color: var(--gold-soft); }
+.acct-page .acct-card input::placeholder { color: var(--cream-dim); }
+.acct-page .acct-card .field input[type="date"] { color-scheme: dark; }
+.acct-page .acct-card .pass-toggle { color: var(--gold-soft); }
+.acct-page .acct-card .acct-lead, .acct-page .acct-card .acct-note { color: var(--cream-dim); }
+.acct-page .acct-card .form__status { color: var(--ok-dark); }
+.acct-page .acct-card .form__status.is-error { color: var(--err-dark); }
+.acct-page .acct-card :focus-visible { outline-color: var(--gold-soft); }
+.acct-page .acct-card input:-webkit-autofill { -webkit-text-fill-color: var(--cream); -webkit-box-shadow: 0 0 0 40px var(--emerald-800) inset; caret-color: var(--cream); }
+
 .acct-page .panel-tab { color: var(--ink-tab); }
 .acct-page .panel-tab:hover { color: var(--ink); border-color: var(--gold); }
 .acct-page .panel-tab.is-active { color: var(--emerald-900); }
