@@ -1326,7 +1326,7 @@ body.is-locked { overflow: hidden; }
    To bring one back, give it a menu button and add it here, in VIEWS (js/main.js) and the <head> script. */
 html[data-view="home"] main > section:not(.hero, .trust, #bridal, #about, #instagram, #visit),
 html[data-view="jewelry"] main > section:not(#jewelry),
-html[data-view="clothing"] main > section:not(#clothing),
+html[data-view="clothing"] main > section:not(#clothing, .xp, .xp-band),
 html[data-view="new-arrivals"] main > section:not(#new-arrivals),
 html[data-view="about"] main > section:not(#about),
 html[data-view="visit"] main > section:not(#visit) { display: none !important; }
