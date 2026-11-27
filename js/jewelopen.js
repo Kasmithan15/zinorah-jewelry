@@ -12,8 +12,8 @@
   const section = document.getElementById("jewelry");
   if (!section) return;
 
-  const DURATION = 2000;     // ms in total
-  const HOLD = 0.24;         // part of the time the window stays closed, jewelry swaying
+  const DURATION = 3400;     // ms in total (longer, so the jewelry can be enjoyed)
+  const HOLD = 0.3;          // part of the time the window stays closed, jewelry swaying (about 1 second)
   const VELVET = [15, 59, 46];
   const GEMS = [["#1E8A5E", "#0B4A31"], ["#B8283A", "#6E1020"], ["#2F5FB0", "#14306A"], ["#F2EFE6", "#BFB6A2"]]; // emerald, ruby, sapphire, pearl
   const viewOf = (h) => (h || "").replace("#", "") || "home";
