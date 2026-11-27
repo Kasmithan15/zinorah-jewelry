@@ -1803,3 +1803,37 @@ html { overflow-x: clip; }
 .revform-dlg :focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 2px; }
 @media (max-width: 560px) { .revform__row { grid-template-columns: 1fr; } .revform { padding: 18px 16px 20px; } }
 .tab-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 6px; padding: 0 6px; border-radius: 999px; background: var(--emerald-800); color: var(--gold-soft); font-size: 11px; letter-spacing: 0; }
+
+/* Customer reviews in the site's cream palette (ink text, dark gold accents, gold hairlines) */
+#reviews.reviews--home {
+  background: radial-gradient(ellipse 55% 70% at 50% 60%, #FFFFFF 0%, transparent 70%), var(--cream);
+  border-top: 1px solid rgba(176, 141, 87, .35); border-bottom: 1px solid rgba(176, 141, 87, .35);
+}
+#reviews .reviews__head .eyebrow { color: var(--jewel-deep); }
+#reviews .reviews__head .eyebrow::before { background: var(--gold); }
+#reviews .reviews__title { color: var(--ink); }
+#reviews .reviews__title em { color: var(--jewel-deep); }
+#reviews .reviews__lead { color: var(--muted); }
+#reviews .reviews__note { color: var(--jewel-deep); }
+#reviews .review {
+  background: color-mix(in srgb, #fff 60%, var(--cream)); border: 1px solid rgba(176, 141, 87, .35);
+  box-shadow: 0 22px 44px -30px rgba(8, 38, 29, .35);
+}
+#reviews .review:hover, #reviews .review:focus-visible { background: #fff; border-color: var(--gold); box-shadow: 0 30px 60px -30px rgba(8, 38, 29, .35); }
+#reviews .review__stars { color: var(--jewel-deep); }
+#reviews .review__text { color: var(--ink); }
+#reviews .review__by { color: var(--muted); }
+#reviews .review__by strong { color: var(--jewel-deep); }
+#reviews .review__avatar { background: var(--cream-2); border-color: var(--gold); color: var(--jewel-deep); }
+#reviews :focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 3px; }
+#reviews .reviews__btn { border-color: var(--gold); color: var(--emerald-800); }
+#reviews .reviews__btn:hover { background: var(--emerald-800); border-color: var(--emerald-800); color: var(--cream); }
+
+#revDialog.revdlg { background: var(--cream); color: var(--ink); border-color: rgba(176, 141, 87, .45); box-shadow: 0 40px 90px -30px rgba(8, 38, 29, .45); }
+#revDialog::backdrop { background: color-mix(in srgb, var(--emerald-900) 55%, transparent); }
+#revDialog .revdlg__stars { color: var(--jewel-deep); }
+#revDialog .revdlg__text { color: var(--ink); }
+#revDialog .revdlg__name { color: var(--jewel-deep); }
+#revDialog .revdlg__meta { color: var(--muted); }
+#revDialog .revdlg__close { background: color-mix(in srgb, var(--cream) 92%, transparent); color: var(--ink); border: 1px solid rgba(176, 141, 87, .45); }
+#revDialog :focus-visible { outline: 2px solid var(--jewel-deep); outline-offset: 2px; }
