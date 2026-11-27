@@ -1897,3 +1897,61 @@ html { overflow-x: clip; }
 .reviews__btn--google { gap: 10px; }
 .reviews__btn--google svg { width: 18px; height: 18px; flex: none; }
 #reviews .reviews__btn--google:hover { background: #fff; color: var(--ink); border-color: var(--gold); }
+
+/* =========================================================
+   Account panels (customer + admin): richer, layered palette
+   emerald welcome banner · coloured counter cards · soft content card
+   ========================================================= */
+.acct-page .panel__head {
+  position: relative; isolation: isolate; align-items: center; padding: clamp(24px, 4vw, 40px) clamp(22px, 4vw, 44px);
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent); border-radius: 16px; color: var(--cream);
+  background: radial-gradient(90% 120% at 100% 0%, color-mix(in srgb, var(--gold) 22%, transparent), transparent 60%),
+              radial-gradient(80% 120% at 0% 100%, var(--emerald-700), transparent 70%),
+              linear-gradient(160deg, var(--emerald-800), var(--emerald-900));
+  box-shadow: 0 34px 70px -40px color-mix(in srgb, var(--emerald-900) 75%, transparent);
+}
+.acct-page .panel__head::after { content: ""; position: absolute; inset: 8px; border: 1px solid color-mix(in srgb, var(--gold-soft) 22%, transparent); border-radius: 11px; pointer-events: none; z-index: -1; }
+.acct-page .panel__head .eyebrow { color: var(--gold-soft); }
+.acct-page .panel__head .eyebrow::before { background: var(--gold-soft); }
+.acct-page .panel__head .section__title { color: var(--cream); }
+.acct-page .panel__head .section__title em { color: var(--gold-soft); }
+.acct-page .panel__head .panel__sub { color: var(--cream-dim); }
+.acct-page .panel__head .btn--outline { --fg: var(--cream); --bd: var(--gold); }
+.acct-page .panel__head .btn--outline:hover { --bg: var(--gold); --fg: var(--emerald-900); --bd: var(--gold); }
+.acct-page .panel__head .avatar--head { border-color: var(--gold-soft); }
+.acct-page .panel__head :focus-visible { outline-color: var(--gold-soft); }
+
+/* counter cards: gold, sand and blush, each with its own accent bar */
+.acct-page .stats div { position: relative; overflow: hidden; border-radius: 14px; border: 1px solid var(--sand-line); padding: 22px 22px 20px; box-shadow: 0 18px 40px -32px rgba(8, 38, 29, .45); }
+.acct-page .stats div::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.acct-page .stats div:nth-child(1) { background: linear-gradient(150deg, #F3E8CF, var(--jewel-tint)); }
+.acct-page .stats div:nth-child(1)::before { background: var(--gold); }
+.acct-page .stats div:nth-child(2) { background: linear-gradient(150deg, #F6EFE2, var(--sand)); }
+.acct-page .stats div:nth-child(2)::before { background: var(--emerald-800); }
+.acct-page .stats div:nth-child(3) { background: linear-gradient(150deg, #F8ECE9, var(--cloth-tint)); }
+.acct-page .stats div:nth-child(3)::before { background: var(--cloth-deep); }
+.acct-page .stats div:nth-child(3) dt { color: var(--cloth-deep); }
+.acct-page .stats dd { color: var(--ink); }
+
+/* tabs sit on the content card like folder tabs; the content gets a soft white card */
+.acct-page .panel-tabs { margin-bottom: 0; padding: 0 4px; gap: 6px; }
+.acct-page .panel-tab { border-radius: 10px 10px 0 0; border-bottom: 0; background: color-mix(in srgb, var(--sand) 70%, transparent); }
+.acct-page .panel-tab.is-active { background: var(--emerald-800); border-color: var(--emerald-800); color: var(--gold-soft); }
+.acct-page .panel-tab.is-active .tab-count { background: var(--gold); color: var(--emerald-900); }
+.acct-page .panel-body {
+  padding: clamp(20px, 3.4vw, 36px); border-radius: 0 14px 14px 14px;
+  background: color-mix(in srgb, #fff 72%, var(--cream)); border: 1px solid var(--sand-line); border-top: 3px solid var(--emerald-800);
+  box-shadow: 0 30px 60px -44px rgba(8, 38, 29, .5);
+}
+.acct-page .panel-body .item { background: color-mix(in srgb, var(--sand) 45%, #fff); border-color: var(--sand-line); border-radius: 12px; }
+.acct-page .panel-body .item:hover { border-color: var(--gold); }
+.acct-page .panel-body .list__empty { border-radius: 12px; background: color-mix(in srgb, var(--sand) 35%, transparent); }
+
+@media (max-width: 600px) {
+  .acct-page .panel__head { align-items: flex-start; }
+  .acct-page .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .acct-page .stats div { padding: 14px 12px 12px 16px; }
+  .acct-page .stats dt { font-size: 9.5px; letter-spacing: .14em; }
+  .acct-page .stats dd { font-size: 30px; }
+  .acct-page .panel-body { border-radius: 0 0 14px 14px; }
+}
