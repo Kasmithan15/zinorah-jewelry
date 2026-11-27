@@ -1,7 +1,7 @@
 /* =========================================================
    ZINORAH · Account page: one sign-in form for everyone
    Customer → wishlist, my enquiries, profile & measurements
-   Admin    → enquiries, customers, products (stock, colours, photos), shop info
+   Admin    → enquiries, customers, reviews, products (stock, colours, photos), shop info
    Data comes from window.DB (js/db.js demo, or Firebase via js/backend.js).
    Everything typed by visitors is shown with textContent (never as HTML).
    ========================================================= */
@@ -551,11 +551,49 @@
     finally { busy(pform, false); }
   });
 
+  /* =========================================================
+     REVIEWS sent from the website: approve, hide or delete
+     ========================================================= */
+  let reviews = [];
+  const revBadge = (st) => el("span", "chip " + (st === "approved" ? "chip--in" : st === "hidden" ? "chip--muted" : "chip--jewel"), st === "approved" ? "On the website" : st === "hidden" ? "Hidden" : "Waiting");
+  const renderReviews = () => {
+    const list = $(".js-reviews-admin"), f = $("#revFilter").value;
+    const pending = reviews.filter((r) => (r.status || "pending") === "pending").length;
+    const pc = $(".js-rev-pending"); pc.textContent = pending; pc.hidden = !pending;
+    const items = reviews.filter((r) => f === "all" || (r.status || "pending") === f);
+    if (!items.length) return empty(list, reviews.length ? "No reviews here." : "No reviews yet. They appear here when customers use “Write a review” on the home page.");
+    list.replaceChildren(...items.map((r) => {
+      const li = el("li", "item item--customer");
+      const av = el("div", "avatar avatar--sm");
+      if (isPhoto(r.photo)) { const im = el("img"); im.src = r.photo; im.alt = ""; av.append(im); }
+      else av.append(el("span", "avatar__initial", (r.name || "?").trim().charAt(0).toUpperCase()));
+      li.append(av);
+      const body = el("div", "item__body");
+      const top = el("div", "item__top");
+      const n = Math.max(1, Math.min(5, Math.round(r.stars || 5)));
+      top.append(el("strong", "item__title", r.name || "Customer"), el("span", "chip chip--both", "★".repeat(n) + "☆".repeat(5 - n)), revBadge(r.status || "pending"));
+      body.append(top, el("p", "item__meta", [r.place, r.about, r.createdAt ? "Sent " + fmtDate(r.createdAt) : ""].filter(Boolean).join(" · ")), el("p", "item__text", r.text || ""));
+      li.append(body);
+      const actions = el("div", "item__actions");
+      const set = (st, label) => { const b = el("button", st === "approved" ? "btn btn--gold btn--sm" : "btn btn--outline btn--sm", label); b.type = "button";
+        b.addEventListener("click", async () => { try { await DB.setReviewStatus(r.id, st); r.status = st; renderReviews(); } catch (e) { alert(e.message); } }); return b; };
+      if ((r.status || "pending") !== "approved") actions.append(set("approved", "Show on website"));
+      if ((r.status || "pending") !== "hidden") actions.append(set("hidden", "Hide"));
+      const del = el("button", "text-btn", "Delete"); del.type = "button";
+      del.addEventListener("click", async () => { if (!confirm("Delete the review from " + (r.name || "this customer") + "?")) return; try { await DB.deleteReview(r.id); reviews = reviews.filter((x) => x !== r); renderReviews(); } catch (e) { alert(e.message); } });
+      actions.append(del);
+      li.append(actions);
+      return li;
+    }));
+  };
+  const loadReviews = async () => { try { reviews = (await DB.listReviews()) || []; renderReviews(); } catch (e) { empty($(".js-reviews-admin"), e.message); } };
+  $("#revFilter").addEventListener("change", renderReviews);
+
   const openAdmin = () => {
     modeNote();
     selectAdminTab(adminTabs[0]);
     show(adminView);
-    loadEnquiries(); loadCustomers(); loadShop(); loadProducts();
+    loadEnquiries(); loadCustomers(); loadShop(); loadProducts(); loadReviews();
   };
 
   /* ---------- start: reopen whoever is already signed in ---------- */

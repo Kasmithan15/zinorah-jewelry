@@ -11,7 +11,7 @@
      (stored only as a hash; capital letters and stray spaces are forgiven) */
   const DEMO_ADMIN_HASH = "35eb03728b1445d04bcf10838f6b7f6c20b0d869ce39c1cbb02847c3dd606dd3";
 
-  const K = { users: "zin-users", me: "zin-me", enq: "zin-enquiries", shop: "zin-shop", admin: "zin-admin", products: "zin-product-edits" };
+  const K = { users: "zin-users", me: "zin-me", enq: "zin-enquiries", shop: "zin-shop", admin: "zin-admin", products: "zin-product-edits", reviews: "zin-reviews" };
   const read = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
   const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
   const sha256 = async (s) => {
@@ -22,6 +22,14 @@
   const err = (m) => { throw new Error(m); };
   const clean = (u) => u && ({ name: u.name, email: u.email, phone: u.phone || "", dept: u.dept || "", measurements: u.measurements || "", birthday: u.birthday || "", city: u.city || "", address: u.address || "", style: u.style || "", photo: u.photo || "", wishlist: u.wishlist || [], created: u.created });
   const id = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  const ABOUT = ["Jewelry", "Clothing", "Jewelry & Clothing"];
+  const cleanReview = (r) => ({
+    name: String(r.name || "").trim().slice(0, 40), place: String(r.place || "").trim().slice(0, 40),
+    stars: Math.max(1, Math.min(5, Math.round(Number(r.stars) || 5))), about: ABOUT.includes(r.about) ? r.about : "",
+    text: String(r.text || "").trim().slice(0, 600),
+    photo: typeof r.photo === "string" && r.photo.startsWith("data:image/jpeg;base64,") ? r.photo : "",
+  });
+  window.ZinCleanReview = cleanReview;
 
   const users = () => read(K.users, {});
   const me = () => { const e = read(K.me, null); return e ? users()[e] || null : null; };
@@ -99,6 +107,18 @@
     async setEnquiryStatus(eid, status) { const l = read(K.enq, []); const e = l.find((x) => x.id === eid); if (e) e.status = status; write(K.enq, l); },
     async deleteEnquiry(eid) { write(K.enq, read(K.enq, []).filter((x) => x.id !== eid)); },
     async listCustomers() { return Object.values(users()).map(clean).sort((a, b) => (b.created || "").localeCompare(a.created || "")); },
+    /* ---------- customer reviews: sent from the website, shown after the admin approves ---------- */
+    async addReview(r) {
+      const list = read(K.reviews, []);
+      list.unshift({ id: id(), ...cleanReview(r), status: "pending", createdAt: new Date().toISOString() });
+      try { localStorage.setItem(K.reviews, JSON.stringify(list.slice(0, 300))); }
+      catch (e) { err("Not enough space in this browser to save the photo. Try a smaller photo or none."); }
+    },
+    async listApprovedReviews() { return read(K.reviews, []).filter((r) => r.status === "approved"); },
+    async listReviews() { return read(K.reviews, []); },
+    async setReviewStatus(rid, status) { const l = read(K.reviews, []); const r = l.find((x) => x.id === rid); if (r) r.status = status; write(K.reviews, l); },
+    async deleteReview(rid) { write(K.reviews, read(K.reviews, []).filter((x) => x.id !== rid)); },
+
     /* ---------- product edits from the dashboard (see js/catalog.js) ---------- */
     async getProductEdits() { return read(K.products, {}); },
     async saveProductEdit(key, data) {

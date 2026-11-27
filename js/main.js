@@ -636,15 +636,14 @@ document.getElementById("bagClear").addEventListener("click", () => { bag = []; 
 bagOpen.addEventListener("click", () => openBag(bagOpen));
 renderBag();
 
-/* ---- Customer reviews: cards slide from right to left (js/reviews-data.js) ---- */
+/* ---- Customer reviews on the home page: cards slide left → right.
+   Shows reviews from js/reviews-data.js plus reviews customers sent with the form
+   that the admin approved (Admin dashboard → Reviews). ---- */
 (() => {
   const sec = document.getElementById("reviews");
   const R = window.ZIN_REVIEWS || {};
   const preview = /[?&]reviews-preview\b/.test(location.search);
-  const real = (R.reviews || []).length > 0;
-  const list = real ? R.reviews : preview ? (R.samples || []).map((r) => ({ ...r, about: [r.about, "Sample"].filter(Boolean).join(" · ") })) : [];
-  if (!sec || !list.length) return; // stays hidden until there is a real review
-  if (!real) sec.querySelector(".reviews__note").hidden = false;
+  if (!sec) return;
   const track = sec.querySelector(".reviews__track");
   const dlg = document.getElementById("revDialog");
   let opener = null, viaKey = false;
@@ -696,14 +695,78 @@ renderBag();
     c.append(st, q, by);
     return c;
   };
-  // one "half" is wide enough to fill the screen; two identical halves loop without a jump
-  const reps = Math.max(1, Math.ceil(window.innerWidth / (list.length * 340)));
-  const half = Array.from({ length: reps }, () => list).flat();
-  const first = half.map(card);
-  const second = half.map((r) => { const c = card(r); c.setAttribute("aria-hidden", "true"); c.tabIndex = -1; return c; });
-  track.replaceChildren(...first, ...second);
-  track.style.setProperty("--rev-time", Math.max(20, half.length * 7) + "s");
-  sec.hidden = false;
+  const render = (approved) => {
+    const real = [...(R.reviews || []), ...(approved || [])];
+    const list = real.length ? real : preview ? (R.samples || []).map((r) => ({ ...r, about: [r.about, "Sample"].filter(Boolean).join(" · ") })) : [];
+    sec.querySelector(".reviews__note").hidden = !!real.length || !list.length;
+    sec.querySelector(".js-reviews-lead").textContent = real.length ? "Kind words from people who shopped with us." : "Bought from Zinorah? We'd love to hear how it went.";
+    const marquee = sec.querySelector(".reviews__marquee");
+    marquee.hidden = !list.length;
+    if (!list.length) return track.replaceChildren();
+    // one "half" is wide enough to fill the screen; two identical halves loop without a jump
+    const reps = Math.max(1, Math.ceil(window.innerWidth / (list.length * 340)));
+    const half = Array.from({ length: reps }, () => list).flat();
+    const first = half.map(card);
+    const second = half.map((r) => { const c = card(r); c.setAttribute("aria-hidden", "true"); c.tabIndex = -1; return c; });
+    track.replaceChildren(...first, ...second);
+    track.style.setProperty("--rev-time", Math.max(20, half.length * 7) + "s");
+  };
+  const loadApproved = async () => { try { render(window.DB && DB.listApprovedReviews ? await DB.listApprovedReviews() : []); } catch (e) { render([]); } };
+  render([]);
+  loadApproved();
+  window.addEventListener("db-ready", loadApproved); // Firebase connected: shared reviews
+
+  /* ---------- Write a review ---------- */
+  const fdlg = document.getElementById("reviewForm");
+  if (!fdlg) return;
+  const form = fdlg.querySelector("form");
+  const status = form.querySelector(".revform__status");
+  const avatar = fdlg.querySelector(".js-revform-avatar");
+  const photoIn = fdlg.querySelector(".js-revform-photo");
+  const removeBtn = fdlg.querySelector(".js-revform-photo-remove");
+  let photo = "", writeOpener = null;
+  const say = (t, ok) => { status.textContent = t; status.classList.toggle("is-error", !ok); };
+  const showPhoto = () => {
+    avatar.replaceChildren(); avatar.classList.toggle("has-photo", !!photo);
+    if (photo) { const im = document.createElement("img"); im.src = photo; im.alt = ""; avatar.append(im); }
+    fdlg.querySelector(".js-revform-photo-label").textContent = photo ? "Change photo" : "Add your photo (optional)";
+    removeBtn.hidden = !photo;
+  };
+  // any photo → a 320 x 320 centre-cropped JPEG (small enough to send)
+  const toSquare = (file) => new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => { const side = Math.min(img.naturalWidth, img.naturalHeight), c = document.createElement("canvas"); c.width = c.height = 320;
+      c.getContext("2d").drawImage(img, (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side, 0, 0, 320, 320); URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", 0.82)); };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("That file could not be opened as a photo. Please try a JPG or PNG.")); };
+    img.src = url;
+  });
+  photoIn.addEventListener("change", async () => {
+    const f = photoIn.files && photoIn.files[0]; if (!f) return;
+    try { photo = await toSquare(f); showPhoto(); say("", true); } catch (e) { say(e.message, false); }
+    photoIn.value = "";
+  });
+  removeBtn.addEventListener("click", () => { photo = ""; showPhoto(); });
+  const openForm = (from) => { writeOpener = from; form.reset(); photo = ""; showPhoto(); say("", true); form.querySelector("button[type=submit]").disabled = false; fdlg.showModal(); form.elements.text.focus(); };
+  const closeForm = () => fdlg.close();
+  sec.querySelector(".js-review-write").addEventListener("click", (e) => openForm(e.currentTarget));
+  fdlg.querySelectorAll(".js-revform-close").forEach((b) => b.addEventListener("click", closeForm));
+  fdlg.addEventListener("click", (e) => { if (e.target === fdlg) closeForm(); });
+  fdlg.addEventListener("close", () => writeOpener?.focus({ preventScroll: true }));
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = form.elements;
+    if (f.website.value) return closeForm(); // filled by spam robots only
+    const text = f.text.value.trim(), name = f.name.value.trim();
+    if (text.length < 10) { say("Please write a few words (at least 10 letters).", false); f.text.focus(); return; }
+    if (name.length < 2) { say("Please add the name you'd like us to show.", false); f.name.focus(); return; }
+    if (!f.consent.checked) { say("Please tick the box so we can show your review.", false); f.consent.focus(); return; }
+    const btn = form.querySelector("button[type=submit]"); btn.disabled = true;
+    try {
+      await DB.addReview({ name, place: f.place.value, stars: Number(form.querySelector("[name=stars]:checked")?.value || 5), about: f.about.value, text, photo });
+      say("Thank you! Your review will appear here once the shop has seen it.", true);
+      setTimeout(closeForm, 2600);
+    } catch (err) { say(err.message || "Sorry, that didn't send. Please try again or message us on WhatsApp.", false); btn.disabled = false; }
+  });
 })();
 
 /* ---- Footer year ---- */

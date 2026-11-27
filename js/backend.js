@@ -142,6 +142,23 @@ if (config) {
       const q = F.query(F.collection(db, "customers"), F.orderBy("created", "desc"), F.limit(500));
       return (await F.getDocs(q)).docs.map((d) => clean(d.data()));
     }),
+    /* ---------- customer reviews: anyone sends one (pending), everyone sees approved ones, the admin decides ---------- */
+    addReview: guard(async (r) => {
+      const c = (window.ZinCleanReview || ((x) => x))(r);
+      await F.addDoc(F.collection(db, "reviews"), { ...c, status: "pending", createdAt: F.serverTimestamp() });
+    }),
+    listApprovedReviews: guard(async () => {
+      const q = F.query(F.collection(db, "reviews"), F.where("status", "==", "approved"), F.limit(100));
+      return (await F.getDocs(q)).docs.map((d) => ({ id: d.id, ...d.data(), createdAt: toISO(d.data().createdAt) }))
+        .sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+    }),
+    listReviews: guard(async () => {
+      const q = F.query(F.collection(db, "reviews"), F.orderBy("createdAt", "desc"), F.limit(300));
+      return (await F.getDocs(q)).docs.map((d) => ({ id: d.id, ...d.data(), createdAt: toISO(d.data().createdAt) }));
+    }),
+    setReviewStatus: guard(async (id, status) => F.updateDoc(F.doc(db, "reviews", id), { status })),
+    deleteReview: guard(async (id) => F.deleteDoc(F.doc(db, "reviews", id))),
+
     /* ---------- product edits (everyone reads, only the admin writes) ---------- */
     getProductEdits: guard(async () => {
       const out = {};

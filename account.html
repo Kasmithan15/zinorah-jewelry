@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" />
-  <link rel="stylesheet" href="css/style.css?v=57" />
+  <link rel="stylesheet" href="css/style.css?v=71" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body class="acct-page on-cream">
@@ -226,6 +226,7 @@
           <button class="panel-tab is-active" role="tab" aria-selected="true" aria-controls="a-enq" id="at-enq">Enquiries</button>
           <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-cust" id="at-cust" tabindex="-1">Customers</button>
           <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-prod" id="at-prod" tabindex="-1">Products</button>
+          <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-rev" id="at-rev" tabindex="-1">Reviews <span class="tab-count js-rev-pending" hidden></span></button>
           <button class="panel-tab" role="tab" aria-selected="false" aria-controls="a-shop" id="at-shop" tabindex="-1">Shop info</button>
         </div>
 
@@ -250,6 +251,19 @@
         </div>
         <div class="panel-body" id="a-cust" role="tabpanel" aria-labelledby="at-cust" hidden>
           <ul class="list js-customers"></ul>
+        </div>
+        <div class="panel-body" id="a-rev" role="tabpanel" aria-labelledby="at-rev" hidden>
+          <p class="acct-lead">Reviews customers send with the "Write a review" form on the home page. Approve the ones you want to show; they appear in the sliding strip.</p>
+          <div class="toolbar">
+            <label for="revFilter">Show</label>
+            <select id="revFilter" class="mini-select">
+              <option value="pending">Waiting for approval</option>
+              <option value="approved">On the website</option>
+              <option value="hidden">Hidden</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+          <ul class="list js-reviews-admin"></ul>
         </div>
         <div class="panel-body" id="a-prod" role="tabpanel" aria-labelledby="at-prod" hidden>
           <p class="acct-lead js-prod-lead">Change what the website shows: stock, price, colours, sizes and photos. Hidden pieces stay here so you can show them again.</p>
@@ -345,12 +359,12 @@
     </form>
   </dialog>
 
-  <script src="js/db.js?v=23" defer></script>
+  <script src="js/db.js?v=24" defer></script>
   <script src="js/firebase-config.js?v=20" defer></script>
-  <script type="module" src="js/backend.js?v=23"></script>
+  <script type="module" src="js/backend.js?v=24"></script>
   <script src="js/jewelry-data.js?v=35" defer></script>
   <script src="js/clothing-data.js?v=27" defer></script>
   <script src="js/catalog.js?v=1" defer></script>
-  <script src="js/account.js?v=23" defer></script>
+  <script src="js/account.js?v=24" defer></script>
 </body>
 </html>

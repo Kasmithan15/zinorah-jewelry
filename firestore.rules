@@ -36,6 +36,25 @@ service cloud.firestore {
       allow write: if isAdmin() && key.matches('^(jewelry|clothing):[a-z0-9-]{1,80}$');
     }
 
+    // Customer reviews: anyone can send one (it starts as "pending"); everyone can read approved ones;
+    // only the admin can see pending ones, approve / hide them, or delete them.
+    match /reviews/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'place', 'stars', 'about', 'text', 'photo', 'status', 'createdAt'])
+        && shortText(request.resource.data.name, 40) && request.resource.data.name.size() > 1
+        && shortText(request.resource.data.place, 40)
+        && request.resource.data.stars is int && request.resource.data.stars >= 1 && request.resource.data.stars <= 5
+        && request.resource.data.about in ['', 'Jewelry', 'Clothing', 'Jewelry & Clothing']
+        && shortText(request.resource.data.text, 600) && request.resource.data.text.size() >= 10
+        && (request.resource.data.photo == '' || (shortText(request.resource.data.photo, 150000) && request.resource.data.photo.matches('^data:image/jpeg;base64,[A-Za-z0-9+/=]+$')))
+        && request.resource.data.status == 'pending'
+        && request.resource.data.createdAt == request.time;
+      allow read: if resource.data.status == 'approved' || isAdmin();
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['pending', 'approved', 'hidden'];
+      allow delete: if isAdmin();
+    }
+
     // Customer accounts: each customer reads and edits their own profile;
     // the admin can see and remove all of them.
     match /customers/{uid} {

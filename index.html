@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=70" />
+  <link rel="stylesheet" href="css/style.css?v=71" />
   <link rel="stylesheet" href="css/clothing.css?v=62" />
   <link rel="stylesheet" href="css/more.css?v=4" />
   <script>
@@ -942,16 +942,58 @@
     </section>
 
     <!-- CUSTOMER REVIEWS on the home page: slide left → right. Add real reviews in js/reviews-data.js (hidden until there is one). -->
-    <section class="reviews reviews--home on-dark" id="reviews" aria-labelledby="reviewsTitle" hidden>
+    <section class="reviews reviews--home on-dark" id="reviews" aria-labelledby="reviewsTitle">
       <div class="container reviews__head">
         <p class="eyebrow">Customer reviews</p>
         <h2 class="reviews__title" id="reviewsTitle">Loved by our <em>customers</em></h2>
+        <p class="reviews__lead js-reviews-lead">Bought from Zinorah? We'd love to hear how it went.</p>
         <p class="reviews__note" hidden>Preview with sample text. Customers don't see this until real reviews are added.</p>
       </div>
-      <div class="reviews__marquee">
+      <div class="reviews__marquee" hidden>
         <div class="reviews__track"></div>
       </div>
+      <p class="reviews__write"><button type="button" class="reviews__btn js-review-write">Write a review</button></p>
     </section>
+
+    <!-- Write a review (anyone can send one; it shows on the site after the admin approves it) -->
+    <dialog class="revform-dlg" id="reviewForm" aria-labelledby="revFormTitle">
+      <form class="revform" novalidate>
+        <div class="revform__head">
+          <h2 class="revform__title" id="revFormTitle">Share your <em>experience</em></h2>
+          <button type="button" class="revform__x js-revform-close" aria-label="Close"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+        </div>
+        <fieldset class="revform__stars">
+          <legend>Your rating</legend>
+          <div class="stars-input">
+            <input type="radio" name="stars" id="rs5" value="5" checked /><label for="rs5" title="5 stars">★<span class="visually-hidden">5 stars</span></label>
+            <input type="radio" name="stars" id="rs4" value="4" /><label for="rs4" title="4 stars">★<span class="visually-hidden">4 stars</span></label>
+            <input type="radio" name="stars" id="rs3" value="3" /><label for="rs3" title="3 stars">★<span class="visually-hidden">3 stars</span></label>
+            <input type="radio" name="stars" id="rs2" value="2" /><label for="rs2" title="2 stars">★<span class="visually-hidden">2 stars</span></label>
+            <input type="radio" name="stars" id="rs1" value="1" /><label for="rs1" title="1 star">★<span class="visually-hidden">1 star</span></label>
+          </div>
+        </fieldset>
+        <label class="pf"><span>Your review</span><textarea name="text" rows="4" maxlength="600" required placeholder="What did you buy, and how did you find it?"></textarea></label>
+        <div class="revform__row">
+          <label class="pf"><span>Name to show</span><input name="name" type="text" maxlength="40" required placeholder="e.g. Priya S." autocomplete="name" /></label>
+          <label class="pf"><span>Town (optional)</span><input name="place" type="text" maxlength="40" placeholder="e.g. Trincomalee" /></label>
+        </div>
+        <label class="pf"><span>You bought</span>
+          <select name="about"><option value="">Choose (optional)</option><option>Jewelry</option><option>Clothing</option><option>Jewelry &amp; Clothing</option></select>
+        </label>
+        <div class="revform__photo">
+          <span class="revform__avatar js-revform-avatar" aria-hidden="true"></span>
+          <label class="revform__upload"><span class="js-revform-photo-label">Add your photo (optional)</span><input type="file" accept="image/*" class="visually-hidden js-revform-photo" /></label>
+          <button type="button" class="revform__remove js-revform-photo-remove" hidden>Remove</button>
+        </div>
+        <input class="revform__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <label class="pf-check"><input name="consent" type="checkbox" required /> <span>I agree that Zinorah can show my name, photo and review on this website.</span></label>
+        <p class="form__status revform__status" role="status" aria-live="polite"></p>
+        <div class="revform__foot">
+          <button type="button" class="reviews__btn reviews__btn--ghost js-revform-close">Cancel</button>
+          <button type="submit" class="reviews__btn reviews__btn--solid">Send review</button>
+        </div>
+      </form>
+    </dialog>
 
     <!-- one review, opened by clicking a card (the strip stops while it is open) -->
     <dialog class="revdlg on-dark" id="revDialog" aria-labelledby="revName">
@@ -1070,14 +1112,14 @@
     <span class="wa-float__tip" aria-hidden="true">Chat with us</span>
   </a>
 
-  <script src="js/db.js?v=23" defer></script>
+  <script src="js/db.js?v=24" defer></script>
   <script src="js/firebase-config.js?v=21" defer></script>
-  <script type="module" src="js/backend.js?v=23"></script>
+  <script type="module" src="js/backend.js?v=24"></script>
   <script src="js/clothing-data.js?v=27" defer></script>
   <script src="js/jewelry-data.js?v=35" defer></script>
   <script src="js/catalog.js?v=1" defer></script>
   <script src="js/reviews-data.js?v=4" defer></script>
-  <script src="js/main.js?v=48" defer></script>
+  <script src="js/main.js?v=49" defer></script>
   <script src="js/showcase.js?v=51" defer></script>
   <script src="js/split3d.js?v=5" defer></script>
   <script src="js/more.js?v=3" defer></script>
