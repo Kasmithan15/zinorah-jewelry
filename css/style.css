@@ -1702,3 +1702,63 @@ html { overflow-x: clip; }
   .pf-colour__thumb { display: none; }
   .pf-colour .text-btn:last-child { grid-column: 3; }
 }
+
+/* =========================================================
+   Department panels (Jewelry / Clothing): 3D motion — colours unchanged
+   ========================================================= */
+.split { perspective: 1600px; perspective-origin: 50% 40%; }
+.split__panel { transform-origin: 50% 60%; will-change: transform; }
+/* swing in from the side as they scroll into view */
+.js .split__panel.reveal { opacity: 0; transform: rotateY(var(--in-ry, 14deg)) translateZ(-140px) translateY(30px); transition: flex-grow .9s var(--ease), opacity 1s var(--ease), transform 1.1s cubic-bezier(.2,.75,.2,1); }
+.js .split__panel.reveal:nth-child(2) { transition-delay: 0s, .12s, .12s; }
+.js .split__panel.reveal.is-visible { opacity: 1; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0); }
+/* follow the pointer quickly while tilting, glide back when it leaves */
+.js .split__panel.reveal.is-visible.is-tilting { transition: flex-grow .9s var(--ease), opacity 1s var(--ease), transform .18s ease-out; }
+/* depth: the photo drifts one way, the words the other */
+.split__panel.has-photo::before { transition: transform 1.2s var(--ease); }
+.split__panel.is-tilting.has-photo::before { transform: scale(1.08) translate(calc(var(--mx, 0) * -18px), calc(var(--my, 0) * -14px)); transition: transform .25s ease-out; }
+.split__panel > .split__body { transition: transform .6s var(--ease); }
+.split__panel.is-tilting > .split__body { transform: translate(calc(var(--mx, 0) * 12px), calc(var(--my, 0) * 10px)); transition: transform .25s ease-out; }
+.split__panel .split__title { transition: transform .6s var(--ease), letter-spacing .6s var(--ease); }
+.split__panel:hover .split__title, .split__panel:focus-visible .split__title { letter-spacing: .01em; }
+/* the Explore button lifts off the card */
+.split__body .btn { transition: transform .35s var(--ease), box-shadow .35s var(--ease), background-color .3s; }
+.split__panel:hover .split__body .btn, .split__panel:focus-visible .split__body .btn {
+  transform: translateY(-3px); box-shadow: 0 14px 26px -12px color-mix(in srgb, var(--emerald-900) 70%, transparent), 0 0 0 1px color-mix(in srgb, var(--gold-soft) 60%, transparent);
+}
+/* soft cream light that follows the pointer */
+.split__shine {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .5s;
+  background: radial-gradient(520px circle at calc(50% + var(--mx, 0) * 100%) calc(50% + var(--my, 0) * 100%), color-mix(in srgb, var(--cream) 16%, transparent), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+.split__panel.is-tilting .split__shine { opacity: 1; }
+.split__panel > .split__body { z-index: 1; }
+
+/* Explore: chosen panel comes forward, the other folds back */
+.js .split__panel.reveal.is-visible.is-launching {
+  z-index: 3; transition: transform .56s cubic-bezier(.6,0,.2,1), opacity .56s ease;
+  transform: translateZ(120px) rotateX(0deg) rotateY(0deg) scale(1.04);
+  box-shadow: 0 60px 120px -50px color-mix(in srgb, var(--emerald-900) 80%, transparent);
+}
+.split__panel.is-launching.has-photo::before { transform: scale(1.16); transition: transform .56s cubic-bezier(.6,0,.2,1); }
+.js .split__panel.reveal.is-visible.is-folding {
+  transition: transform .56s cubic-bezier(.6,0,.2,1), opacity .5s ease;
+  transform: rotateY(var(--fold-ry, -28deg)) translateZ(-220px); opacity: .25;
+}
+.split__panel:first-child { --fold-ry: 28deg; }
+.split__panel:nth-child(2) { --fold-ry: -28deg; }
+/* the collection swings into place after Explore */
+html[data-arrive="jewelry"] #jewelry .cshow, html[data-arrive="clothing"] #clothing .cshow { animation: arrive3d .9s cubic-bezier(.2,.75,.2,1) both; transform-origin: 50% 0; }
+@keyframes arrive3d { from { opacity: 0; transform: perspective(1400px) rotateX(14deg) translateY(40px) translateZ(-120px); } }
+
+@media (max-width: 800px) {
+  .js .split__panel.reveal { transform: rotateX(10deg) translateY(40px) translateZ(-80px); }
+  .js .split__panel.reveal:nth-child(2) { transition-delay: 0s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .split__panel.reveal, .js .split__panel.reveal.is-visible { transform: none; transition: opacity .4s; }
+  .split__shine { display: none; }
+  html[data-arrive] .cshow { animation: none !important; }
+  .split__panel.is-tilting.has-photo::before, .split__panel.is-tilting > .split__body { transform: none; }
+}
