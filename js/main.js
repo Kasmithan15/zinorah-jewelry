@@ -11,6 +11,9 @@ const SHOP = {
   address: "No. 119 Sea View Road, Trincomalee 31000, Sri Lanka",
   // Optional exact pin: Google Maps → find the shop → Share → Copy link. Empty = search for the address.
   mapLink: "",
+  // Your shop's Google reviews page: Google Maps → your shop → Reviews → Share → Copy link.
+  // Empty = opens a Google Maps search for the shop.
+  googleReviews: "",
 };
 
 /* ---- Address: the text and the "Open in Google Maps" link both follow one address ---- */
@@ -20,6 +23,10 @@ const showAddress = (address, mapLink) => {
   const q = encodeURIComponent(addr);
   const link = /^https:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps)/i.test(mapLink || "") ? mapLink : SHOP.mapLink || `https://www.google.com/maps/search/?api=1&query=${q}`;
   document.querySelectorAll('[data-shop="maplink"]').forEach((a) => (a.href = link));
+  // "Google reviews" button: the shop's own reviews link if set, else the exact map pin, else a search
+  const pinned = !link.includes("/maps/search/");
+  const google = SHOP.googleReviews || (pinned ? link : "");
+  if (google) document.querySelectorAll(".js-google-reviews").forEach((a) => (a.href = google));
 };
 showAddress();
 

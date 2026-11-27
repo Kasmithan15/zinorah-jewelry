@@ -1848,3 +1848,8 @@ html { overflow-x: clip; }
 #reviews .rh p { margin: 0; font-size: 14.5px; color: var(--muted); }
 @media (max-width: 760px) { .reviews__highlights { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .rh { transition: none; } .rh:hover { transform: none; } }
+/* Google reviews button next to "Write a review" */
+.reviews__write { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.reviews__btn--google { gap: 10px; }
+.reviews__btn--google svg { width: 18px; height: 18px; flex: none; }
+#reviews .reviews__btn--google:hover { background: #fff; color: var(--ink); border-color: var(--gold); }
