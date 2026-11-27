@@ -1735,22 +1735,6 @@ html { overflow-x: clip; }
 .split__panel.is-tilting .split__shine { opacity: 1; }
 .split__panel > .split__body { z-index: 1; }
 
-/* Explore: chosen panel comes forward, the other folds back */
-.js .split__panel.reveal.is-visible.is-launching {
-  z-index: 3; transition: transform .56s cubic-bezier(.6,0,.2,1), opacity .56s ease;
-  transform: translateZ(120px) rotateX(0deg) rotateY(0deg) scale(1.04);
-  box-shadow: 0 60px 120px -50px color-mix(in srgb, var(--emerald-900) 80%, transparent);
-}
-.split__panel.is-launching.has-photo::before { transform: scale(1.16); transition: transform .56s cubic-bezier(.6,0,.2,1); }
-.js .split__panel.reveal.is-visible.is-folding {
-  transition: transform .56s cubic-bezier(.6,0,.2,1), opacity .5s ease;
-  transform: rotateY(var(--fold-ry, -28deg)) translateZ(-220px); opacity: .25;
-}
-.split__panel:first-child { --fold-ry: 28deg; }
-.split__panel:nth-child(2) { --fold-ry: -28deg; }
-/* the collection swings into place after Explore */
-html[data-arrive="jewelry"] #jewelry .cshow, html[data-arrive="clothing"] #clothing .cshow { animation: arrive3d .9s cubic-bezier(.2,.75,.2,1) both; transform-origin: 50% 0; }
-@keyframes arrive3d { from { opacity: 0; transform: perspective(1400px) rotateX(14deg) translateY(40px) translateZ(-120px); } }
 
 @media (max-width: 800px) {
   .js .split__panel.reveal { transform: rotateX(10deg) translateY(40px) translateZ(-80px); }
@@ -1759,6 +1743,30 @@ html[data-arrive="jewelry"] #jewelry .cshow, html[data-arrive="clothing"] #cloth
 @media (prefers-reduced-motion: reduce) {
   .js .split__panel.reveal, .js .split__panel.reveal.is-visible { transform: none; transition: opacity .4s; }
   .split__shine { display: none; }
-  html[data-arrive] .cshow { animation: none !important; }
+  .ot { display: none; }
   .split__panel.is-tilting.has-photo::before, .split__panel.is-tilting > .split__body { transform: none; }
 }
+
+/* Explore → open through a photo (js/split3d.js): jewel for Jewelry, bride for Clothing */
+.ot { position: fixed; inset: 0; z-index: 300; pointer-events: none; }
+.ot::before { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease; }
+.ot--jewelry::before { background: var(--emerald-900); }
+.ot--clothing::before { background: var(--cloth-deep); }
+.ot.is-on::before { opacity: .55; }
+.ot__pic {
+  position: absolute; border-radius: var(--radius); overflow: hidden;
+  background-size: cover; background-position: 50% 30%; background-repeat: no-repeat;
+  opacity: 0; transform-origin: 50% 45%;
+  box-shadow: 0 50px 100px -40px rgba(8, 38, 29, .55);
+  transition: opacity .26s ease;
+}
+.ot.is-on .ot__pic { opacity: 1; }
+.ot__pic.is-open {
+  border-radius: 0;
+  transition: left .72s cubic-bezier(.7,0,.2,1), top .72s cubic-bezier(.7,0,.2,1), width .72s cubic-bezier(.7,0,.2,1), height .72s cubic-bezier(.7,0,.2,1), border-radius .5s ease, opacity .26s ease;
+}
+/* fly through: the photo rushes towards us and dissolves; the collection settles in behind it */
+.ot.is-through::before { opacity: 0; transition: opacity .5s ease; }
+.ot.is-through .ot__pic { transform: scale(2.2); opacity: 0; filter: blur(6px); transition: transform .76s cubic-bezier(.5,0,.2,1), opacity .6s ease .1s, filter .76s ease; }
+html[data-arrive="jewelry"] #jewelry .cshow, html[data-arrive="clothing"] #clothing .cshow { animation: settleIn .9s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes settleIn { from { opacity: 0; transform: scale(.9); filter: blur(4px); } }

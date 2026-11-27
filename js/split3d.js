@@ -3,8 +3,8 @@
    - swing in from the side when they scroll into view (CSS, .is-visible)
    - tilt towards the pointer with depth: photo and text move at different depths
    - a soft cream light follows the pointer
-   - "Explore": the chosen panel comes forward, the other folds back,
-     then the collection swings into place
+   - "Explore": opens through a photo (a jewel for Jewelry, the bride for Clothing):
+     it fills the screen, then we fly through it into the collection
    Colours are the existing ones; nothing moves with "reduce motion".
    ========================================================= */
 (function () {
@@ -13,6 +13,41 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const fine = matchMedia("(hover: hover) and (pointer: fine)");
   const root = document.documentElement;
+
+  /* "Explore": open through a photo — a jewel for Jewelry, the bride for Clothing.
+     The panel turns into that photo, it opens out to fill the screen,
+     then we fly through it into the collection. */
+  const THROUGH = { "#jewelry": "images/jewelry/s-emerald-royal-set.jpg", "#clothing": "images/clothing/bridal-look.jpg" };
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const nextFrame = () => new Promise((r) => { let d = false; const f = () => { if (!d) { d = true; r(); } }; requestAnimationFrame(() => requestAnimationFrame(f)); setTimeout(f, 60); });
+  let busy = false;
+  const openThrough = async (p, href) => {
+    busy = true;
+    const r = p.getBoundingClientRect();
+    const veil = document.createElement("div");
+    veil.className = "ot ot--" + href.slice(1); veil.setAttribute("aria-hidden", "true");
+    const pic = document.createElement("div");
+    pic.className = "ot__pic";
+    pic.style.backgroundImage = `url("${THROUGH[href]}")`;
+    Object.assign(pic.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+    veil.append(pic);
+    document.body.append(veil);
+    await nextFrame();
+    veil.classList.add("is-on");                 // the panel becomes the photo
+    await wait(260);
+    pic.classList.add("is-open");                // it opens out to fill the screen
+    Object.assign(pic.style, { left: "0px", top: "0px", width: "100%", height: "100%" });
+    await wait(720);
+    root.dataset.arrive = href.slice(1);
+    location.hash = href;                         // the collection opens underneath (js/main.js)
+    p.classList.remove("is-tilting");
+    await nextFrame();
+    veil.classList.add("is-through");             // fly through the photo
+    await wait(760);
+    veil.remove();
+    delete root.dataset.arrive;
+    busy = false;
+  };
 
   panels.forEach((p, i) => {
     p.style.setProperty("--in-ry", i ? "-16deg" : "16deg"); // left panel swings in from the left, right from the right
@@ -43,16 +78,9 @@
     p.addEventListener("click", (e) => {
       if (reduce.matches || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
       const href = p.getAttribute("href");
-      if (!href || href === location.hash) return;
+      if (!href || href === location.hash || busy) return;
       e.preventDefault();
-      p.classList.add("is-launching");
-      panels.forEach((o) => o !== p && o.classList.add("is-folding"));
-      setTimeout(() => {
-        root.dataset.arrive = href.slice(1);
-        location.hash = href; // opens the Jewelry / Clothing view (js/main.js)
-        panels.forEach((o) => o.classList.remove("is-launching", "is-folding", "is-tilting"));
-        setTimeout(() => delete root.dataset.arrive, 1100);
-      }, 560);
+      openThrough(p, href);
     });
   });
 })();
