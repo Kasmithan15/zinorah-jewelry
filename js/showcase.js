@@ -576,6 +576,13 @@
     document.fonts?.ready.then(() => { measure(); layout(); moveLine(); }); // web fonts change text heights
 
     return {
+      dept: cfg.dept,
+      // used by "View sarees": show one side of the switch and one category
+      filter(g, c) {
+        if (cfg.genders && g && g !== gender) { gender = g; store.set(cfg.storeKey, gender); root.dataset.gender = gender; markGender(); }
+        cat = (DATA.categories[gender] || []).some((x) => x.id === c) ? c : "all";
+        buildCats(); build();
+      },
       has: (id) => DATA.products.some((x) => x.id === id),
       show(id) {
         const p = DATA.products.find((x) => x.id === id);
@@ -603,5 +610,5 @@
     art: (p) => "i-" + (p.art || "necklace"),
   }));
   // used by search: jump to a piece in whichever showcase has it
-  window.ZinOrbit = { show: (id) => shows.find((s) => s.has(id))?.show(id) };
+  window.ZinOrbit = { show: (id) => shows.find((s) => s.has(id))?.show(id), filter: (dept, g, c) => shows.find((s) => s.dept === dept)?.filter(g, c) };
 })();
