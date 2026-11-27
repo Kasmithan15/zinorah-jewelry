@@ -702,6 +702,8 @@ renderBag();
     sec.querySelector(".js-reviews-lead").textContent = real.length ? "Kind words from people who shopped with us." : "Bought from Zinorah? We'd love to hear how it went.";
     const marquee = sec.querySelector(".reviews__marquee");
     marquee.hidden = !list.length;
+    const facts = sec.querySelector(".reviews__highlights"); // true shop facts, only until the first review
+    if (facts) facts.hidden = !!list.length;
     if (!list.length) return track.replaceChildren();
     // one "half" is wide enough to fill the screen; two identical halves loop without a jump
     const reps = Math.max(1, Math.ceil(window.innerWidth / (list.length * 340)));
