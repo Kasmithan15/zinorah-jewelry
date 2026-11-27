@@ -97,9 +97,11 @@ html:not(.js) .mo { opacity: 1; transform: none; }
   -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent); }
 .reel__track { display: flex; flex-direction: column; gap: 16px; will-change: transform; }
 .reel__track img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; border-radius: 12px; display: block; box-shadow: 0 20px 40px -24px rgba(8, 38, 29, .45); }
-.reel__col--up .reel__track { animation: reelUp 42s linear infinite; }
-.reel__col--down .reel__track { animation: reelDown 42s linear infinite; }
-.reel:hover .reel__track { animation-play-state: paused; }
+.reel__col--up .reel__track { animation: reelUp 64s linear infinite; }
+.reel__col--down .reel__track { animation: reelDown 64s linear infinite; }
+/* side photos are softly blurred so the middle stands out; the one you point at comes into focus */
+.reel__track img { filter: blur(3px) saturate(.9); opacity: .82; transition: filter .5s ease, opacity .5s ease; }
+.reel__track img:hover { filter: none; opacity: 1; }
 @keyframes reelUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 8px)); } }
 @keyframes reelDown { from { transform: translateY(calc(-50% - 8px)); } to { transform: translateY(0); } }
 
