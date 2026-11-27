@@ -48,8 +48,9 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=67" />
+  <link rel="stylesheet" href="css/style.css?v=69" />
   <link rel="stylesheet" href="css/clothing.css?v=59" />
+  <link rel="stylesheet" href="css/more.css?v=2" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
     (function (d) { d.classList.add("js");
@@ -396,6 +397,56 @@
       </div>
     </section>
 
+    <!-- ============ JEWELRY: MORE (shown under the Jewelry carousel; css/more.css, js/more.js) ============ -->
+    <section class="more" id="jewelry-more" aria-label="More about our jewelry">
+      <div class="container">
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Jewelry</p>
+            <h2 class="more__title">Shop by <em>category</em></h2>
+          </header>
+          <div class="more-tiles">
+            <a class="more-tile mo" href="#jewelry" data-filter-dept="Jewelry" data-filter-gender="women" data-filter-cat="bridal"><img src="images/jewelry/v-ruby-polki-bridal-set.jpg" alt="" width="842" height="1054" loading="lazy" /><span class="more-tile__name">Bridal Sets</span></a>
+            <a class="more-tile mo" href="#jewelry" data-filter-dept="Jewelry" data-filter-gender="women" data-filter-cat="necklaces"><img src="images/jewelry/s-emerald-halo-necklace.jpg" alt="" width="734" height="912" loading="lazy" /><span class="more-tile__name">Necklaces</span></a>
+            <a class="more-tile mo" href="#jewelry" data-filter-dept="Jewelry" data-filter-gender="women" data-filter-cat="earrings"><img src="images/jewelry/v-aquamarine-chandeliers.jpg" alt="" width="842" height="1054" loading="lazy" /><span class="more-tile__name">Earrings</span></a>
+            <a class="more-tile mo" href="#jewelry" data-filter-dept="Jewelry" data-filter-gender="women" data-filter-cat="bangles"><img src="images/jewelry/v-turquoise-kundan-cuff.jpg" alt="" width="842" height="1054" loading="lazy" /><span class="more-tile__name">Bangles &amp; Cuffs</span></a>
+            <a class="more-tile mo" href="#jewelry" data-filter-dept="Jewelry" data-filter-gender="women" data-filter-cat="brooches"><img src="images/jewelry/v-kundan-flower-brooch.jpg" alt="" width="842" height="1054" loading="lazy" /><span class="more-tile__name">Brooches</span></a>
+            <a class="more-tile mo" href="#jewelry" data-filter-dept="Jewelry" data-filter-gender="men" data-filter-cat="all"><img src="images/jewelry/v-cuban-chain-onyx-ring.jpg" alt="" width="842" height="1054" loading="lazy" /><span class="more-tile__name">For Men</span></a>
+          </div>
+        </div>
+
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Jewelry</p>
+            <h2 class="more__title">How to <em>order</em></h2>
+          </header>
+          <ol class="more-steps">
+            <li class="more-step mo"><span class="more-step__num">01</span><h3>Pick a piece</h3><p>Browse the collection here, or visit us in Trincomalee to try pieces on.</p></li>
+            <li class="more-step mo"><span class="more-step__num">02</span><h3>Ask on WhatsApp</h3><p>Send us the piece you like. We reply with photos, videos and the price.</p></li>
+            <li class="more-step mo"><span class="more-step__num">03</span><h3>Size &amp; finish</h3><p>Choose your ring or bangle size and chain length, or ask for a custom size.</p></li>
+            <li class="more-step mo"><span class="more-step__num">04</span><h3>Collect</h3><p>Collect your piece from the shop, checked and packed with care.</p></li>
+          </ol>
+        </div>
+
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Jewelry</p>
+            <h2 class="more__title">Caring for your <em>jewelry</em></h2>
+          </header>
+          <div class="more-cards">
+            <article class="more-card mo"><svg class="more-card__icon" aria-hidden="true" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 22h32M20 14v-4h8v4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h3>Store each piece apart</h3><p>Keep pieces in their own soft pouch or box so stones and gold don't scratch each other.</p></article>
+            <article class="more-card mo"><svg class="more-card__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M18 10h12v6l4 6v16a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V22l4-6z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 12 36 36" stroke="currentColor" stroke-width="1.6"/></svg><h3>Jewelry on last</h3><p>Put jewelry on after perfume, hairspray and lotion, and take it off before swimming.</p></article>
+            <article class="more-card mo"><svg class="more-card__icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M10 30c6-10 22-10 28 0" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 34h20" stroke="currentColor" stroke-width="1.6"/><path d="M24 8v8M18 12l12 0" stroke="currentColor" stroke-width="1.6"/></svg><h3>A soft wipe after wearing</h3><p>Wipe gently with a soft dry cloth to keep the shine. Bring it in any time if a stone feels loose.</p></article>
+          </div>
+        </div>
+      </div>
+      <div class="more-band mo">
+        <p class="more-band__text">Planning a <em>bridal</em> look?</p>
+        <p class="more-band__sub">Tell us the date and your outfit colour. We'll put together sets to match.</p>
+        <a class="more-band__btn" href="https://wa.me/94767667028?text=Hello%20Zinorah%2C%20I%27m%20planning%20a%20bridal%20look%20and%20would%20like%20to%20see%20jewelry%20sets." target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
+    </section>
+
     <!-- ============ DEPARTMENT 02 · CLOTHING ============ -->
     <!-- TODO (clothing): the 5 photos below are free Unsplash placeholders. Replace with Zinorah's own photos
          in images/clothing/ (same file names), and edit the names / descriptions to match what the shop sells. -->
@@ -442,6 +493,55 @@
           </div>
           <noscript><p class="cshow__noscript">Please turn on JavaScript to browse the clothing collection, or <a href="https://wa.me/94767667028">ask us on WhatsApp</a>.</p></noscript>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ CLOTHING: MORE (shown under the Clothing carousel; css/more.css, js/more.js) ============ -->
+    <section class="more" id="clothing-more" aria-label="More about our clothing">
+      <div class="container">
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Clothing</p>
+            <h2 class="more__title">Shop by <em>category</em></h2>
+          </header>
+          <div class="more-tiles more-tiles--four">
+            <a class="more-tile mo" href="#clothing" data-filter-dept="Clothing" data-filter-gender="women" data-filter-cat="sarees"><img src="images/clothing/v-royal-blue-banarasi.jpg" alt="" width="920" height="1150" loading="lazy" /><span class="more-tile__name">Sarees</span></a>
+            <a class="more-tile mo" href="#clothing" data-filter-dept="Clothing" data-filter-gender="women" data-filter-cat="kurtis"><img src="images/clothing/v-asymmetric-kurti-set.jpg" alt="" width="920" height="1150" loading="lazy" /><span class="more-tile__name">Kurtis</span></a>
+            <a class="more-tile mo" href="#clothing" data-filter-dept="Clothing" data-filter-gender="women" data-filter-cat="family"><img src="images/clothing/v-kasavu-family.jpg" alt="" width="920" height="1150" loading="lazy" /><span class="more-tile__name">Family Sets</span></a>
+            <a class="more-tile mo" href="#clothing" data-filter-dept="Clothing" data-filter-gender="men" data-filter-cat="all"><img src="images/clothing/v-ivory-sherwani.jpg" alt="" width="920" height="1150" loading="lazy" /><span class="more-tile__name">For Men</span></a>
+          </div>
+        </div>
+
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Clothing</p>
+            <h2 class="more__title">Know your <em>silk</em></h2>
+          </header>
+          <div class="more-fabrics">
+            <article class="more-fabric mo"><img src="images/clothing/v-emerald-kanjivaram.jpg" alt="Woman in an emerald Kanjivaram silk saree" width="920" height="1150" loading="lazy" /><div class="more-fabric__body"><h3>Kanjivaram</h3><p>Heavy pure silk from Tamil Nadu with a wide zari border. Rich and long-lasting: a classic for weddings and temple days.</p></div></article>
+            <article class="more-fabric mo"><img src="images/clothing/v-royal-blue-banarasi.jpg" alt="Woman in a royal blue Banarasi silk saree" width="920" height="1150" loading="lazy" /><div class="more-fabric__body"><h3>Banarasi</h3><p>Silk from Varanasi woven with fine zari patterns like paisleys and florals. Soft drape with a royal shine.</p></div></article>
+            <article class="more-fabric mo"><img src="images/clothing/v-kerala-kasavu-saree.jpg" alt="Woman in an ivory Kerala kasavu saree" width="920" height="1150" loading="lazy" /><div class="more-fabric__body"><h3>Kerala Kasavu</h3><p>Light ivory cotton or tissue with a gold kasavu border. Cool to wear, perfect for festivals and family functions.</p></div></article>
+            <article class="more-fabric mo"><img src="images/clothing/v-block-print-kurti.jpg" alt="Woman in a block-print cotton kurti" width="920" height="1150" loading="lazy" /><div class="more-fabric__body"><h3>Cotton prints</h3><p>Breathable everyday cotton with block prints. Easy to wash and comfortable in the Trincomalee heat.</p></div></article>
+          </div>
+        </div>
+
+        <div class="more__block">
+          <header class="more__head mo">
+            <p class="more__label">Clothing</p>
+            <h2 class="more__title">Made to <em>measure</em></h2>
+          </header>
+          <ol class="more-steps">
+            <li class="more-step mo"><span class="more-step__num">01</span><h3>Choose</h3><p>Pick your saree, lehenga or outfit, and any blouse or sleeve design you like.</p></li>
+            <li class="more-step mo"><span class="more-step__num">02</span><h3>Measure</h3><p>We take your measurements in the shop, or you send them to us on WhatsApp.</p></li>
+            <li class="more-step mo"><span class="more-step__num">03</span><h3>Stitch</h3><p>Choose "Custom stitching" when you order and tell us the date you need it.</p></li>
+            <li class="more-step mo"><span class="more-step__num">04</span><h3>Fit</h3><p>Try it on in the shop and we adjust anything that isn't just right.</p></li>
+          </ol>
+        </div>
+      </div>
+      <div class="more-band mo">
+        <p class="more-band__text">Not sure what to <em>wear</em>?</p>
+        <p class="more-band__sub">Tell us the occasion and your favourite colours. We'll send you ideas on WhatsApp.</p>
+        <a class="more-band__btn" href="https://wa.me/94767667028?text=Hello%20Zinorah%2C%20I%27d%20like%20help%20choosing%20an%20outfit." target="_blank" rel="noopener">Chat on WhatsApp</a>
       </div>
     </section>
 
@@ -934,5 +1034,6 @@
   <script src="js/main.js?v=48" defer></script>
   <script src="js/showcase.js?v=51" defer></script>
   <script src="js/split3d.js?v=5" defer></script>
+  <script src="js/more.js?v=2" defer></script>
 </body>
 </html>
