@@ -48,7 +48,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" /></noscript>
   <!-- first hero photo loads first (the clothing one starts straight after) -->
   <link rel="preload" as="image" href="images/jewelry/hero.avif" type="image/avif" fetchpriority="high" />
-  <link rel="stylesheet" href="css/style.css?v=64" />
+  <link rel="stylesheet" href="css/style.css?v=66" />
   <link rel="stylesheet" href="css/clothing.css?v=59" />
   <script>
     /* Diamond welcome page: first visit in a session only; skipped for reduced motion */
@@ -445,13 +445,18 @@
       </div>
     </section>
 
-    <!-- ============ EXPLORE SAREES: silk ribbons that change colour (js/silk.js; sarees listed there) ============ -->
+    <!-- ============ EXPLORE SAREES: real saree photos, one circle per saree colour (js/silk.js; sarees come from js/clothing-data.js) ============ -->
     <section class="silk" id="explore-sarees" aria-labelledby="silkTitle">
       <div class="container silk__head">
         <p class="silk__label">Explore Sarees</p>
         <h2 class="silk__title" id="silkTitle">Woven in silk, made for <em>you</em></h2>
       </div>
-      <canvas class="silk__canvas" aria-hidden="true"></canvas>
+      <div class="silk__stage">
+        <figure class="silk__photo">
+          <img class="js-silk-img" alt="" width="460" height="575" decoding="async" />
+          <span class="silk__tag js-silk-tag" hidden>Colour preview</span>
+        </figure>
+      </div>
       <div class="container silk__foot">
         <div class="silk__swatches" role="group" aria-label="Saree colours"></div>
         <div class="silk__info" aria-live="polite">
@@ -460,6 +465,7 @@
         </div>
         <p class="silk__row">
           <span class="silk__price">Price on request</span>
+          <a class="silk__link" href="#clothing" data-silk-open>View details <span aria-hidden="true">&rarr;</span></a>
           <a class="silk__link" href="#clothing" data-silk-view>View sarees <span aria-hidden="true">&rarr;</span></a>
         </p>
       </div>
@@ -954,6 +960,6 @@
   <script src="js/main.js?v=48" defer></script>
   <script src="js/showcase.js?v=51" defer></script>
   <script src="js/split3d.js?v=5" defer></script>
-  <script src="js/silk.js?v=1" defer></script>
+  <script src="js/silk.js?v=3" defer></script>
 </body>
 </html>
